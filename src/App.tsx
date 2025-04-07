@@ -1,8 +1,13 @@
-import { RouterProvider } from "react-router-dom"
-import { router } from "@/router"
+import LoaderWrapper from "@/components/LoaderWrapper"
+import { Outlet } from "react-router"
 
 function App() {
-  return <RouterProvider router={router} />
+  return (
+    <>
+      <LoaderWrapper />
+      <Outlet />
+    </>
+  )
 }
 
 export default App
