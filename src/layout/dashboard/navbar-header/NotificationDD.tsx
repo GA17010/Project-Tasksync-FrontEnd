@@ -33,7 +33,7 @@ export default function NotificationDD() {
     <div ref={notificationMenu} className="sm:relative inline-block">
       <button
         type="button"
-        className="cursor-pointer text-secondary ml-2 rounded-md border border-transparent p-2.5 text-sm text-slate-900 hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
+        className="cursor-pointer ml-2 rounded-md border border-transparent p-2.5 text-sm text-slate-900 hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
         onClick={SET_NOTIFICATION_DROPDOWN}
       >
         <div className="relative">
