@@ -1,5 +1,5 @@
-import { useCustomizerStore } from "@/store/useCustomerStore"
-import { useNotificationStore } from "@/store/useNotificationStore"
+import { useCustomizerStore } from "@/stores/useCustomerStore"
+import { useNotificationStore } from "@/stores/useNotificationStore"
 import { BellOutlined, CheckCircleOutlined } from "@ant-design/icons"
 import { useEffect, useRef } from "react"
 import ListNotificationDD from "./ListNotificationDD"

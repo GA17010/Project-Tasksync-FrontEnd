@@ -1,4 +1,4 @@
-import { useNotificationStore } from "@/store/useNotificationStore"
+import { useNotificationStore } from "@/stores/useNotificationStore"
 import IconNotificationDD from "./IconNotificationDD"
 
 export default function ListNotificationDD() {

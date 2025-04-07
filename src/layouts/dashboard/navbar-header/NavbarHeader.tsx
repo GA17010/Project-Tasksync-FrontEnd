@@ -1,5 +1,5 @@
 import useravatar from "@/assets/images/users/avatar-1.avif"
-import { useCustomizerStore } from "@/store/useCustomerStore"
+import { useCustomizerStore } from "@/stores/useCustomerStore"
 import { GithubOutlined, SearchOutlined } from "@ant-design/icons"
 import { useEffect, useRef } from "react"
 import LogoLink from "../logo/LogoLink"

@@ -1,6 +1,6 @@
-import { useState } from "react"
-import { useAuthStore } from "@/store/authStore"
 import useravatar from "@/assets/images/users/avatar-1.avif"
+import { useAuthStore } from "@/stores/authStore"
+import { useState } from "react"
 
 import {
   CommentOutlined,
