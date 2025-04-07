@@ -1,10 +1,10 @@
 function AuthFooter() {
   const footerLink = [
     {
-      title: "© 2025 Admin Dashboard.",
+      title: "© 2025 Administracion de Proyectos.",
     },
     {
-      title: "All rights reserved.",
+      title: "Todos los derechos reservados.",
     },
     {
       title: "Version 1.0.0",
@@ -19,7 +19,7 @@ function AuthFooter() {
               Developed by
               <a
                 href="https://devgustavo17.netlify.app"
-                className="text-blue-500 text-xs"
+                className="pl-1 text-blue-500 text-xs"
               >
                 DevGustavo
               </a>

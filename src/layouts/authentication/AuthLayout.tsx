@@ -23,7 +23,7 @@ function AuthLayout() {
         </div>
         {/* <!---Login Part--> */}
         <div className="px-3 py-6 md:p-10 w-full flex place-content-center">
-          <div className="w-full max-w-[470px] rounded-md drop-shadow-xl bg-white p-6 sm:p-8 sm:min-w-max md:h-auto md:p-10">
+          <div className="w-full max-w-[470px] rounded-md shadow-[0px_0px_15px_4px_rgba(0,0,0,0.2)] bg-white p-6 sm:p-8 sm:min-w-max md:h-auto md:p-10">
             {/* <!---Forms--> */}
 
             <Outlet />
