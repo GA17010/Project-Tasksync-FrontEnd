@@ -50,7 +50,7 @@ function LoginPage() {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (isSubmitting) return
     setIsSubmitting(true)
-    
+
     const response = await login(data)
 
     if (response) {
@@ -121,7 +121,7 @@ function LoginPage() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-4 flex items-center text-gray-500 hover:text-gray-700"
+              className="absolute inset-y-0 right-4 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
             >
               {!showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
             </button>

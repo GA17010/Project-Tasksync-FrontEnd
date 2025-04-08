@@ -20,7 +20,8 @@ function RegisterPage() {
   const navigate = useNavigate()
 
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState<boolean>(false)
+  const [showConfirmPassword, setShowConfirmPassword] =
+    React.useState<boolean>(false)
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
   const { errorRegister, registerUser } = useAuthStore()
 
@@ -237,7 +238,7 @@ function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 hover:text-gray-700"
+              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
             >
               {!showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
             </button>
@@ -272,7 +273,7 @@ function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 hover:text-gray-700"
+              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
             >
               {!showConfirmPassword ? (
                 <EyeInvisibleOutlined />
@@ -297,25 +298,13 @@ function RegisterPage() {
         <div className="w-full flex flex-row text-xs justify-center mt-2 mb-7 mb-sm-0 font-medium">
           <h6 className="text-gray-600">
             By Signing up, you agree to our
-            {/* <Link to="/terms" className="text-blue-500 hover:underline">
+            <Link to="/login" className="px-1 text-blue-500 hover:underline">
               Terms of Service
-            </Link> */}
-            <button
-              onClick={() => console.log("Ir a términos")}
-              className="text-blue-500 hover:underline"
-            >
-              Terms of Service
-            </button>
+            </Link>
             and
-            {/* <Link to="/privacy" className="text-blue-500 hover:underline">
+            <Link to="/login" className="px-1 text-blue-500 hover:underline">
               Privacy Policy
-            </Link> */}
-            <button
-              onClick={() => console.log("Ir a política de privacidad")}
-              className="text-blue-500 hover:underline"
-            >
-              Privacy Policy
-            </button>
+            </Link>
           </h6>
         </div>
         <button
@@ -332,7 +321,7 @@ function RegisterPage() {
               height="20"
             />
           ) : (
-            <label>Create Account</label>
+            <label className="cursor-pointer">Create Account</label>
           )}
         </button>
 
