@@ -163,7 +163,7 @@ function LoginPage() {
               height="20"
             />
           ) : (
-            <label>Login</label>
+            <label className="curosr-pointer">Login</label>
           )}
         </button>
 
