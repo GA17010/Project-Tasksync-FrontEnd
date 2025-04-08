@@ -49,7 +49,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
   registerUser: async (userData: UserData) => {
     try {
       const response = await authService.register(userData)
-      console.log(response.data.user, "respuesta")
 
       set({
         user: response.data.user,
@@ -61,7 +60,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
       return true
     } catch (error) {
-      console.log(error)
       if (error instanceof TypeError && error.message === "Failed to fetch") {
         set({ errorRegister: "Connection error" })
       } else if (error instanceof Error) {
