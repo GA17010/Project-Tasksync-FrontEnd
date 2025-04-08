@@ -1,4 +1,5 @@
 import App from "@/App"
+import HydrateFallback from "@/components/HydrateFallback"
 import AuthLayout from "@/layouts/authentication/AuthLayout"
 import DashboardLayout from "@/layouts/dashboard/DashboardLayout"
 import ForgotPasswordPage from "@/pages/authentication/ForgotPasswordPage"
@@ -7,6 +8,8 @@ import RegisterPage from "@/pages/authentication/RegisterPage"
 import ResetPasswordForm from "@/pages/authentication/ResetPasswordPage"
 import VerifyCodeForm from "@/pages/authentication/VerifyCodePage"
 import HomePage from "@/pages/HomePage"
+import { authLoader } from "@/utils/loaders/authLoader"
+import { publicLoader } from "@/utils/loaders/publicLoader"
 import { createBrowserRouter } from "react-router"
 
 export const router = createBrowserRouter([
@@ -21,6 +24,8 @@ export const router = createBrowserRouter([
       {
         path: "",
         Component: AuthLayout,
+        loader: publicLoader,
+        HydrateFallback: HydrateFallback,
         children: [
           { path: "login", Component: LoginPage },
           { path: "register", Component: RegisterPage },
@@ -32,10 +37,8 @@ export const router = createBrowserRouter([
       {
         path: "dashboard",
         Component: DashboardLayout,
-        // loader: async () => {
-        //   await new Promise((resolve) => setTimeout(resolve, 1000)) // simula fetch
-        //   return null
-        // },
+        loader: authLoader,
+        HydrateFallback: HydrateFallback,
         children: [{ path: "", Component: HomePage }],
       },
     ],

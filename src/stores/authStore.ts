@@ -30,6 +30,7 @@ interface AuthStore {
   errorRegister: string | null
   successRegister: string | null
   refreshError: string | null
+  updateUnauthorized: (unauthorized: boolean) => void
   registerUser: (userData: UserData) => Promise<boolean>
   login: (credentials: Credentials) => Promise<boolean>
   checkAuth: () => Promise<boolean>
@@ -42,10 +43,11 @@ export const useAuthStore = create<AuthStore>((set) => ({
   successAuth: null,
   isAuthenticated: false,
   lastAuthCheck: null,
-  unauthorized: true,
+  unauthorized: false,
   errorRegister: null,
   successRegister: null,
   refreshError: null,
+  updateUnauthorized: (unauthorized: boolean) => set(() => ({ unauthorized: unauthorized })),
   registerUser: async (userData: UserData) => {
     try {
       const response = await authService.register(userData)
