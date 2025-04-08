@@ -1,10 +1,10 @@
 function AuthFooter() {
   const footerLink = [
     {
-      title: "© 2025 Administracion de Proyectos.",
+      title: "© 2025 Project management.",
     },
     {
-      title: "Todos los derechos reservados.",
+      title: "All rights reserved.",
     },
     {
       title: "Version 1.0.0",

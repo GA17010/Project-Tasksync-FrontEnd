@@ -1,6 +1,6 @@
 import useravatar from "@/assets/images/users/avatar-1.avif"
 import { useAuthStore } from "@/stores/authStore"
-import { useState } from "react"
+import * as React from "react"
 
 import {
   CommentOutlined,
@@ -14,17 +14,24 @@ import {
   UserOutlined,
   WalletOutlined,
 } from "@ant-design/icons"
+import { useNavigate } from "react-router"
 
 const ProfileDD = () => {
-  const [tab, setTab] = useState<string>("profile")
+  const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
+  const [tab, setTab] = React.useState<string>("profile")
+  const navigate = useNavigate()
 
   const authStore = useAuthStore()
 
   const Logout = async () => {
-    try {
-      await authStore.logout()
-    } catch (error) {
-      console.log(error)
+    if (isSubmitting) return
+    setIsSubmitting(true)
+
+    const response = await authStore.logout()
+    if (response) {
+      navigate("/login")
+    } else {
+      setIsSubmitting(false)
     }
   }
 
@@ -62,6 +69,7 @@ const ProfileDD = () => {
         <div className="ml-auto">
           <button
             className="rounded size-12 flex items-center justify-center hover:bg-blue-50"
+            disabled={isSubmitting}
             onClick={Logout}
           >
             <LogoutOutlined className="flex size-5 text-xl text-blue-600" />
@@ -120,6 +128,7 @@ const ProfileDD = () => {
               ))}
               <li
                 className="flex items-center px-4 py-3 text-sm hover:bg-red-100 text-red-600 cursor-pointer transition-all duration-300"
+                aria-disabled={isSubmitting}
                 onClick={Logout}
               >
                 <LogoutOutlined className="mr-4" />
