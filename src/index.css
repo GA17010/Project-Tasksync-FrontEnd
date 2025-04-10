@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
 
 @theme static {
+  --color-tasksync-primary: #3A6FF8;
+  --color-tasksync-light: #D9E4FF;
+  --color-tasksync-dark: #2B2D42;
+  --color-tasksync-gray: #E5E7EB;
+  --color-tasksync-success: #22C55E;
+  --color-tasksync-danger: #EF4444;
+
   --animate-loading: loading 2000ms ease-in-out infinite;
 
   @keyframes loading {
