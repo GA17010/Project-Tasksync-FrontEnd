@@ -1,24 +1,6 @@
+import { Credentials, User, UserData } from "@/types"
 import authService from "@/utils/services/authServices" // Adjust the path as needed
 import { create } from "zustand"
-
-interface Credentials {
-  email: string
-  password: string
-}
-
-interface UserData {
-  full_name: string
-  company?: string
-  email: string
-  password: string
-  confirm_password: string
-}
-
-interface User {
-  id: string
-  full_name: string
-  email: string
-}
 
 interface AuthStore {
   user: User | null
@@ -47,7 +29,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
   errorRegister: null,
   successRegister: null,
   refreshError: null,
-  updateUnauthorized: (unauthorized: boolean) => set(() => ({ unauthorized: unauthorized })),
+  updateUnauthorized: (unauthorized: boolean) =>
+    set(() => ({ unauthorized: unauthorized })),
   registerUser: async (userData: UserData) => {
     try {
       const response = await authService.register(userData)

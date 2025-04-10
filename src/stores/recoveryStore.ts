@@ -1,20 +1,6 @@
+import { Email, ResetData, VerifyData } from "@/types"
 import recoveryService from "@/utils/services/recoveryServices"
 import { create } from "zustand"
-
-interface Email {
-  email: string
-}
-
-interface VerifyData {
-  email: string
-  otp: string
-}
-
-interface ResetData {
-  email: string
-  otp: string
-  password: string
-}
 
 interface RecoveryStore {
   recoveryError: string | null
@@ -37,7 +23,7 @@ export const useRecoveryStore = create<RecoveryStore>((set) => ({
       set({
         successRecovery: response.data.message,
         recoveryError: null,
-        recoveryEmail: email.email
+        recoveryEmail: email.email,
       })
 
       return true
@@ -58,7 +44,7 @@ export const useRecoveryStore = create<RecoveryStore>((set) => ({
       set({
         successRecovery: response.data.message,
         recoveryError: null,
-        recoveryCode: verifyData.otp
+        recoveryCode: verifyData.otp,
       })
 
       return true
