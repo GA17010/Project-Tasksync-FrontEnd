@@ -1,19 +1,5 @@
+import { Data_notification } from "@/types"
 import { create } from "zustand"
-
-interface Data_notification {
-  id: number
-  message: {
-    prefix: string
-    main: string
-    suffix: string
-  }
-  timestamps: {
-    receivedAt: string
-    lastSeen: string
-    isRead: boolean
-  }
-  category: "reminder" | "interaction" | "system" | "invitation"
-}
 
 interface NotificationState {
   Data_notification: Data_notification[]
