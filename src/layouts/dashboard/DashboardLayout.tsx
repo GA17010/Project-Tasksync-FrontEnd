@@ -9,7 +9,7 @@ const MainLayout: React.FC = () => {
       <div className="relative h-full w-full bg-white">
         <NavbarHeader />
 
-        <main className="h-[calc(100vh-3.5rem)] flex w-full pt-16 overflow-x-auto">
+        <main className="h-full w-full flex pt-16 overflow-x-auto">
           <Outlet />
         </main>
 
