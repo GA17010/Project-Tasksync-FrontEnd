@@ -7,7 +7,9 @@ import LoginPage from "@/pages/authentication/LoginPage"
 import RegisterPage from "@/pages/authentication/RegisterPage"
 import ResetPasswordForm from "@/pages/authentication/ResetPasswordPage"
 import VerifyCodeForm from "@/pages/authentication/VerifyCodePage"
-import HomePage from "@/pages/HomePage"
+import HomePage from "@/pages/dashboard/DashboardPage"
+import ProjectPage from "@/pages/dashboard/ProjectPage"
+import WelcomePage from "@/pages/WelcomePage"
 import { authLoader } from "@/utils/loaders/authLoader"
 import { publicLoader } from "@/utils/loaders/publicLoader"
 import { createBrowserRouter } from "react-router"
@@ -19,7 +21,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: HomePage,
+        Component: WelcomePage,
       },
       {
         path: "",
@@ -39,7 +41,10 @@ export const router = createBrowserRouter([
         Component: DashboardLayout,
         loader: authLoader,
         HydrateFallback: HydrateFallback,
-        children: [{ path: "", Component: HomePage }],
+        children: [
+          { path: "", Component: HomePage },
+          { path: "projects/:id", Component: ProjectPage },
+        ],
       },
     ],
   },
