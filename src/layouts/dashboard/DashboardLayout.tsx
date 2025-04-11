@@ -6,7 +6,7 @@ import NavbarHeader from "./navbar-header/NavbarHeader"
 const MainLayout: React.FC = () => {
   return (
     <>
-      <div className="relative h-full w-full bg-white">
+      <div className="relative h-full w-full bg-white dark:bg-gray-950 text-tasksync-dark dark:text-white">
         <NavbarHeader />
 
         <main className="h-full w-full flex pt-16 overflow-x-auto">

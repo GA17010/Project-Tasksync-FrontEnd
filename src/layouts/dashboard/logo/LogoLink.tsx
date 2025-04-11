@@ -14,7 +14,7 @@ const LogoLink: React.FC = () => {
           width={28}
           height={28}
         />
-        <span className="text-gray-900">Dashboard</span>
+        <span>TaskSync</span>
       </Link>
     </div>
   )

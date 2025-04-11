@@ -64,40 +64,45 @@ const ProfileDD = () => {
           <span className="text-sm font-medium mb-0 sm:block none">
             JWT User
           </span>
-          <span className="text-xs text-gray-600">UI/UX Designer</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400">
+            UI/UX Designer
+          </span>
         </div>
         <div className="ml-auto">
           <button
-            className="rounded size-12 flex items-center justify-center hover:bg-blue-50"
+            className="rounded size-12 flex items-center justify-center hover:bg-blue-50 dark:hover:bg-gray-800"
             disabled={isSubmitting}
             onClick={Logout}
           >
-            <LogoutOutlined className="flex size-5 text-xl text-blue-600" />
+            <LogoutOutlined className="flex size-5 text-xl text-tasksync-primary" />
           </button>
         </div>
       </div>
 
       {/* Tabs */}
       <div className="w-full max-w-md mx-auto">
-        <div className="flex border-b">
+        <div className="flex border-b border-gray-200 dark:border-gray-600">
+          {/* Button Profile */}
           <button
             onClick={() => setTab("profile")}
             className={`flex-1 p-3 text-center border-b-2 transition-all duration-300 ${
               tab === "profile"
-                ? "border-blue-500 text-blue-500 active:bg-blue-100"
-                : "border-transparent text-gray-800 active:bg-gray-100"
+                ? "border-tasksync-primary text-tasksync-primary active:bg-blue-100 dark:active:bg-gray-800"
+                : "border-transparent text-gray-800 dark:text-gray-400 active:bg-gray-100 dark:active:bg-gray-800"
             }`}
           >
             <div className="flex justify-center items-center">
               <UserOutlined className="mr-2" /> Profile
             </div>
           </button>
+
+          {/* Button Settings */}
           <button
             onClick={() => setTab("setting")}
             className={`flex-1 p-3 border-b-2 transition-all duration-300 ${
               tab === "setting"
-                ? "border-blue-500 text-blue-500 active:bg-blue-200"
-                : "border-transparent text-gray-800 active:bg-gray-200"
+                ? "border-tasksync-primary text-tasksync-primary active:bg-blue-200 dark:active:bg-gray-800"
+                : "border-transparent text-gray-800 dark:text-gray-400 active:bg-gray-200 dark:active:bg-gray-800"
             }`}
           >
             <div className="flex justify-center items-center">
@@ -120,14 +125,16 @@ const ProfileDD = () => {
               {profileItems.map((item, index) => (
                 <li
                   key={index}
-                  className="flex items-center px-4 py-3 text-sm text-gray-900 hover:bg-gray-100 cursor-pointer transition-all duration-300"
+                  className="flex items-center px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-all duration-300"
                 >
-                  <div className="mr-4 text-gray-500">{item.icon}</div>
+                  <div className="mr-4 text-gray-500 dark:text-gray-300">
+                    {item.icon}
+                  </div>
                   <span>{item.text}</span>
                 </li>
               ))}
               <li
-                className="flex items-center px-4 py-3 text-sm hover:bg-red-100 text-red-600 cursor-pointer transition-all duration-300"
+                className="flex items-center px-4 py-3 text-sm hover:bg-red-100 dark:hover:bg-red-300/10 text-tasksync-danger cursor-pointer transition-all duration-300"
                 aria-disabled={isSubmitting}
                 onClick={Logout}
               >
@@ -149,9 +156,11 @@ const ProfileDD = () => {
               {settingItems.map((item, index) => (
                 <li
                   key={index}
-                  className="flex items-center px-4 py-3 text-sm text-gray-900 hover:bg-gray-100 cursor-pointer transition-all duration-300"
+                  className="flex items-center px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-all duration-300"
                 >
-                  <div className="mr-4 text-gray-500">{item.icon}</div>
+                  <div className="mr-4 text-gray-500 dark:text-gray-300">
+                    {item.icon}
+                  </div>
                   <span>{item.text}</span>
                 </li>
               ))}
