@@ -134,7 +134,7 @@ export default function ProjectPage() {
   }
 
   return (
-    <div className="w-full h-[calc(100vh-8.5rem)] flex flex-col gap-4 sm:w-auto sm:flex-row sm:gap-0 px-4 py-2 bg-white">
+    <div className="w-full h-[calc(100vh-8.45rem)] flex flex-col gap-4 sm:w-auto sm:flex-row sm:gap-0 px-4 py-2 ">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

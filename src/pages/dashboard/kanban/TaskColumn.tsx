@@ -3,6 +3,7 @@ import { Task } from "@/types"
 import { useDroppable } from "@dnd-kit/core"
 import * as React from "react"
 import TaskCard from "./TaskCard"
+
 interface TaskColumnProps {
   id: string
   title: string
@@ -32,8 +33,13 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
     done: "This task is done",
   }
 
-  const { focusInput, inputActive, inputVisible, columnIndicatorVisible } =
-    useCustomizerStore()
+  const {
+    focusInput,
+    inputActive,
+    inputVisible,
+    columnIndicatorVisible,
+    statusTask,
+  } = useCustomizerStore()
 
   const handleAddTask = () => {
     if (!inputVisible) {
@@ -49,6 +55,7 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
       columnIndicatorRef.current.scrollIntoView({
         behavior: "smooth",
         block: "center",
+        inline: "center",
       })
     }
   }, [columnIndicatorVisible, id])
@@ -56,7 +63,11 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
   return (
     <>
       <div
-        className="mr-2 w-full sm:w-96 h-full flex flex-col rounded-md transition-all duration-75 border border-gray-300 bg-gray-100"
+        className={`mr-2 w-full sm:w-96 h-full flex flex-col rounded-2xl border-gray-300 dark:border-gray-500 bg-gray-200 dark:bg-gray-900 transition-all duration-200 ease-in-out ${
+          columnIndicatorVisible && statusTask === id
+            ? "ring-2 ring-blue-500 ring-opacity-50 rounded-2xl"
+            : ""
+        }`}
         ref={setNodeRef}
       >
         {/* Title and Description */}
@@ -68,11 +79,11 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
               }`}
             ></span>
             <h2 className="font-semibold text-lg">{title}</h2>
-            <span className="py-0.5 px-1 rounded-md text-xs text-gray-600 bg-gray-200 ">
+            <span className="py-0.5 px-1 rounded-lg text-xs text-gray-600 dark:text-gray-800 bg-gray-300 dark:bg-gray-500 ">
               {tasks.length}
             </span>
           </div>
-          <span className="text-xs text-gray-700">
+          <span className="text-xs text-gray-700 dark:text-gray-400">
             {descriptionConfig[id as keyof typeof descriptionConfig]}
           </span>
         </div>
@@ -80,7 +91,12 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
         <div className="flex-1 py-1 px-2 min-h-[180px] overflow-y-auto">
           {/* Task list */}
           {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
+            // <div
+            //   key={task.id}
+            //   className="transform transition-transform duration-200 hover:scale-[1.02]"
+            // >
+              <TaskCard key={task.id} task={task} />
+            // </div>
           ))}
 
           {/* Column Indicator */}
@@ -91,7 +107,7 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
           >
             <span
               ref={columnIndicatorRef}
-              className={`h-2 w-full rounded-md ${
+              className={`h-2 w-full rounded-full ${
                 bgColorConfig[id as keyof typeof bgColorConfig]
               }`}
             ></span>
@@ -101,7 +117,7 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
         {/* Add task button */}
         <div className="flex">
           <button
-            className="px-4 py-2 w-full text-left text-sm font-semibold cursor-pointer text-gray-600 hover:bg-gray-200"
+            className="px-4 py-2 w-full text-left text-sm font-semibold cursor-pointer rounded-b-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600/20"
             onClick={handleAddTask}
           >
             + Add Task

@@ -35,14 +35,16 @@ function SectionProjets() {
   return (
     <>
       <div>
-        <h2 className="text-xl font-bold text-gray-800">Projects</h2>
-        <p className="text-gray-500">Here are your projects</p>
+        <h2 className="text-xl font-bold">Projects</h2>
+        <p className="text-gray-500 dark:text-gray-400">
+          Here are your projects
+        </p>
 
         <div className="py-2 w-full flex items-center gap-4">
           <ProjectFilter />
 
           <button
-            className="px-4 py-2 text-sm bg-blue-500 text-white rounded  cursor-pointer"
+            className="px-4 py-2 text-sm bg-tasksync-primary text-white rounded-full hover:scale-105 cursor-pointer transition"
             onClick={() => navigate("/dashboard/projects/create")}
           >
             Create Project
@@ -50,8 +52,8 @@ function SectionProjets() {
         </div>
       </div>
 
-      <div className="mt-2 w-full flex flex-col rounded-md border border-gray-300">
-        <div className="px-4 h-14 flex items-center border-b border-gray-300 text-gray-900 bg-gray-200 ">
+      <div className="mt-2 w-full flex flex-col rounded-2xl border border-gray-300 dark:border-gray-500">
+        <div className="px-4 h-14 flex items-center rounded-t-2xl border-b border-gray-300 dark:border-gray-500 bg-gray-200 dark:bg-tasksync-dark ">
           <ProjectOutlined />
           <span className="mx-2">Projects</span>
           <span>{projects.length}</span>

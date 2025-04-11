@@ -40,7 +40,7 @@ function WelcomePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-tasksync-dark dark:text-white ">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-tasksync-dark dark:text-white">
       {/* Navigation */}
       <nav
         className={`px-4 py-5 transition-all duration-500 ease-out transform ${
@@ -67,7 +67,7 @@ function WelcomePage() {
             </Link>
             <Link
               to="/register"
-              className="px-4 py-2 bg-tasksync-primary text-white rounded-md hover:bg-blue-600 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5"
+              className="px-4 py-2 bg-tasksync-primary text-white rounded-full hover:bg-blue-600 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5"
             >
               Get Started
             </Link>
@@ -91,13 +91,13 @@ function WelcomePage() {
         <div className="flex justify-center gap-4">
           <Link
             to="/register"
-            className="px-8 py-3 bg-blue-600 text-white rounded-md transition-all duration-300 hover:bg-blue-700 hover:shadow-lg transform hover:-translate-y-1"
+            className="px-8 py-3 bg-blue-600 text-white rounded-full transition-all duration-300 hover:bg-blue-700 hover:shadow-lg transform hover:-translate-y-1"
           >
             Start Free Trial
           </Link>
           <Link
             to="/login"
-            className="px-8 py-3 border border-gray-300 text-gray-700 dark:text-gray-200 rounded-md transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-blue-500 transform hover:-translate-y-1"
+            className="px-8 py-3 border border-gray-300 text-gray-700 dark:text-gray-200 rounded-full transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-blue-500 transform hover:-translate-y-1"
           >
             Learn More
           </Link>
@@ -123,7 +123,7 @@ function WelcomePage() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-tasksync-gray dark:border-gray-700 transition-all duration-400 ease-out transform hover:shadow-xl hover:-translate-y-2 delay-${
+              className={`p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-tasksync-gray dark:border-gray-700 transition-all duration-400 ease-out transform hover:shadow-xl hover:-translate-y-2 delay-${
                 index * 100
               }`}
               style={{
@@ -157,7 +157,7 @@ function WelcomePage() {
           </p>
           <Link
             to="/register"
-            className="inline-flex items-center px-8 py-3 bg-white text-tasksync-primary rounded-md transition-all duration-300 hover:bg-gray-100 hover:shadow-lg transform hover:-translate-y-1 font-medium"
+            className="inline-flex items-center px-8 py-3 bg-white text-tasksync-primary rounded-full transition-all duration-300 hover:bg-gray-100 hover:shadow-lg transform hover:-translate-y-1 font-medium"
           >
             <CheckCircleOutlined className="mr-2 transition-transform duration-300 group-hover:rotate-12" />
             Create Free Account

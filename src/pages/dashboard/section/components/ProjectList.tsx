@@ -12,7 +12,7 @@ function ProjetList({ project }: ProjectListProps) {
     <>
       <div
         key={project.id}
-        className="p-4 cursor-pointer border-b border-b-gray-300 last:border-none hover:bg-gray-100 text-gray-900"
+        className="p-4 cursor-pointer border-b border-gray-300 dark:border-gray-500 last:border-none last:rounded-b-2xl hover:bg-gray-100 dark:hover:bg-gray-900 "
         onClick={() => navigate(`/dashboard/project/${project.id}`)}
       >
         <div className="flex items-center gap-2">

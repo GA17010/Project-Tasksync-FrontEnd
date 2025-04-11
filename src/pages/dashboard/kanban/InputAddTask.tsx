@@ -106,18 +106,18 @@ function InputAddTask() {
     <>
       <div ref={input_task} className={inputVisible ? "block" : "hidden"}>
         <div className="absolute left-0 bottom-4 px-4 w-full h-10 bg-white z-10">
-          <div className="flex items-center border-2 rounded-md border-blue-500">
+          <div className="flex items-center border-2 rounded-full border-blue-500">
             <form onSubmit={handleSubmit(onSubmit)} className="flex w-full">
               <input
                 id="task"
                 type="text"
                 placeholder="Start typing to add a task..."
-                className="px-3 h-11 w-full appearance-none border-none focus:outline-none"
+                className="px-4 h-11 w-full appearance-none border-none focus:outline-none"
                 aria-invalid={errors.content ? "true" : "false"}
                 {...register("content")}
               />
               <button
-                className="py-2 flex items-center justify-center text-left text-sm px-6 w-20 h-11 font-semibold cursor-pointer rounded-r-sm border-l-2 border-blue-500 text-gray-700 hover:bg-gray-300"
+                className="py-2 flex items-center justify-center text-left text-sm px-6 w-20 h-11 font-semibold cursor-pointer rounded-r-full border-l-2 border-blue-500 text-gray-700 hover:bg-gray-300"
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
