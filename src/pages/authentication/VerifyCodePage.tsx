@@ -65,20 +65,23 @@ function VerifyCodeForm() {
           </h3>
           <Link
             to="/login"
-            className="text-blue-600 flex place-items-center text-sm"
+            className="text-tasksync-primary flex place-items-center text-sm"
           >
             Back to Login
           </Link>
         </div>
 
         <div className="pb-4">
-          <span className="text-sm text-gray-800">
+          <span className="text-sm text-gray-800 dark:text-gray-400">
             We have sent a verification code to your email address.
           </span>
         </div>
 
         <div className="flex flex-col mb-6">
-          <label htmlFor="code" className="mb-1 text-gray-600">
+          <label
+            htmlFor="code"
+            className="mb-1 text-gray-600 dark:text-gray-300"
+          >
             Code
           </label>
           <input
@@ -88,15 +91,15 @@ function VerifyCodeForm() {
             autoComplete="on"
             className={`w-full appearance-none leading-tight focus:outline-none text-sm border rounded-md py-2 pr-10 pl-3 md:text-base transition-colors ease-in-out ${
               errors.code
-                ? "focus:shadow-[0px_0px_0px_2px_rgba(255,0,0,0.2)] border-red-400 focus:border-red-300"
-                : "focus:shadow-[0px_0px_0px_2px_rgba(0,100,255,0.2)] border-gray-300 focus:border-blue-400 hover:border-blue-400"
+                ? "focus:shadow-[0px_0px_0px_2px_rgba(255,0,0,0.2)] border-tasksync-danger  focus:border-red-300"
+                : "focus:shadow-[0px_0px_0px_2px_rgba(0,100,255,0.2)] border-gray-300 dark:border-gray-500 focus:border-blue-400 dark:focus:border-tasksync-primary hover:border-blue-400 dark:hover:border-tasksync-primary"
             }`}
             aria-invalid={errors.code ? "true" : "false"}
             {...register("code")}
           />
           {errors.code && (
             <p
-              className={`text-red-500 text-xs mt-1 transition-all duration-300 ease-in-out ${
+              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
                 errors.code
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 -translate-y-2"
@@ -108,13 +111,13 @@ function VerifyCodeForm() {
         </div>
 
         <div>
-          <span className="text-xs text-gray-800">
+          <span className="text-xs text-gray-800 dark:text-gray-400">
             Do not forgot to check SPAM box.
           </span>
         </div>
 
         <button
-          className="w-full flex justify-center mt-2 bg-blue-600 p-3 rounded-md text-white hover:scale-105 cursor-pointer transition"
+          className="w-full flex justify-center mt-2 bg-tasksync-primary text-white p-3 rounded-md hover:scale-105 cursor-pointer transition"
           disabled={!isValid || isSubmitting}
           type="submit"
         >
@@ -132,7 +135,7 @@ function VerifyCodeForm() {
         </button>
 
         <div className="mt-2">
-          <span className="text-red-600">{recoveryError}</span>
+          <span className="text-tasksync-danger">{recoveryError}</span>
         </div>
       </form>
     </div>

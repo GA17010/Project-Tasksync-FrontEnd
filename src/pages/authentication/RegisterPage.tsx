@@ -96,9 +96,9 @@ function RegisterPage() {
 
   const colorConfig = {
     error:
-      "focus:shadow-[0px_0px_0px_2px_rgba(255,0,0,0.2)] border-red-400 focus:border-red-300",
+      "focus:shadow-[0px_0px_0px_2px_rgba(255,0,0,0.2)] border-tasksync-danger  focus:border-red-300",
     normal:
-      "focus:shadow-[0px_0px_0px_2px_rgba(0,100,255,0.2)] border-gray-300 focus:border-blue-400 hover:border-gray-400",
+      "focus:shadow-[0px_0px_0px_2px_rgba(0,100,255,0.2)] border-gray-300 dark:border-gray-500 focus:border-blue-400 dark:focus:border-tasksync-primary hover:border-blue-400 dark:hover:border-tasksync-primary",
   }
 
   return (
@@ -106,7 +106,7 @@ function RegisterPage() {
       <form className="max-w-md mt-5 w-full" onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full flex justify-between items-center mb-4">
           <h3 className="text-2xl font-semibold text-center mb-0">Sign up</h3>
-          <Link to="/login" className="text-blue-500">
+          <Link to="/login" className="text-tasksync-primary">
             Already have an account?
           </Link>
         </div>
@@ -114,7 +114,10 @@ function RegisterPage() {
         <div className="flex flex-col md:flex-row">
           <div className="flex flex-col md:pr-3 w-full md:w-1/2">
             <div className="mb-4">
-              <label htmlFor="firstname" className="mb-1 text-gray-600">
+              <label
+                htmlFor="firstname"
+                className="mb-1 text-gray-600 dark:text-gray-400"
+              >
                 First Name*
               </label>
               <input
@@ -128,7 +131,7 @@ function RegisterPage() {
               />
               {errors.firstname && (
                 <p
-                  className={`text-red-500 text-xs mt-1 transition-all duration-300 ease-in-out ${
+                  className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
                     errors.firstname
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 -translate-y-2"
@@ -141,7 +144,10 @@ function RegisterPage() {
           </div>
           <div className="flex flex-col md:pl-3 w-full md:w-1/2">
             <div className="mb-4">
-              <label htmlFor="lastname" className="mb-1 text-gray-600">
+              <label
+                htmlFor="lastname"
+                className="mb-1 text-gray-600 dark:text-gray-400"
+              >
                 Last Name*
               </label>
               <input
@@ -155,7 +161,7 @@ function RegisterPage() {
               />
               {errors.lastname && (
                 <p
-                  className={`text-red-500 text-xs mt-1 transition-all duration-300 ease-in-out ${
+                  className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
                     errors.lastname
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 -translate-y-2"
@@ -168,7 +174,10 @@ function RegisterPage() {
           </div>
         </div>
         <div className="mb-4">
-          <label htmlFor="company" className="mb-1 text-gray-600">
+          <label
+            htmlFor="company"
+            className="mb-1 text-gray-600 dark:text-gray-400"
+          >
             Company
           </label>
           <input
@@ -183,7 +192,7 @@ function RegisterPage() {
           />
           {errors.company && (
             <p
-              className={`text-red-500 text-xs mt-1 transition-all duration-300 ease-in-out ${
+              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
                 errors.company
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 -translate-y-2"
@@ -194,7 +203,10 @@ function RegisterPage() {
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="email" className="mb-1 text-gray-600">
+          <label
+            htmlFor="email"
+            className="mb-1 text-gray-600 dark:text-gray-400"
+          >
             Email Address*
           </label>
           <input
@@ -210,7 +222,7 @@ function RegisterPage() {
           />
           {errors.email && (
             <p
-              className={`text-red-500 text-xs mt-1 transition-all duration-300 ease-in-out ${
+              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
                 errors.email
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 -translate-y-2"
@@ -221,7 +233,10 @@ function RegisterPage() {
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="mb-1 text-gray-600">
+          <label
+            htmlFor="password"
+            className="mb-1 text-gray-600 dark:text-gray-400"
+          >
             Password*
           </label>
           <div className="relative">
@@ -238,14 +253,14 @@ function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
+              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer"
             >
               {!showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
             </button>
           </div>
           {errors.password && (
             <p
-              className={`text-red-500 text-xs mt-1 transition-all duration-300 ease-in-out ${
+              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
                 errors.password
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 -translate-y-2"
@@ -256,7 +271,10 @@ function RegisterPage() {
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="confirmPassword" className="mb-1 text-gray-600">
+          <label
+            htmlFor="confirmPassword"
+            className="mb-1 text-gray-600 dark:text-gray-400"
+          >
             Confirm Password*
           </label>
           <div className="relative">
@@ -273,7 +291,7 @@ function RegisterPage() {
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
+              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer"
             >
               {!showConfirmPassword ? (
                 <EyeInvisibleOutlined />
@@ -284,7 +302,7 @@ function RegisterPage() {
           </div>
           {errors.confirmPassword && (
             <p
-              className={`text-red-500 text-xs mt-1 transition-all duration-300 ease-in-out ${
+              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
                 errors.confirmPassword
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 -translate-y-2"
@@ -296,19 +314,25 @@ function RegisterPage() {
         </div>
 
         <div className="w-full flex flex-row text-xs justify-center mt-2 mb-7 mb-sm-0 font-medium">
-          <h6 className="text-gray-600">
+          <h6 className="text-gray-600 dark:text-gray-400">
             By Signing up, you agree to our
-            <Link to="/login" className="px-1 text-blue-500 hover:underline">
+            <Link
+              to="/login"
+              className="px-1 text-tasksync-primary hover:underline"
+            >
               Terms of Service
             </Link>
             and
-            <Link to="/login" className="px-1 text-blue-500 hover:underline">
+            <Link
+              to="/login"
+              className="px-1 text-tasksync-primary hover:underline"
+            >
               Privacy Policy
             </Link>
           </h6>
         </div>
         <button
-          className="w-full flex justify-center mt-2 p-2 bg-blue-600 text-white rounded-md hover:scale-105 cursor-pointer transition"
+          className="w-full flex justify-center mt-2 p-2 text-white bg-tasksync-primary rounded-md hover:scale-105 cursor-pointer transition"
           disabled={!isValid || isSubmitting}
           type="submit"
         >
@@ -326,7 +350,7 @@ function RegisterPage() {
         </button>
 
         <div className="mt-2">
-          <span className="text-red-600">{errorRegister}</span>
+          <span className="text-tasksync-danger">{errorRegister}</span>
         </div>
       </form>
     </div>

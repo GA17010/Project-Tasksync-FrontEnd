@@ -87,9 +87,9 @@ function ResetPasswordForm() {
 
   const colorConfig = {
     error:
-      "focus:shadow-[0px_0px_0px_2px_rgba(255,0,0,0.2)] border-red-400 focus:border-red-300",
+      "focus:shadow-[0px_0px_0px_2px_rgba(255,0,0,0.2)] border-tasksync-danger  focus:border-red-300",
     normal:
-      "focus:shadow-[0px_0px_0px_2px_rgba(0,100,255,0.2)] border-gray-300 focus:border-blue-400 hover:border-gray-400",
+      "focus:shadow-[0px_0px_0px_2px_rgba(0,100,255,0.2)] border-gray-300 dark:border-gray-500 focus:border-blue-400 dark:focus:border-tasksync-primary hover:border-blue-400 dark:hover:border-tasksync-primary",
   }
 
   return (
@@ -99,13 +99,16 @@ function ResetPasswordForm() {
           <h3 className="text-2xl font-semibold text-center mb-0">
             Reset your Password
           </h3>
-          <Link to="/login" className="text-blue-500">
+          <Link to="/login" className="text-tasksync-primary">
             Back to login
           </Link>
         </div>
 
         <div className="mb-4">
-          <label htmlFor="password" className="mb-1 text-gray-600">
+          <label
+            htmlFor="password"
+            className="mb-1 text-gray-600 dark:text-gray-400"
+          >
             Password
           </label>
           <div className="relative">
@@ -122,14 +125,14 @@ function ResetPasswordForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
+              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer"
             >
               {!showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
             </button>
           </div>
           {errors.password && (
             <p
-              className={`text-red-500 text-xs mt-1 transition-all duration-300 ease-in-out ${
+              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
                 errors.password
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 -translate-y-2"
@@ -140,7 +143,10 @@ function ResetPasswordForm() {
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="confirmPassword" className="mb-1 text-gray-600">
+          <label
+            htmlFor="confirmPassword"
+            className="mb-1 text-gray-600 dark:text-gray-400"
+          >
             Confirm Password
           </label>
           <div className="relative">
@@ -157,7 +163,7 @@ function ResetPasswordForm() {
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 hover:text-gray-700 cursor-pointer"
+              className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer"
             >
               {!showConfirmPassword ? (
                 <EyeInvisibleOutlined />
@@ -168,7 +174,7 @@ function ResetPasswordForm() {
           </div>
           {errors.confirmPassword && (
             <p
-              className={`text-red-500 text-xs mt-1 transition-all duration-300 ease-in-out ${
+              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
                 errors.confirmPassword
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 -translate-y-2"
@@ -180,7 +186,7 @@ function ResetPasswordForm() {
         </div>
 
         <button
-          className="w-full flex justify-center mt-2 p-2 bg-blue-600 text-white rounded-md hover:scale-105 cursor-pointer transition"
+          className="w-full flex justify-center mt-2 p-2 bg-tasksync-primary text-white rounded-md hover:scale-105 cursor-pointer transition"
           disabled={!isValid || isSubmitting}
           type="submit"
         >
@@ -198,7 +204,7 @@ function ResetPasswordForm() {
         </button>
 
         <div className="mt-2">
-          <span className="text-red-600">{recoveryError}</span>
+          <span className="text-tasksync-danger">{recoveryError}</span>
         </div>
       </form>
     </div>
