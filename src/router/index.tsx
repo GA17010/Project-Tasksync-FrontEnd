@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
         HydrateFallback: HydrateFallback,
         children: [
           { path: "", Component: HomePage },
-          { path: "projects/:id", Component: ProjectPage },
+          { path: "project/:id", Component: ProjectPage },
         ],
       },
     ],
