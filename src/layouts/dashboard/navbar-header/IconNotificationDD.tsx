@@ -17,6 +17,7 @@ const categoryConfig = {
     icon: MessageOutlined,
   },
   system: { bg: "bg-red-100", text: "text-red-600", icon: SettingOutlined },
+  // invitation: { bg: "", text: "", icon: "" },
 }
 
 const IconNotificationDD = ({
@@ -24,13 +25,15 @@ const IconNotificationDD = ({
   mainMessage,
 }: IconNotificationDDProps) => {
   const isInvitation = category === "invitation"
-  const config = categoryConfig[category]
+  const config = categoryConfig[category as keyof typeof categoryConfig]
 
   return (
     <>
       {!isInvitation ? (
-        <span className={`mr-3 p-2 flex rounded-full ${config.bg}`}>
-          <config.icon className={config.text} />
+        <span
+          className={`mr-3 p-2 flex rounded-full ${config.bg} ${config.text}`}
+        >
+          <config.icon />
         </span>
       ) : (
         <span className="text-blue-600 mr-3 flex px-2.5 py-1 rounded-full bg-blue-100">
