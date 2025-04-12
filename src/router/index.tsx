@@ -2,6 +2,7 @@ import App from "@/App"
 import HydrateFallback from "@/components/HydrateFallback"
 import AuthLayout from "@/layouts/authentication/AuthLayout"
 import DashboardLayout from "@/layouts/dashboard/DashboardLayout"
+import KanbanLayout from "@/layouts/dashboard/KanbanLayout"
 import ForgotPasswordPage from "@/pages/authentication/ForgotPasswordPage"
 import LoginPage from "@/pages/authentication/LoginPage"
 import RegisterPage from "@/pages/authentication/RegisterPage"
@@ -41,10 +42,14 @@ export const router = createBrowserRouter([
         Component: DashboardLayout,
         loader: authLoader,
         HydrateFallback: HydrateFallback,
-        children: [
-          { path: "", Component: HomePage },
-          { path: "project/:id", Component: ProjectPage },
-        ],
+        children: [{ path: "", Component: HomePage }],
+      },
+      {
+        path: "kanban",
+        Component: KanbanLayout,
+        loader: authLoader,
+        HydrateFallback: HydrateFallback,
+        children: [{ path: "project/:id", Component: ProjectPage }],
       },
     ],
   },

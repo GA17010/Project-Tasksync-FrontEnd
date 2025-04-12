@@ -12,8 +12,8 @@ function ProjetList({ project }: ProjectListProps) {
     <>
       <div
         key={project.id}
-        className="p-4 cursor-pointer border-b border-gray-300 dark:border-gray-500 last:border-none last:rounded-b-2xl hover:bg-gray-100 dark:hover:bg-gray-900 "
-        onClick={() => navigate(`/dashboard/project/${project.id}`)}
+        className="p-4 cursor-pointer border-b border-gray-300 dark:border-gray-500 last:border-none last:rounded-b-2xl hover:bg-gray-100 dark:bg-gray-900/90 dark:hover:bg-gray-800/70 "
+        onClick={() => navigate(`/kanban/project/${project.id}`)}
       >
         <div className="flex items-center gap-2">
           <ProjectOutlined />

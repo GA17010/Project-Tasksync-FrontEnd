@@ -45,7 +45,7 @@ function SectionUser() {
 
       {/* Edit Section */}
       <div className="flex flex-col items-center justify-center mt-4">
-        <button className="w-full h-9 rounded-full text-sm border cursor-pointer border-gray-300 dark:border-gray-500 bg-gray-100 dark:bg-tasksync-dark">
+        <button className="w-full h-9 rounded-full text-sm border cursor-pointer border-gray-300 dark:border-gray-500 bg-gray-100 dark:bg-tasksync-dark hover:bg-gray-200 dark:hover:bg-tasksync-dark/60">
           Edit profile
         </button>
       </div>

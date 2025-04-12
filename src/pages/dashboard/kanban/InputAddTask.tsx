@@ -104,36 +104,39 @@ function InputAddTask() {
 
   return (
     <>
-      <div ref={input_task} className={inputVisible ? "block" : "hidden"}>
-        <div className="absolute left-0 bottom-4 px-4 w-full h-10 bg-white z-10">
-          <div className="flex items-center border-2 rounded-full border-blue-500">
-            <form onSubmit={handleSubmit(onSubmit)} className="flex w-full">
-              <input
-                id="task"
-                type="text"
-                placeholder="Start typing to add a task..."
-                className="px-4 h-11 w-full appearance-none border-none focus:outline-none"
-                aria-invalid={errors.content ? "true" : "false"}
-                {...register("content")}
-              />
-              <button
-                className="py-2 flex items-center justify-center text-left text-sm px-6 w-20 h-11 font-semibold cursor-pointer rounded-r-full border-l-2 border-blue-500 text-gray-700 hover:bg-gray-300"
-                disabled={!isValid || isSubmitting}
-                type="submit"
-              >
-                {isSubmitting ? (
-                  <img
-                    src={loadingSpinner}
-                    alt="spiner-loading"
-                    width="20"
-                    height="20"
-                  />
-                ) : (
-                  <label className="cursor-pointer">Add</label>
-                )}
-              </button>
-            </form>
-          </div>
+      <div
+        ref={input_task}
+        className={`absolute left-0 bottom-1 px-4 w-full h-auto z-10 transition-all duration-200 ease-linear ${
+          inputVisible ? "scale-100 opacity-100" : "scale-0 opacity-0"
+        }`}
+      >
+        <div className="flex items-center border-2 rounded-full border-tasksync-primary bg-white dark:bg-gray-900 ">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex w-full">
+            <input
+              id="task"
+              type="text"
+              placeholder="Start typing to add a task..."
+              className="px-4 h-11 w-full appearance-none border-none focus:outline-none"
+              aria-invalid={errors.content ? "true" : "false"}
+              {...register("content")}
+            />
+            <button
+              className="py-2 flex items-center justify-center text-left text-sm px-6 w-20 h-11 font-semibold cursor-pointer rounded-r-full border-l-2 border-tasksync-primary text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700/30"
+              disabled={!isValid || isSubmitting}
+              type="submit"
+            >
+              {isSubmitting ? (
+                <img
+                  src={loadingSpinner}
+                  alt="spiner-loading"
+                  width="20"
+                  height="20"
+                />
+              ) : (
+                <label className="cursor-pointer">Add</label>
+              )}
+            </button>
+          </form>
         </div>
       </div>
     </>

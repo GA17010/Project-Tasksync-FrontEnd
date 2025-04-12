@@ -62,66 +62,66 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
 
   return (
     <>
-      <div
-        className={`mr-2 w-full sm:w-96 h-full flex flex-col rounded-2xl border-gray-300 dark:border-gray-500 bg-gray-200 dark:bg-gray-900 transition-all duration-200 ease-in-out ${
-          columnIndicatorVisible && statusTask === id
-            ? "ring-2 ring-blue-500 ring-opacity-50 rounded-2xl"
-            : ""
-        }`}
-        ref={setNodeRef}
-      >
-        {/* Title and Description */}
-        <div className="px-4 py-2 items-center gap-2">
-          <div className="flex items-center gap-2">
-            <span
-              className={`h-4 w-4 border-2 rounded-full ${
-                colorConfig[id as keyof typeof colorConfig]
-              }`}
-            ></span>
-            <h2 className="font-semibold text-lg">{title}</h2>
-            <span className="py-0.5 px-1 rounded-lg text-xs text-gray-600 dark:text-gray-800 bg-gray-300 dark:bg-gray-500 ">
-              {tasks.length}
+      <div className="max-h-2/3 sm:max-h-full w-full sm:w-96 flex-shrink-0 sm:mr-2">
+        <div
+          className={`w-full sm:w-96 h-full flex flex-col rounded-2xl border-gray-300 dark:border-gray-500 bg-gray-200 dark:bg-gray-900 transition-all duration-200 ease-in-out ${
+            columnIndicatorVisible && statusTask === id
+              ? "ring-2 ring-blue-500 ring-opacity-50 rounded-2xl"
+              : ""
+          }`}
+          ref={setNodeRef}
+        >
+          {/* Title and Description */}
+          <div className="px-4 py-2 items-center gap-2">
+            <div className="flex items-center gap-2">
+              <span
+                className={`h-4 w-4 border-2 rounded-full ${
+                  colorConfig[id as keyof typeof colorConfig]
+                }`}
+              ></span>
+              <h2 className="font-semibold text-lg">{title}</h2>
+              <span className="py-0.5 px-1 rounded-lg text-xs text-gray-600 dark:text-gray-800 bg-gray-300 dark:bg-gray-500 ">
+                {tasks.length}
+              </span>
+            </div>
+            <span className="text-xs text-gray-700 dark:text-gray-400">
+              {descriptionConfig[id as keyof typeof descriptionConfig]}
             </span>
           </div>
-          <span className="text-xs text-gray-700 dark:text-gray-400">
-            {descriptionConfig[id as keyof typeof descriptionConfig]}
-          </span>
-        </div>
 
-        <div className="flex-1 py-1 px-2 min-h-[180px] overflow-y-auto">
-          {/* Task list */}
-          {tasks.map((task) => (
-            // <div
-            //   key={task.id}
-            //   className="transform transition-transform duration-200 hover:scale-[1.02]"
-            // >
-              <TaskCard key={task.id} task={task} />
-            // </div>
-          ))}
+          <div className="flex-1 py-1 px-2 min-h-[180px] overflow-y-auto">
+            {/* Task list */}
 
-          {/* Column Indicator */}
-          <div
-            className={`flex $ ${
-              columnIndicatorVisible === id ? "block" : "hidden"
-            }`}
-          >
-            <span
-              ref={columnIndicatorRef}
-              className={`h-2 w-full rounded-full ${
-                bgColorConfig[id as keyof typeof bgColorConfig]
+            <div>
+              {tasks.map((task) => (
+                <TaskCard key={task.id} task={task} />
+              ))}
+            </div>
+
+            {/* Column Indicator */}
+            <div
+              className={`mb-24 flex transition-all duration-200 ease-linear $ ${
+                columnIndicatorVisible === id ? "scale-100" : "scale-0"
               }`}
-            ></span>
+            >
+              <span
+                ref={columnIndicatorRef}
+                className={`h-2 w-full rounded-full ${
+                  bgColorConfig[id as keyof typeof bgColorConfig]
+                }`}
+              ></span>
+            </div>
           </div>
-        </div>
 
-        {/* Add task button */}
-        <div className="flex">
-          <button
-            className="px-4 py-2 w-full text-left text-sm font-semibold cursor-pointer rounded-b-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600/20"
-            onClick={handleAddTask}
-          >
-            + Add Task
-          </button>
+          {/* Add task button */}
+          <div className="flex">
+            <button
+              className="px-4 py-2 w-full text-left text-sm font-semibold cursor-pointer rounded-b-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600/20"
+              onClick={handleAddTask}
+            >
+              + Add Task
+            </button>
+          </div>
         </div>
       </div>
     </>

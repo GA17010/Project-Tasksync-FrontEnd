@@ -6,10 +6,10 @@ import NavbarHeader from "./navbar-header/NavbarHeader"
 const MainLayout: React.FC = () => {
   return (
     <>
-      <div className="bg-white dark:bg-gray-950 text-tasksync-dark dark:text-white">
+      <div className="h-screen w-full flex flex-col bg-white dark:bg-gray-950 text-tasksync-dark dark:text-white overflow-hidden">
         <NavbarHeader />
 
-        <main className="flex pt-16">
+        <main className="flex-1 pt-16 overflow-x-auto">
           <Outlet />
         </main>
 

@@ -134,31 +134,33 @@ export default function ProjectPage() {
   }
 
   return (
-    <div className="w-full h-[calc(100vh-8.45rem)] flex flex-col gap-4 sm:w-auto sm:flex-row sm:gap-0 px-4 py-2 ">
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
-      >
-        {Object.entries(tasks).map(([columnId, columnTasks]) => (
-          <SortableContext
-            key={columnId}
-            items={columnTasks.map((task: Task) => task.id)}
-            strategy={verticalListSortingStrategy}
-          >
-            <TaskColumn
-              id={columnId}
-              title={getTitle(columnId)}
-              tasks={columnTasks}
-            />
-          </SortableContext>
-        ))}
-      </DndContext>
+    <>
+      <div className="h-full overflow-x-auto flex flex-col gap-4 sm:w-auto sm:flex-row sm:gap-0 px-4 py-2">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+        >
+          {Object.entries(tasks).map(([columnId, columnTasks]) => (
+            <SortableContext
+              key={columnId}
+              items={columnTasks.map((task: Task) => task.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <TaskColumn
+                id={columnId}
+                title={getTitle(columnId)}
+                tasks={columnTasks}
+              />
+            </SortableContext>
+          ))}
+        </DndContext>
 
-      {/* Input to add a new task */}
-      <InputAddTask />
-    </div>
+        {/* Input to add a new task */}
+        <InputAddTask />
+      </div>
+    </>
   )
 }
 
