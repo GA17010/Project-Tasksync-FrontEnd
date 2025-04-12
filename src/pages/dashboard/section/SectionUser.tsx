@@ -18,7 +18,7 @@ const friends = [
 ]
 const user = {
   id: "1",
-  name: "Lorem ipsum dolor sit amet",
+  name: "Otorinolaringologddw ada aso ipsum dolor sit amet",
   nick_name: "nickname",
   icon: PhotoUser,
   email: "admin@example.com",
@@ -30,15 +30,19 @@ function SectionUser() {
     <>
       {/* Profile Section */}
       <div className="flex md:flex-col items-center justify-center gap-4">
-        <img
-          src={user.icon}
-          alt="perfil"
-          className="w-3/12 md:w-10/12 lg:w-9/12 rounded-full shadow-[0_0_0_2px_rgba(130,130,130,0.35)]"
-        />
-        <div className="w-full flex flex-col items-start ">
-          <h1 className="text-2xl font-semibold">{user.name}</h1>
-          <p className="text-lg text-gray-500 dark:text-gray-400">
-            {user.nick_name}
+        <div className="w-4/12 sm:w-3/12 md:w-10/12 lg:w-9/12 ">
+          <img
+            src={user.icon}
+            alt="perfil"
+            className="rounded-full shadow-[0_0_0_2px_rgba(130,130,130,0.35)]"
+          />
+        </div>
+        <div className="py-2 sm:px-8 w-8/12 sm:w-9/12 md:w-full flex flex-col items-start break-words">
+          <h1 className="text-lg w-full sm:text-xl md:text-2xl font-semibold ">
+            {user.name}
+          </h1>
+          <p className="text-lg w-full text-gray-500 dark:text-gray-400">
+            {user.nick_name}aaaaaa  aaaaaaaa aaaaaaaaaaaaaaaa
           </p>
         </div>
       </div>
