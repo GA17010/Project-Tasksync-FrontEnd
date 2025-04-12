@@ -1,7 +1,11 @@
+import { RightCircleTwoTone } from "@ant-design/icons"
 import {
   closestCenter,
   DndContext,
-  PointerSensor,
+  DragOverlay,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
   UniqueIdentifier,
   useSensor,
   useSensors,
@@ -9,6 +13,7 @@ import {
 import {
   arrayMove,
   SortableContext,
+  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable"
 
@@ -25,11 +30,26 @@ export default function ProjectPage() {
 
   const { tasks, setTasks, fetchTasks } = taskStore()
 
+  const [activeTask, setActiveTask] = React.useState<Task | null>(null)
+
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 5,
+    },
+  })
+
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: {
+      delay: 250,
+      tolerance: 5,
+    },
+  })
+
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 5,
-      },
+    mouseSensor,
+    touchSensor,
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
     })
   )
 
@@ -37,10 +57,22 @@ export default function ProjectPage() {
     fetchTasks()
   }, [fetchTasks])
 
+  const handleDragStart = (event: { active: { id: UniqueIdentifier } }) => {
+    const { active } = event
+    const columnId = findColumn(tasks, active.id)
+    if (!columnId) return
+
+    const task = tasks[columnId as keyof Tasks].find(
+      (task) => task.id === active.id
+    )
+    setActiveTask(task || null)
+  }
+
   const handleDragEnd = (event: {
     active: { id: UniqueIdentifier }
     over: { id: UniqueIdentifier } | null
   }) => {
+    setActiveTask(null)
     if (!event.over) return
 
     const { active, over } = event
@@ -97,6 +129,7 @@ export default function ProjectPage() {
     over: { id: UniqueIdentifier } | null
   }) => {
     if (!event.over) return
+
     const { active, over } = event
 
     const sourceColumnId = findColumn(tasks, active.id)
@@ -135,10 +168,11 @@ export default function ProjectPage() {
 
   return (
     <>
-      <div className="h-full overflow-x-auto flex flex-col gap-4 sm:w-auto sm:flex-row sm:gap-0 px-4 py-2">
+      <div className="h-full overflow-x-auto flex flex-col gap-4 sm:w-auto sm:flex-row px-4 py-2">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
           onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}
         >
@@ -155,6 +189,21 @@ export default function ProjectPage() {
               />
             </SortableContext>
           ))}
+
+          <DragOverlay>
+            {activeTask ? (
+              <div className="p-3 text-sm rounded-xl bg-white dark:bg-gray-950 shadow-[0_10px_15px_3px_rgba(34,_33,_81,_0.3)] dark:shadow-[0_10px_15px_3px_rgba(220,220,220,0.2)] transition-shadow duration-200 scale-[1.02]">
+                <div className="flex relative items-center gap-2 mb-2">
+                  <RightCircleTwoTone />
+
+                  <span className=" text-xs text-gray-500 dark:text-gray-400 break-words">
+                    Project name #1
+                  </span>
+                </div>
+                {activeTask.content}
+              </div>
+            ) : null}
+          </DragOverlay>
         </DndContext>
 
         {/* Input to add a new task */}

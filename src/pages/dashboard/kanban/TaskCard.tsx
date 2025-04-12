@@ -20,9 +20,10 @@ function TaskCard({ task }: TaskCardProps) {
   } = useSortable({ id: task.id })
 
   const style = {
-    transition,
     transform: CSS.Transform.toString(transform),
+    transition: transition || "transform 100ms ease",
     opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 1000 : "auto",
   }
 
   const { activeDropdownId } = useDropdownStore()
@@ -33,7 +34,7 @@ function TaskCard({ task }: TaskCardProps) {
       {...attributes}
       {...listeners}
       style={style}
-      className={`mb-2 p-3 text-sm rounded-xl bg-white dark:bg-gray-950 shadow-sm cursor-grab transform transition-transform duration-200 hover:scale-[1.02] relative  ${
+      className={`p-3 relative text-sm rounded-xl bg-white dark:bg-gray-950 hover:scale-[1.02] shadow-[0_0_0_calc(1px_/_1)_rgba(63,_63,_68,_0.05),0_1px_calc(3px_/_1)_0_rgba(34,_33,_81,_0.15)] transition-all duration-200 ease-in-out cursor-grab ${
         activeDropdownId === task.id ? "z-20" : "z-0"
       }`}
     >

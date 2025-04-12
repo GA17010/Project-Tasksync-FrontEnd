@@ -62,14 +62,13 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
 
   return (
     <>
-      <div className="max-h-2/3 sm:max-h-full w-full sm:w-96 flex-shrink-0 sm:mr-2">
+      <div className="max-h-2/3 sm:max-h-full w-full sm:w-96 flex-shrink-0">
         <div
           className={`w-full sm:w-96 h-full flex flex-col rounded-2xl border-gray-300 dark:border-gray-500 bg-gray-200 dark:bg-gray-900 transition-all duration-200 ease-in-out ${
             columnIndicatorVisible && statusTask === id
               ? "ring-2 ring-blue-500 ring-opacity-50 rounded-2xl"
               : ""
           }`}
-          ref={setNodeRef}
         >
           {/* Title and Description */}
           <div className="px-4 py-2 items-center gap-2">
@@ -90,9 +89,9 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
           </div>
 
           <div className="flex-1 py-1 px-2 min-h-[180px] overflow-y-auto">
+            
             {/* Task list */}
-
-            <div>
+            <div ref={setNodeRef} className="flex flex-1 flex-col gap-2.5">
               {tasks.map((task) => (
                 <TaskCard key={task.id} task={task} />
               ))}

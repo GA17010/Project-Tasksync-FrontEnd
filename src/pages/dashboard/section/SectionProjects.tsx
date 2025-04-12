@@ -62,7 +62,7 @@ function SectionProjets() {
         {/* Project List */}
         <div>
           {projects.map((proj) => (
-            <ProjectList project={proj} />
+            <ProjectList key={proj.id} project={proj} />
           ))}
         </div>
       </div>
