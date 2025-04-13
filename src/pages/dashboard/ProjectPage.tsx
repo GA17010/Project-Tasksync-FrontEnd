@@ -192,7 +192,7 @@ export default function ProjectPage() {
 
           <DragOverlay>
             {activeTask ? (
-              <div className="p-3 text-sm rounded-xl bg-white dark:bg-gray-950 shadow-[0_10px_15px_3px_rgba(34,_33,_81,_0.3)] dark:shadow-[0_10px_15px_3px_rgba(220,220,220,0.2)] transition-shadow duration-200 scale-[1.02]">
+              <div className="p-3 text-sm rounded-xl bg-white dark:bg-gray-950 shadow-[0_10px_15px_3px_rgba(34,_33,_81,_0.3)] dark:shadow-[0_10px_15px_3px_rgba(220,220,220,0.2)] transition-shadow duration-200">
                 <div className="flex relative items-center gap-2 mb-2">
                   <RightCircleTwoTone />
 

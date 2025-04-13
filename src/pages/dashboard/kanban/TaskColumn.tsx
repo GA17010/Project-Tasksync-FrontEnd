@@ -91,24 +91,27 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
           <div className="flex-1 py-1 px-2 min-h-[180px] overflow-y-auto">
             
             {/* Task list */}
-            <div ref={setNodeRef} className="flex flex-1 flex-col gap-2.5">
+            <div
+              ref={setNodeRef}
+              className="flex flex-1 min-h-full flex-col gap-2.5"
+            >
               {tasks.map((task) => (
                 <TaskCard key={task.id} task={task} />
               ))}
-            </div>
 
-            {/* Column Indicator */}
-            <div
-              className={`mb-24 flex transition-all duration-200 ease-linear $ ${
-                columnIndicatorVisible === id ? "scale-100" : "scale-0"
-              }`}
-            >
-              <span
-                ref={columnIndicatorRef}
-                className={`h-2 w-full rounded-full ${
-                  bgColorConfig[id as keyof typeof bgColorConfig]
+              {/* Column Indicator */}
+              <div
+                className={`mb-24 flex transition-all duration-200 ease-linear $ ${
+                  columnIndicatorVisible === id ? "scale-100" : "scale-0"
                 }`}
-              ></span>
+              >
+                <span
+                  ref={columnIndicatorRef}
+                  className={`h-2 w-full rounded-full ${
+                    bgColorConfig[id as keyof typeof bgColorConfig]
+                  }`}
+                ></span>
+              </div>
             </div>
           </div>
 

@@ -34,7 +34,7 @@ function TaskCard({ task }: TaskCardProps) {
       {...attributes}
       {...listeners}
       style={style}
-      className={`p-3 relative text-sm rounded-xl bg-white dark:bg-gray-950 hover:scale-[1.02] shadow-[0_0_0_calc(1px_/_1)_rgba(63,_63,_68,_0.05),0_1px_calc(3px_/_1)_0_rgba(34,_33,_81,_0.15)] transition-all duration-200 ease-in-out cursor-grab ${
+      className={`p-3 relative text-sm rounded-xl bg-white dark:bg-gray-950 shadow-[0_0_0_calc(1px_/_1)_rgba(63,63,68,0.05),0_1px_calc(3px_/_1)_0_rgba(34,33,81,0.15)] hover:shadow-[0_0_1px_2px_rgba(0,0,0,0.3)] dark:hover:shadow-[0_0_1px_2px_rgba(255,255,255,0.3)] transition-all duration-200 ease-in-out cursor-grab ${
         activeDropdownId === task.id ? "z-20" : "z-0"
       }`}
     >
