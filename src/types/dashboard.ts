@@ -17,3 +17,9 @@ export interface Tasks {
   inReview: Task[]
   done: Task[]
 }
+
+export interface Friend {
+  id: string
+  name: string
+  isMe: boolean
+}

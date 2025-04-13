@@ -19,7 +19,8 @@ function Dropdown({ id, children }: DropdownProps) {
     function handleClickOutside(event: MouseEvent) {
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        !dropdownRef.current.contains(event.target as Node) &&
+        isVisible
       ) {
         closeAllDropdowns()
       }
@@ -29,7 +30,7 @@ function Dropdown({ id, children }: DropdownProps) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
-  }, [closeAllDropdowns])
+  }, [closeAllDropdowns, isVisible])
 
   const toggleDropdown = () => {
     openDropdown(id)

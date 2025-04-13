@@ -1,3 +1,4 @@
+import { useFriendStore } from "@/stores/friendStore"
 import { taskStore } from "@/stores/taskStore"
 import {
   ArrowRightOutlined,
@@ -13,9 +14,12 @@ interface DropdownMenuProps {
 function DropdownMenu({ id }: DropdownMenuProps) {
   const { deleteTask } = taskStore()
 
+  const { setTaskAndToggleMenu } = useFriendStore()
+
   return (
     <>
       <ul className="py-2">
+        {/* Option - Delete Task */}
         <li
           onClick={() => deleteTask(id)}
           className="px-4 py-2 text-tasksync-danger hover:bg-red-100 dark:hover:bg-red-300/20 cursor-pointer"
@@ -23,10 +27,17 @@ function DropdownMenu({ id }: DropdownMenuProps) {
           <DeleteOutlined className="mr-2" />
           Delete
         </li>
-        <li className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">
+
+        {/* Option - Assign task to */}
+        <li
+          className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+          onClick={() => setTaskAndToggleMenu(id)}
+        >
           <UsergroupAddOutlined className="mr-2" />
           Assign to
         </li>
+
+        {/* Option - Move task to */}
         <li className="px-4 py-2 flex justify-between hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">
           <div className="flex items-center">
             <ArrowsAltOutlined className="mr-2" />

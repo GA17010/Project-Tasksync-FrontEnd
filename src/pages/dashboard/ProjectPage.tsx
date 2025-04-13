@@ -21,6 +21,7 @@ import { taskStore } from "@/stores/taskStore"
 import { Task, Tasks } from "@/types"
 import * as React from "react"
 import { useParams } from "react-router"
+import AssignToMenu from "./kanban/AssignToMenu"
 import InputAddTask from "./kanban/InputAddTask"
 import TaskColumn from "./kanban/TaskColumn"
 
@@ -165,7 +166,7 @@ export default function ProjectPage() {
 
     setTasks(newTasks)
   }
-
+  
   return (
     <>
       <div className="h-full overflow-x-auto flex flex-col gap-4 sm:w-auto sm:flex-row px-4 py-2">
@@ -192,7 +193,7 @@ export default function ProjectPage() {
 
           <DragOverlay>
             {activeTask ? (
-              <div className="p-3 text-sm rounded-xl bg-white dark:bg-gray-950 shadow-[0_10px_15px_3px_rgba(34,_33,_81,_0.3)] dark:shadow-[0_10px_15px_3px_rgba(220,220,220,0.2)] transition-shadow duration-200">
+              <div className="p-3 min-w-min text-sm rounded-xl bg-white dark:bg-gray-950 shadow-[0_10px_15px_3px_rgba(34,_33,_81,_0.3)] dark:shadow-[0_10px_15px_3px_rgba(220,220,220,0.2)] transition-shadow duration-200">
                 <div className="flex relative items-center gap-2 mb-2">
                   <RightCircleTwoTone />
 
@@ -208,6 +209,9 @@ export default function ProjectPage() {
 
         {/* Input to add a new task */}
         <InputAddTask />
+
+        {/* Menu Assigt task to */}
+        <AssignToMenu />
       </div>
     </>
   )

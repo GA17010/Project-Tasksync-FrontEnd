@@ -92,10 +92,10 @@ export default function NavbarHeader() {
 
             {/* Dropdown Profile */}
             <div
-              className={`w-72 absolute right-0 top-full origin-bottom z-10 overflow-auto rounded-lg border border-slate-200 dark:border-gray-600 bg-white dark:bg-gray-900 lg:shadow-lg shadow-sm focus:outline-none ${
+              className={`w-72 absolute right-0 top-full origin-bottom z-10 overflow-auto rounded-lg border border-slate-200 dark:border-gray-600 bg-white dark:bg-gray-900 lg:shadow-lg shadow-sm focus:outline-none transition-all duration-200 ease-in-out ${
                 Profile_dropdown
-                  ? "scale-100 origin-top-right opacity-100 transition-all duration-300 ease-out"
-                  : "scale-0 origin-top-right opacity-0 transition-all duration-300 ease-in"
+                  ? "scale-100 origin-top-right opacity-100"
+                  : "scale-0 origin-top-right opacity-0"
               }`}
             >
               <ProfileDD />
