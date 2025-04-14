@@ -36,7 +36,7 @@ function FriendList({
     >
       <img
         src={icon}
-        className="border border-gray-300 dark:border-gray-500 rounded-full"
+        className="border border-gray-300 dark:border-gray-500 rounded-full object-cover w-11 h-11"
         alt="Friend photo"
         width={44}
         height={44}

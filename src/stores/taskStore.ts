@@ -1,15 +1,16 @@
-import { Task, Tasks } from "@/types"
+import { Assigned, Task, Tasks } from "@/types"
 import { transformToKanban } from "@/utils/locales/taskUtils"
 import { create } from "zustand"
 import { useCustomizerStore } from "./useCustomerStore"
 
 interface TaskStoreState {
   tasks: Tasks
-
+  
   setTasks: (tasks: Tasks) => void
   fetchTasks: (idProject: string) => void
   addTask: (task: Task) => void
   deleteTask: (tasksId: string) => void
+  updateAssignToTask: (assignedData: Assigned, taskToAssign: Task) => void
 }
 
 export const taskStore = create<TaskStoreState>((set) => ({
@@ -112,6 +113,20 @@ export const taskStore = create<TaskStoreState>((set) => ({
         newTasks[key as keyof Tasks] = newTasks[key as keyof Tasks].filter(
           (tasks) => tasks.id !== taskId
         )
+      })
+
+      return { tasks: newTasks }
+    })
+  },
+  updateAssignToTask: (assignedData, taskToAssign) => {
+    // Update patch request
+    // const response = await
+    set((state) => {
+      const newTasks = { ...state.tasks }
+      newTasks[taskToAssign.status as keyof Tasks].forEach((task) => {
+        if (task.id === taskToAssign.id) {
+          task.assigned_to = assignedData
+        }
       })
 
       return { tasks: newTasks }

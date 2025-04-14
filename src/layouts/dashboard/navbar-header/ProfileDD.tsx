@@ -54,11 +54,11 @@ const ProfileDD = () => {
     <div>
       <div className="p-5 flex items-center">
         <img
-          className="w-10 h-10 rounded-full mx-1"
+          className="w-10 h-10 rounded-full mx-1 object-cover"
           src={useravatar}
           alt="Julia"
-          width="40"
-          height="40"
+          width={40}
+          height={40}
         />
         <div className="pl-4 flex flex-col text-left">
           <span className="text-sm font-medium mb-0 sm:block none">

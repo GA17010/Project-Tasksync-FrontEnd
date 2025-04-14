@@ -55,7 +55,7 @@ function TaskCard({ task }: TaskCardProps) {
         {/* More actions */}
         <Dropdown id={task.id}>
           {/* Container Dropdown */}
-          <DropdownMenu id={task.id} />
+          <DropdownMenu task={task} />
         </Dropdown>
       </div>
 
@@ -66,7 +66,7 @@ function TaskCard({ task }: TaskCardProps) {
         <div className="pt-2 flex items-center gap-2">
           <img
             src={icon}
-            className="border border-gray-300 dark:border-gray-500 rounded-full"
+            className="w-9 h-9 border border-gray-300 dark:border-gray-500 rounded-full object-cover"
             alt="Friend photo"
             width={36}
             height={36}

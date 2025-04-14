@@ -5,7 +5,7 @@ export interface Project {
   belong: string
 }
 
-interface Assigned {
+export interface Assigned {
   id: string
   name: string
   icon: string

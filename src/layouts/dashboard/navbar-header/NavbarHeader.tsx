@@ -79,11 +79,11 @@ export default function NavbarHeader() {
               <div className="flex align-center items-center">
                 <div className="mr-0 py-1 md:pr-2">
                   <img
-                    className="w-8 h-8 rounded-full"
+                    className="w-8 h-8 rounded-full object-cover"
                     src={useravatar}
                     alt="Julia"
-                    width="32"
-                    height="32"
+                    width={32}
+                    height={32}
                   />
                 </div>
                 <h6 className="text-medium mb-0 hidden md:block">JWT User</h6>

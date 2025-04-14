@@ -1,9 +1,29 @@
 import FriendList from "@/components/FriendList"
 import { useFriendStore } from "@/stores/friendStore"
+import { taskStore } from "@/stores/taskStore"
+import { Friend } from "@/types"
 import { CloseOutlined } from "@ant-design/icons"
 function AssignToModal() {
-  const { showAssignMenu, setShowAssignMenu, friendsList, handleAssign } =
+  const { taskToAssign, showAssignMenu, setShowAssignMenu, friendsList, handleAssign } =
     useFriendStore()
+  const { updateAssignToTask } = taskStore()
+
+
+  const handleAssignClic= (friend: Friend)=> {
+    // Notify user
+    
+    if (!taskToAssign) return
+
+    const assignedData = {
+      id: friend.id,
+      name: friend.name,
+      icon: friend.icon,
+    }
+
+    updateAssignToTask(assignedData, taskToAssign)
+
+    handleAssign()
+  }
 
   return (
     <>
@@ -24,7 +44,7 @@ function AssignToModal() {
               <li key={friend.id}>
                 <FriendList
                   friend={friend}
-                  onClick={handleAssign}
+                  onClick={handleAssignClic}
                   showTooltip={false}
                   showAddIcon={true}
                   className="w-full"

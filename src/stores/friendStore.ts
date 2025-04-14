@@ -1,4 +1,4 @@
-import { Friend } from "@/types"
+import { Friend, Task } from "@/types"
 import { create } from "zustand"
 
 const friends: Friend[] = [
@@ -20,11 +20,11 @@ const friends: Friend[] = [
 type FriendState = {
   friendsList: Friend[]
   showAssignMenu: boolean
-  taskToAssign: string | null
+  taskToAssign: Task | null
 
   setShowAssignMenu: () => void
-  setTaskAndToggleMenu: (id: string) => void
-  handleAssign: (friend: Friend) => void
+  setTaskAndToggleMenu: (task: Task) => void
+  handleAssign: () => void
 }
 
 export const useFriendStore = create<FriendState>((set, get) => ({
@@ -36,20 +36,14 @@ export const useFriendStore = create<FriendState>((set, get) => ({
     set((state) => ({ showAssignMenu: !state.showAssignMenu }))
   },
 
-  setTaskAndToggleMenu: (id) => {
-    set({ taskToAssign: id })
+  setTaskAndToggleMenu: (task) => {
+    set({ taskToAssign: task })
 
     set((state) => ({ showAssignMenu: !state.showAssignMenu }))
   },
 
-  handleAssign: (friend) => {
-    console.log(`Assigned to ${friend.name}`)
-    const { taskToAssign } = get()
-
-     if (!taskToAssign) return
-
-     
-     console.log(`taskId ${get().taskToAssign}`)
+  handleAssign: () => {
+    console.log(`taskId ${get().taskToAssign}`)
 
     set(() => ({
       showAssignMenu: false,

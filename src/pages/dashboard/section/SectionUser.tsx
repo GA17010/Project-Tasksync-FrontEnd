@@ -1,6 +1,6 @@
-import PhotoUser from "@/assets/images/users/profile.png"
-import { useFriendStore } from "@/stores/friendStore"
+import PhotoUser from "@/assets/images/users/profile.webp"
 import FriendList from "@/components/FriendList"
+import { useFriendStore } from "@/stores/friendStore"
 
 const user = {
   id: "1",
@@ -17,11 +17,11 @@ function SectionUser() {
     <>
       {/* Profile Section */}
       <div className="flex md:flex-col items-center justify-center gap-4">
-        <div className="w-4/12 sm:w-3/12 md:w-10/12 lg:w-9/12 ">
+        <div className="w-4/12 sm:w-3/12 md:w-10/12 lg:w-9/12 aspect-square">
           <img
             src={user.icon}
             alt="perfil"
-            className="rounded-full shadow-[0_0_0_2px_rgba(130,130,130,0.35)]"
+            className="rounded-full shadow-[0_0_0_2px_rgba(130,130,130,0.35)] object-cover w-full h-full"
           />
         </div>
         <div className="py-2 sm:px-8 w-8/12 sm:w-9/12 md:w-full flex flex-col items-start break-words">
