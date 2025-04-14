@@ -21,16 +21,14 @@ import { taskStore } from "@/stores/taskStore"
 import { Task, Tasks } from "@/types"
 import * as React from "react"
 import { useParams } from "react-router"
-import AssignToMenu from "./kanban/AssignToMenu"
-import InputAddTask from "./kanban/InputAddTask"
+import AddTaskForm from "./kanban/AddTaskForm"
+import AssignToModal from "./kanban/components/AssignToModal"
 import TaskColumn from "./kanban/TaskColumn"
 
 export default function ProjectPage() {
-  const { id } = useParams()
-  console.log(id)
+  const { id: idProject } = useParams()
 
   const { tasks, setTasks, fetchTasks } = taskStore()
-
   const [activeTask, setActiveTask] = React.useState<Task | null>(null)
 
   const mouseSensor = useSensor(MouseSensor, {
@@ -55,8 +53,9 @@ export default function ProjectPage() {
   )
 
   React.useEffect(() => {
-    fetchTasks()
-  }, [fetchTasks])
+    if (!idProject) return
+    fetchTasks(idProject)
+  }, [fetchTasks, idProject])
 
   const handleDragStart = (event: { active: { id: UniqueIdentifier } }) => {
     const { active } = event
@@ -208,10 +207,10 @@ export default function ProjectPage() {
         </DndContext>
 
         {/* Input to add a new task */}
-        <InputAddTask />
+        {idProject && <AddTaskForm idProject={idProject} />}
 
         {/* Menu Assigt task to */}
-        <AssignToMenu />
+        <AssignToModal />
       </div>
     </>
   )

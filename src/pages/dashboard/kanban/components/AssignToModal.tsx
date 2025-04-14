@@ -1,7 +1,7 @@
 import { useFriendStore } from "@/stores/friendStore"
 import { CloseOutlined, UserAddOutlined } from "@ant-design/icons"
 
-function AssignToMenu() {
+function AssignToModal() {
   const { showAssignMenu, setShowAssignMenu, friendsList, handleAssign } =
     useFriendStore()
 
@@ -47,4 +47,4 @@ function AssignToMenu() {
   )
 }
 
-export default AssignToMenu
+export default AssignToModal

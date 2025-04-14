@@ -48,10 +48,10 @@ export default function NotificationDD() {
       {/* Dropdown Notification */}
       <div
         id="notification-dropdown"
-        className={`absolute right-0 top-full origin-[80%_0%] sm:flex-col sm:w-96 w-full flex justify-center ${
+        className={`absolute right-0 top-full origin-[80%_0%] sm:flex-col sm:w-96 w-full flex justify-center transition-all duration-200 ease-out ${
           Notification_dropdown
-            ? "scale-100 sm:origin-top-right opacity-100 transition-all duration-200 ease-out"
-            : "scale-0 sm:origin-top-right opacity-0 transition-all duration-200 ease-in"
+            ? "scale-100 sm:origin-top-right opacity-100"
+            : "scale-0 sm:origin-top-right opacity-0"
         }`}
       >
         <div className="w-[90dvw] sm:w-96 max-h-[50vh] sm:max-h-[340px] flex flex-col overflow-hidden rounded-lg bg-white dark:bg-gray-950 pt-1 shadow-[0_0_0_2px_rgba(220,220,220,0.8)] dark:shadow-[0_0_0_2px_rgba(130,130,130,0.5)] focus:outline-none">

@@ -10,7 +10,12 @@ import * as yup from "yup"
 interface FormData {
   content: string
 }
-function InputAddTask() {
+
+interface AddTaskFormProps {
+  idProject: string
+}
+
+function AddTaskForm({idProject}: AddTaskFormProps) {
   const {
     inputVisible,
     setInputVisible,
@@ -45,11 +50,14 @@ function InputAddTask() {
     if (isSubmitting) return
     setIsSubmitting(true)
 
-    const id = crypto.randomUUID()
+    const idTask = crypto.randomUUID()
     const newTask: Task = {
-      id: id,
+      id: idTask,
       content: data.content,
       status: statusTask,
+      assigned_to: null,
+      is_me: false,
+      project_id: idProject,
     }
 
     // AWAIT FOR THE API RESPONSE
@@ -143,4 +151,4 @@ function InputAddTask() {
   )
 }
 
-export default InputAddTask
+export default AddTaskForm
