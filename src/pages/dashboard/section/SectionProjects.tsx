@@ -1,7 +1,7 @@
 import { ProjectOutlined } from "@ant-design/icons"
 import { useNavigate } from "react-router"
-import ProjectFilter from "./components/ProjectFilter"
-import ProjectList from "./components/ProjectList"
+import ProjectFilter from "./ProjectFilter"
+import ProjectList from "./ProjectList"
 
 function SectionProjets() {
   const navigate = useNavigate()

@@ -1,12 +1,14 @@
 import { useDropdownStore } from "@/stores/dropdownStore"
+import { useUIStore } from "@/stores/uiStore"
+import { Task } from "@/types"
 import { RightCircleTwoTone } from "@ant-design/icons"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import Dropdown from "./Dropdown"
-import DropdownMenu from "./DropdownMenu"
+import Dropdown from "./components/Dropdown"
+import DropdownMenu from "./components/DropdownMenu"
 
 interface TaskCardProps {
-  task: { id: string; content: string }
+  task: Task
 }
 
 function TaskCard({ task }: TaskCardProps) {
@@ -27,6 +29,11 @@ function TaskCard({ task }: TaskCardProps) {
   }
 
   const { activeDropdownId } = useDropdownStore()
+
+  const { userAvatars } = useUIStore()
+  const icon = task.assigned_to
+    ? userAvatars[task.assigned_to.icon] || userAvatars["avatar-1"]
+    : userAvatars["avatar-1"]
 
   return (
     <div
@@ -53,6 +60,26 @@ function TaskCard({ task }: TaskCardProps) {
       </div>
 
       <div className="font-medium break-words">{task.content}</div>
+
+      {/* Assign to */}
+      {task.assigned_to ? (
+        <div className="pt-2 flex items-center gap-2">
+          <img
+            src={icon}
+            className="border border-white dark:border-gray-500 rounded-full"
+            alt="Friend photo"
+            width={36}
+            height={36}
+          />
+          <span>
+            {task.assigned_to.name} {task.is_me && "(Me)"}
+          </span>
+        </div>
+      ) : (
+        <span className="text-gray-500 dark:text-gray-400 break-words">
+          Not assigned
+        </span>
+      )}
     </div>
   )
 }

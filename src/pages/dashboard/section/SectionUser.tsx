@@ -1,31 +1,18 @@
-import User1 from "@/assets/images/users/avatar-1.avif"
-import User2 from "@/assets/images/users/avatar-2.avif"
-import User3 from "@/assets/images/users/avatar-3.avif"
-import User4 from "@/assets/images/users/avatar-4.avif"
 import PhotoUser from "@/assets/images/users/profile.png"
-import UserList from "./components/UserList"
-const friends = [
-  { id: "1", name: "Amigo 1", nick_name: "nickname1", icon: User1 },
-  { id: "2", name: "Amigo 2", nick_name: "nickname2", icon: User2 },
-  { id: "3", name: "Amigo 3", nick_name: "nickname3", icon: User3 },
-  { id: "4", name: "Amigo 4", nick_name: "nickname4", icon: User4 },
-  { id: "5", name: "Amigo 5", nick_name: "nickname5", icon: User1 },
-  { id: "6", name: "Amigo 6", nick_name: "nickname6", icon: User2 },
-  { id: "7", name: "Amigo 7", nick_name: "nickname7", icon: User3 },
-  { id: "8", name: "Amigo 8", nick_name: "nickname8", icon: User4 },
-  { id: "9", name: "Amigo 9", nick_name: "nickname9", icon: User3 },
-  { id: "9", name: "Amigo 9", nick_name: "nickname9", icon: User3 },
-]
+import { useFriendStore } from "@/stores/friendStore"
+import FriendList from "./components/FriendList"
+
 const user = {
   id: "1",
-  name: "Otorinolaringologddw ada aso ipsum dolor sit amet",
+  full_name: "Otorinolaringologddw ada aso ipsum dolor sit amet",
   nick_name: "nickname",
   icon: PhotoUser,
   email: "admin@example.com",
-  company: "Company",
 }
 
 function SectionUser() {
+  const { friendsList } = useFriendStore()
+
   return (
     <>
       {/* Profile Section */}
@@ -39,10 +26,10 @@ function SectionUser() {
         </div>
         <div className="py-2 sm:px-8 w-8/12 sm:w-9/12 md:w-full flex flex-col items-start break-words">
           <h1 className="text-lg w-full sm:text-xl md:text-2xl font-semibold ">
-            {user.name}
+            {user.full_name}
           </h1>
           <p className="text-lg w-full text-gray-500 dark:text-gray-400">
-            {user.nick_name}aaaaaa  aaaaaaaa aaaaaaaaaaaaaaaa
+            {user.nick_name}
           </p>
         </div>
       </div>
@@ -58,8 +45,8 @@ function SectionUser() {
       <div>
         <h2 className="text-xl font-bold mt-4">Friends</h2>
         <div className="pt-2 flex items-center flex-wrap gap-1">
-          {friends.map((friend) => (
-            <UserList key={friend.id} friend={friend} />
+          {friendsList.map((friend) => (
+            <FriendList key={friend.id} friend={friend} />
           ))}
         </div>
       </div>

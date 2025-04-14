@@ -5,10 +5,19 @@ export interface Project {
   belong: string
 }
 
+interface Assigned {
+  id: string
+  name: string
+  icon: string
+}
+
 export interface Task {
   id: string
   content: string
   status: string
+  assigned_to: Assigned | null
+  is_me: boolean
+  project_id: string
 }
 
 export interface Tasks {
@@ -21,5 +30,7 @@ export interface Tasks {
 export interface Friend {
   id: string
   name: string
+  nick_name: string
+  icon: string
   isMe: boolean
 }
