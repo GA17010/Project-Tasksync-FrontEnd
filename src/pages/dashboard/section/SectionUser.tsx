@@ -1,6 +1,6 @@
 import PhotoUser from "@/assets/images/users/profile.png"
 import { useFriendStore } from "@/stores/friendStore"
-import FriendList from "./components/FriendList"
+import FriendList from "@/components/FriendList"
 
 const user = {
   id: "1",

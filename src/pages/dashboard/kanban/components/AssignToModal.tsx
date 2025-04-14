@@ -1,6 +1,6 @@
+import FriendList from "@/components/FriendList"
 import { useFriendStore } from "@/stores/friendStore"
-import { CloseOutlined, UserAddOutlined } from "@ant-design/icons"
-
+import { CloseOutlined } from "@ant-design/icons"
 function AssignToModal() {
   const { showAssignMenu, setShowAssignMenu, friendsList, handleAssign } =
     useFriendStore()
@@ -21,15 +21,14 @@ function AssignToModal() {
           {/* List */}
           <ul className="w-full flex flex-col last:rounded-b-2xl overflow-y-auto mb-4">
             {friendsList.map((friend) => (
-              <li
-                key={friend.id}
-                onClick={() => handleAssign(friend)}
-                className="flex justify-between w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800/70 gap-4 cursor-pointer"
-              >
-                <span className="break-all">
-                  {friend.name} {friend.isMe && "(Me)"}
-                </span>
-                <UserAddOutlined />
+              <li key={friend.id}>
+                <FriendList
+                  friend={friend}
+                  onClick={handleAssign}
+                  showTooltip={false}
+                  showAddIcon={true}
+                  className="w-full"
+                />
               </li>
             ))}
           </ul>

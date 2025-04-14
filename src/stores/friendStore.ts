@@ -20,7 +20,7 @@ const friends: Friend[] = [
 type FriendState = {
   friendsList: Friend[]
   showAssignMenu: boolean
-  taskToAssgin: string | null
+  taskToAssign: string | null
 
   setShowAssignMenu: () => void
   setTaskAndToggleMenu: (id: string) => void
@@ -30,27 +30,30 @@ type FriendState = {
 export const useFriendStore = create<FriendState>((set, get) => ({
   friendsList: friends,
   showAssignMenu: false,
-  taskToAssgin: null,
+  taskToAssign: null,
 
   setShowAssignMenu: () => {
     set((state) => ({ showAssignMenu: !state.showAssignMenu }))
   },
 
   setTaskAndToggleMenu: (id) => {
-    set({ taskToAssgin: id })
+    set({ taskToAssign: id })
 
     set((state) => ({ showAssignMenu: !state.showAssignMenu }))
   },
 
   handleAssign: (friend) => {
     console.log(`Assigned to ${friend.name}`)
-    if (!get().taskToAssgin) return
+    const { taskToAssign } = get()
 
-    console.log(`taskId ${get().taskToAssgin}`)
+     if (!taskToAssign) return
+
+     
+     console.log(`taskId ${get().taskToAssign}`)
 
     set(() => ({
       showAssignMenu: false,
-      taskToAssgin: null,
-    })) // get().setShowAssignMenu()
+      taskToAssign: null,
+    }))
   },
 }))

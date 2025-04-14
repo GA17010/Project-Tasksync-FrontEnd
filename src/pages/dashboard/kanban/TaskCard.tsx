@@ -66,7 +66,7 @@ function TaskCard({ task }: TaskCardProps) {
         <div className="pt-2 flex items-center gap-2">
           <img
             src={icon}
-            className="border border-white dark:border-gray-500 rounded-full"
+            className="border border-gray-300 dark:border-gray-500 rounded-full"
             alt="Friend photo"
             width={36}
             height={36}
