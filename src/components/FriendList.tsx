@@ -17,8 +17,12 @@ function FriendList({
   showAddIcon = false,
   className = "",
 }: FriendListProps) {
-  const { userAvatars } = useUIStore()
-  const icon = userAvatars[friend.icon] || userAvatars["avatar-1"]
+  const { userAvatarSmall } = useUIStore()
+
+  const avatarUrl =
+    friend.icon && userAvatarSmall[friend.icon]
+      ? userAvatarSmall[friend.icon]
+      : userAvatarSmall["avatar-00"]
 
   const clickable = typeof onClick === "function"
 
@@ -35,9 +39,10 @@ function FriendList({
         .join(" ")}
     >
       <img
-        src={icon}
+        src={avatarUrl}
         className="border border-gray-300 dark:border-gray-500 rounded-full object-cover w-11 h-11"
         alt="Friend photo"
+        loading="lazy"
         width={44}
         height={44}
       />

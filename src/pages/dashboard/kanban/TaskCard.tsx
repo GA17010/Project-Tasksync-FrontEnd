@@ -30,10 +30,12 @@ function TaskCard({ task }: TaskCardProps) {
 
   const { activeDropdownId } = useDropdownStore()
 
-  const { userAvatars } = useUIStore()
-  const icon = task.assigned_to
-    ? userAvatars[task.assigned_to.icon] || userAvatars["avatar-1"]
-    : userAvatars["avatar-1"]
+  const { userAvatarSmall } = useUIStore()
+
+  const avatarUrl =
+    task?.assigned_to?.icon && userAvatarSmall[task.assigned_to.icon]
+      ? userAvatarSmall[task.assigned_to.icon]
+      : userAvatarSmall["avatar-00"]
 
   return (
     <div
@@ -65,7 +67,7 @@ function TaskCard({ task }: TaskCardProps) {
       {task.assigned_to ? (
         <div className="pt-2 flex items-center gap-2">
           <img
-            src={icon}
+            src={avatarUrl}
             className="w-9 h-9 border border-gray-300 dark:border-gray-500 rounded-full object-cover"
             alt="Friend photo"
             width={36}
