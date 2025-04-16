@@ -1,16 +1,19 @@
 import loadingSpinner from "@/assets/svg/spiner-loading.svg"
 import { useAuthStore } from "@/stores/authStore"
+import { useUIStore } from "@/stores/uiStore"
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as React from "react"
-import { SubmitHandler, useForm } from "react-hook-form"
+import { SubmitHandler, useForm, useWatch } from "react-hook-form"
 import { Link, useNavigate } from "react-router"
 import * as yup from "yup"
+import SelectAvatarModal from "./components/SelectAvatarModal"
 
 interface FormData {
   firstname: string
   lastname: string
-  company?: string
+  nickname: string
+  icon: string
   email: string
   password: string
   confirmPassword: string
@@ -18,17 +21,25 @@ interface FormData {
 
 function RegisterPage() {
   const navigate = useNavigate()
+  const { errorRegister, registerUser } = useAuthStore()
+  const { userAvatarSmall } = useUIStore()
 
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const [showConfirmPassword, setShowConfirmPassword] =
     React.useState<boolean>(false)
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
-  const { errorRegister, registerUser } = useAuthStore()
 
   const schema: yup.ObjectSchema<FormData> = yup.object({
     firstname: yup.string().required("First Name is required"),
     lastname: yup.string().required("Last Name is required"),
-    company: yup.string().optional(),
+    nickname: yup.string().required("Nickname is required"),
+    icon: yup
+      .string()
+      .required("Icon is required")
+      .test("isValidIcon", "Invalid avatar selected", (value) => {
+        if (!value) return true
+        return Object.keys(userAvatarSmall).includes(value)
+      }),
     email: yup
       .string()
       .required("E-mail is required")
@@ -58,7 +69,9 @@ function RegisterPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    setValue,
+    control,
+    formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     mode: "onChange",
@@ -66,26 +79,36 @@ function RegisterPage() {
     defaultValues: {
       firstname: "",
       lastname: "",
-      company: "",
+      nickname: "",
+      icon: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
   })
 
+  const [isAvatarListOpen, setIsAvatarListOpen] = React.useState(false)
+  const selectedIcon = useWatch({ control, name: "icon" })
+
+  const handleAvatarSelect = (iconName: string) => {
+    setValue("icon", iconName)
+    setIsAvatarListOpen(false)
+  }
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (isSubmitting) return
     setIsSubmitting(true)
 
     const userData = {
-      full_name: `${data.firstname} ${data.lastname}`,
-      company: data.company,
+      name: `${data.firstname} ${data.lastname}`,
+      nickname: data.nickname,
+      icon: data.icon,
       email: data.email,
       password: data.password,
-      confirm_password: data.confirmPassword,
+      password_confirmation: data.confirmPassword,
     }
 
-    const response = await registerUser(userData) // Reemplaza con tu función de registro real
+    const response = await registerUser(userData)
 
     if (response) {
       navigate("/dashboard")
@@ -173,34 +196,107 @@ function RegisterPage() {
             </div>
           </div>
         </div>
-        <div className="mb-4">
-          <label
-            htmlFor="company"
-            className="mb-1 text-gray-600 dark:text-gray-400"
-          >
-            Company
-          </label>
-          <input
-            id="company"
-            type="text"
-            className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
-              errors.company ? colorConfig.error : colorConfig.normal
-            }`}
-            placeholder="Company Inc."
-            {...register("company")}
-            aria-invalid={errors.company ? "true" : "false"}
-          />
-          {errors.company && (
-            <p
-              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                errors.company
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 -translate-y-2"
-              }`}
-            >
-              {errors.company.message}
-            </p>
-          )}
+        <div className="flex flex-col md:flex-row">
+          <div className="flex flex-col md:pr-3 w-full md:w-1/2">
+            <div className="mb-4">
+              <label
+                htmlFor="nickname"
+                className="mb-1 text-gray-600 dark:text-gray-400"
+              >
+                Nickname
+              </label>
+              <input
+                id="nickname"
+                type="text"
+                className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
+                  errors.nickname ? colorConfig.error : colorConfig.normal
+                }`}
+                placeholder="Johny"
+                {...register("nickname")}
+                aria-invalid={errors.nickname ? "true" : "false"}
+              />
+              {errors.nickname && (
+                <p
+                  className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+                    errors.nickname
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 -translate-y-2"
+                  }`}
+                >
+                  {errors.nickname.message}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col md:pl-3 w-full md:w-1/2">
+            <div className="mb-4 relative">
+              <label
+                htmlFor="icon"
+                className="mb-1 text-gray-600 dark:text-gray-400"
+              >
+                Choose your Avatar
+              </label>
+              <button
+                type="button"
+                className={`mt-2 w-full border-2 rounded-md py-2 pl-3 text-left text-sm md:text-base focus:outline-none transition-colors ease-in-out text-gray-600 dark:text-gray-400 flex items-center justify-between cursor-pointer ${
+                  errors.nickname ? colorConfig.error : colorConfig.normal
+                }`}
+                onClick={() => setIsAvatarListOpen(!isAvatarListOpen)}
+              >
+                {selectedIcon ? (
+                  <div className="flex items-center">
+                    <img
+                      src={userAvatarSmall[selectedIcon]}
+                      alt="Selected Avatar"
+                      className="w-6 h-6 rounded-full mr-2 object-cover"
+                    />
+                    {selectedIcon}
+                  </div>
+                ) : (
+                  "Select an avatar"
+                )}
+                <svg
+                  className={`w-5 h-5 mr-1 transition-transform ease-in-out ${
+                    isAvatarListOpen ? "rotate-180" : ""
+                  }`}
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+
+              <SelectAvatarModal
+                onClick={handleAvatarSelect}
+                isOpen={isAvatarListOpen}
+                selectedIcon={selectedIcon}
+              />
+
+              {/* Hidden field to save the icon name */}
+              <input
+                type="hidden"
+                {...register("icon")}
+                value={selectedIcon || ""}
+              />
+
+              {errors.icon && (
+                <p
+                  className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+                    errors.icon
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 -translate-y-2"
+                  }`}
+                >
+                  {errors.icon.message}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
         <div className="mb-4">
           <label
@@ -216,7 +312,7 @@ function RegisterPage() {
             className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
               errors.email ? colorConfig.error : colorConfig.normal
             }`}
-            placeholder="example@company.com"
+            placeholder="example@nickname.com"
             {...register("email")}
             aria-invalid={errors.email ? "true" : "false"}
           />
@@ -333,7 +429,7 @@ function RegisterPage() {
         </div>
         <button
           className="w-full flex justify-center mt-2 p-2 text-white bg-tasksync-primary rounded-md hover:scale-105 cursor-pointer transition"
-          disabled={!isValid || isSubmitting}
+          disabled={isSubmitting}
           type="submit"
         >
           {isSubmitting ? (
@@ -350,7 +446,9 @@ function RegisterPage() {
         </button>
 
         <div className="mt-2">
-          <span className="text-tasksync-danger">{errorRegister}</span>
+          <span className="text-tasksync-danger">
+            {errorRegister} {errors.root?.message}
+          </span>
         </div>
       </form>
     </div>

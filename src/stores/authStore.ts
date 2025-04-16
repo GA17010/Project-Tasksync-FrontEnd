@@ -36,8 +36,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const response = await authService.register(userData)
 
       set({
-        user: response.data.user,
-        successRegister: response.data.message,
+        user: response.user,
+        successRegister: "User successfully registered",
         lastAuthCheck: Date.now(),
         isAuthenticated: true,
         errorRegister: "",
@@ -60,8 +60,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const response = await authService.login(credentials)
 
       set({
-        user: response.data.user,
-        successAuth: response.data.message,
+        user: response.user,
+        successAuth:
+          "You have successfully logged in, welcome " + response.user.name,
         lastAuthCheck: Date.now(),
         isAuthenticated: true,
         errorAuth: "",
@@ -94,7 +95,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const response = await authService.checkAuth()
       set({
         isAuthenticated: true,
-        user: response.data.user,
+        user: response.user,
         lastAuthCheck: Date.now(),
       })
 

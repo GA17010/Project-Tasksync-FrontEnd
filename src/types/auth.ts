@@ -1,3 +1,37 @@
+// Types Global
+export interface User {
+  id: string
+  name: string
+  nickname: string
+  icon: string
+  email: string
+  email_verified_at: boolean | null
+  created_at: string
+  updated_at: string
+}
+
+// utils/services/apiServices.ts
+export interface Body {
+  name?: string
+  nickname?: string
+  icon?: string
+  email?: string
+  password?: string
+  password_confirmation?: string
+}
+
+// utils/services/authServices.ts + type (stores/AuthStore.ts)
+export interface AuthResponse {
+  user: User
+  token: string
+}
+
+export interface CheckResponse {
+  data: {
+    message: string
+  }
+}
+
 // stores/AuthStore.ts
 export interface Credentials {
   email: string
@@ -5,17 +39,11 @@ export interface Credentials {
 }
 
 export interface UserData {
-  full_name: string
+  name: string
   company?: string
   email: string
   password: string
-  confirm_password: string
-}
-
-export interface User {
-  id: string
-  full_name: string
-  email: string
+  password_confirmation: string
 }
 
 // stores/recoveryStore.ts

@@ -33,7 +33,7 @@ function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     mode: "onChange",
@@ -157,7 +157,7 @@ function LoginPage() {
 
         <button
           className="w-full flex justify-center mt-5 bg-tasksync-primary text-white p-3 rounded-md  hover:scale-105 cursor-pointer transition"
-          disabled={!isValid || isSubmitting}
+          disabled={isSubmitting}
           type="submit"
         >
           {isSubmitting ? (

@@ -1,68 +1,38 @@
-// import { validate } from "vee-validate"
 import apiService from "@/utils/services/apiServices"
-
-interface Credentials {
-  email: string
-  password: string
-}
-
-interface UserData {
-  full_name: string
-  company?: string
-  email: string
-  password: string
-  confirm_password: string
-}
-
-interface AuthResponse {
-  data: {
-    message: string
-    user: {
-      id: string
-      full_name: string
-      email: string
-    }
-  }
-}
-
-interface CheckResponse {
-  data: {
-    message: string
-  }
-}
+import { UserData, AuthResponse, Credentials, CheckResponse } from '@/types'
 
 const authService = {
   register: async (userData: UserData): Promise<AuthResponse> => {
     const response = await apiService.post<AuthResponse>(
-      "/auth/register",
+      "/api/register",
       userData
     )
-    // localStorage.setItem("token", response.token); // Guarda el token en localStorage
+    localStorage.setItem("token", response.token)
     return response
   },
 
   login: async (credentials: Credentials): Promise<AuthResponse> => {
     const response = await apiService.post<AuthResponse>(
-      "/auth/login",
+      "/api/login",
       credentials
     )
-    // localStorage.setItem("token", response.token); // Guarda el token en localStorage
+    localStorage.setItem("token", response.token);
     return response
   },
 
   logout: async (): Promise<void> => {
-    await apiService.post("/auth/logout")
-    // localStorage.removeItem("token"); // Elimina el token del localStorage
+    await apiService.post("/api/logout")
+    localStorage.removeItem("token");
   },
 
   checkAuth: async (): Promise<AuthResponse> => {
-    const response = await apiService.get<AuthResponse>("/auth/checkAuth")
+    const response = await apiService.get<AuthResponse>("/api/checkAuth")
 
     return response
   },
 
   refreshToken: async (): Promise<CheckResponse> => {
-    const response = await apiService.post<CheckResponse>("/auth/refreshToken")
+    const response = await apiService.post<CheckResponse>("/api/refreshToken")
     return response
   },
 }
