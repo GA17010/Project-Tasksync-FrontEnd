@@ -54,7 +54,11 @@ const apiService = {
     return handleResponse<T>(response)
   },
 
-  delete: async <T>(endpoint: string, config?: RequestInit): Promise<T> => {
+  delete: async <T>(
+    endpoint: string,
+    body?: Body,
+    config?: RequestInit
+  ): Promise<T> => {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "DELETE",
       headers: {
@@ -63,6 +67,7 @@ const apiService = {
         Authorization: `Bearer ${localStorage.getItem("token")}`, // Agrega el token si está disponible
       },
       credentials: "include",
+      body: JSON.stringify(body),
       ...config,
     })
     return handleResponse<T>(response)

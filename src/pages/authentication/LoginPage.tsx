@@ -83,7 +83,8 @@ function LoginPage() {
             id="email"
             type="email"
             autoComplete="on"
-            className={`w-full appearance-none leading-tight focus:outline-none text-sm border rounded-md py-2 pr-10 pl-3 md:text-base transition-colors ease-in-out ${
+            placeholder="admin@example.com"
+            className={`w-full appearance-none leading-tight focus:outline-none text-sm border rounded-md py-2 pr-10 pl-3 md:text-base placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
               errors.email
                 ? "focus:shadow-[0px_0px_0px_2px_rgba(255,0,0,0.2)] border-tasksync-danger  focus:border-red-300"
                 : "focus:shadow-[0px_0px_0px_2px_rgba(0,100,255,0.2)] border-gray-300 dark:border-gray-500 focus:border-blue-400 dark:focus:border-tasksync-primary hover:border-blue-400 dark:hover:border-tasksync-primary"
@@ -116,7 +117,8 @@ function LoginPage() {
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              className={`w-full appearance-none leading-tight focus:outline-none border   rounded-md py-2 pr-10 pl-3 text-sm md:text-base transition-colors ease-in-out ${
+              placeholder="********"
+              className={`w-full appearance-none leading-tight focus:outline-none border   rounded-md py-2 pr-10 pl-3 text-sm md:text-base placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
                 errors.password
                   ? "focus:shadow-[0px_0px_0px_2px_rgba(255,0,0,0.2)] border-tasksync-danger  focus:border-red-300"
                   : "focus:shadow-[0px_0px_0px_2px_rgba(0,100,255,0.2)] border-gray-300 dark:border-gray-500 focus:border-blue-400 dark:focus:border-tasksync-primary hover:border-blue-400 dark:hover:border-tasksync-primary"

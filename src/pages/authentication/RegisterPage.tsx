@@ -145,7 +145,7 @@ function RegisterPage() {
               </label>
               <input
                 id="firstname"
-                className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
+                className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
                   errors.firstname ? colorConfig.error : colorConfig.normal
                 }`}
                 placeholder="John"
@@ -175,7 +175,7 @@ function RegisterPage() {
               </label>
               <input
                 id="lastname"
-                className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 focus:border text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
+                className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 focus:border text-sm md:text-base focus:outline-none placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
                   errors.lastname ? colorConfig.error : colorConfig.normal
                 }`}
                 placeholder="Doe"
@@ -208,7 +208,7 @@ function RegisterPage() {
               <input
                 id="nickname"
                 type="text"
-                className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
+                className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
                   errors.nickname ? colorConfig.error : colorConfig.normal
                 }`}
                 placeholder="Johny"
@@ -309,7 +309,7 @@ function RegisterPage() {
             id="email"
             type="email"
             autoComplete="on"
-            className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
+            className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
               errors.email ? colorConfig.error : colorConfig.normal
             }`}
             placeholder="example@nickname.com"
@@ -339,7 +339,7 @@ function RegisterPage() {
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
+              className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
                 errors.password ? colorConfig.error : colorConfig.normal
               }`}
               placeholder="********"
@@ -377,7 +377,7 @@ function RegisterPage() {
             <input
               id="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
-              className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
+              className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
                 errors.confirmPassword ? colorConfig.error : colorConfig.normal
               }`}
               placeholder="********"

@@ -1,9 +1,20 @@
-export interface Project {
-  id: string
-  title: string
-  description: string
-  belong: string
+export interface ProjectRequest {
+  name: string
+  description?: string
 }
+
+export interface ProjectResponse {
+  id: string
+  name: string
+  description: string
+  owner: {
+    id: string
+    name: string
+  }
+  created_at: string
+  updated_at: string
+}
+
 
 export interface Assigned {
   id: string
