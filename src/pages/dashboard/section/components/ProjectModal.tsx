@@ -1,27 +1,28 @@
 import loadingSpinner from "@/assets/svg/spiner-loading.svg"
 import { useProjectStore } from "@/stores/projectStore"
+import { ProjectRequest } from "@/types"
 import { CloseOutlined } from "@ant-design/icons"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import * as yup from "yup"
 
-interface FormData {
-  name: string
-  description?: string
-}
-
-function CreateProjectModal() {
+function ProjectModal() {
   const {
-    showCreateProject,
+    showProjectModal,
     projectError,
+    typeModal,
+    project,
+    projectId,
+    closeProjectModal,
     setShowCreateProject,
     createProject,
+    updateProject,
   } = useProjectStore()
 
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
 
-  const schema: yup.ObjectSchema<FormData> = yup.object({
+  const schema: yup.ObjectSchema<ProjectRequest> = yup.object({
     name: yup
       .string()
       .required("Project name is required")
@@ -34,7 +35,7 @@ function CreateProjectModal() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<ProjectRequest>({
     resolver: yupResolver(schema),
     mode: "onChange",
     reValidateMode: "onChange",
@@ -44,16 +45,31 @@ function CreateProjectModal() {
     },
   })
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  React.useEffect(() => {
+    if (project) {
+      console.log(project.name)
+      setValue("name", project.name)
+      setValue("description", project.description)
+    } else {
+      setValue("name", "")
+      setValue("description", "")
+    }
+  }, [project, setValue])
+
+  const onSubmit: SubmitHandler<ProjectRequest> = async (data) => {
     if (isSubmitting) return
     setIsSubmitting(true)
 
-    const projectData = {
-      name: data.name,
-      description: data.description,
+    let response: boolean
+    if (typeModal === "Create") {
+      response = await createProject(data)
+    } else {
+      if (projectId) {
+        response = await updateProject(data, projectId)
+      } else {
+        response = false
+      }
     }
-
-    const response = await createProject(projectData)
 
     if (response) {
       setShowCreateProject()
@@ -77,13 +93,13 @@ function CreateProjectModal() {
     <>
       <div
         className={`fixed left-0 top-0 h-screen w-full px-4 sm:px-0 flex flex-col items-center justify-center bg-gray-500/30 dark:bg-gray-900/60 backdrop-blur-lg origin-center transition-all duration-150 ease-in-out z-50 ${
-          showCreateProject ? "scale-100 opacity-100" : "scale-0 opacity-0"
+          showProjectModal ? "scale-100 opacity-100" : "scale-0 opacity-0"
         }`}
       >
         <div className="relative flex flex-col items-center max-h-2/3 w-full sm:w-2/3  md:w-1/2 lg:w-1/3 border border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-900 rounded-lg ">
           {/* Header */}
           <div className="sticky top-0 w-full text-center border-b border-gray-300 dark:border-gray-500 bg-gray-200 dark:bg-tasksync-dark rounded-t-md">
-            <h3 className="py-3 font-semibold">Create project</h3>
+            <h3 className="py-3 font-semibold">{typeModal} project</h3>
           </div>
 
           {/* List */}
@@ -165,7 +181,7 @@ function CreateProjectModal() {
                   height="20"
                 />
               ) : (
-                <label className="cursor-pointer">Create project</label>
+                <label className="cursor-pointer">{typeModal} project</label>
               )}
             </button>
 
@@ -176,7 +192,7 @@ function CreateProjectModal() {
 
           {/* Close Modal */}
           <button
-            onClick={setShowCreateProject}
+            onClick={closeProjectModal}
             className="absolute top-1 right-1 py-1.5 px-2.5 text-lg text-tasksync-danger hover:bg-tasksync-danger/20 cursor-pointer rounded-lg"
           >
             <CloseOutlined />
@@ -187,4 +203,4 @@ function CreateProjectModal() {
   )
 }
 
-export default CreateProjectModal
+export default ProjectModal

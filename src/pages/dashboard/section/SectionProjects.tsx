@@ -1,37 +1,31 @@
+import AssignToModal from "@/components/AssignToModal"
+import { useFriendStore } from "@/stores/friendStore"
+import { useProjectStore } from "@/stores/projectStore"
+import { Friend } from "@/types"
 import { ProjectOutlined } from "@ant-design/icons"
-import { useNavigate } from "react-router"
+import React from "react"
+import ProjectModal from "./components/ProjectModal"
 import ProjectFilter from "./ProjectFilter"
 import ProjectList from "./ProjectList"
 
 function SectionProjets() {
-  const navigate = useNavigate()
+  const { ListProject, fetchProject, setShowCreateProject, sharedProject } =
+    useProjectStore()
+  const { projectId, handleAssign } = useFriendStore()
 
-  const projects = [
-    {
-      id: "1",
-      title: "Proyecto A",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      belong: "Nickname 1",
-    },
-    {
-      id: "2",
-      title: "Proyecto B",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      belong: "Nickname 1",
-    },
-    {
-      id: "3",
-      title: "Proyecto C",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      belong: "Nickname 1",
-    },
-    {
-      id: "4",
-      title: "Proyecto D",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      belong: "Nickname 1",
-    },
-  ]
+  React.useEffect(() => {
+    fetchProject()
+  }, [fetchProject])
+
+  const handleAssignClic = (friend: Friend) => {
+    // Notify user
+    if (!projectId) return
+
+    sharedProject(projectId, friend.id)
+
+    handleAssign()
+  }
+
   return (
     <>
       <div>
@@ -45,26 +39,44 @@ function SectionProjets() {
 
           <button
             className="px-4 py-2 text-sm bg-tasksync-primary text-white rounded-full hover:scale-105 cursor-pointer transition"
-            onClick={() => navigate("/dashboard/projects/create")}
+            onClick={setShowCreateProject}
           >
             Create Project
           </button>
         </div>
       </div>
 
-      <div className="mt-2 w-full flex flex-col rounded-2xl border border-gray-300 dark:border-gray-500">
+      <div className="mt-2 mb-16 w-full flex flex-col rounded-2xl border border-gray-300 dark:border-gray-500">
         <div className="px-4 h-14 flex items-center rounded-t-2xl border-b border-gray-300 dark:border-gray-500 bg-gray-200 dark:bg-tasksync-dark ">
           <ProjectOutlined />
           <span className="mx-2">Projects</span>
-          <span>{projects.length}</span>
+          {ListProject && <span>{ListProject.length}</span>}
         </div>
 
         {/* Project List */}
-        <div>
-          {projects.map((proj) => (
-            <ProjectList key={proj.id} project={proj} />
-          ))}
-        </div>
+        {ListProject?.length ? (
+          <div>
+            {ListProject.map((proj) => (
+              <ProjectList key={proj.id} project={proj} />
+            ))}
+          </div>
+        ) : (
+          <div
+            className="p-4 cursor-pointer hover:bg-gray-100 dark:bg-gray-900/90 dark:hover:bg-gray-800/70 rounded-b-2xl"
+            onClick={setShowCreateProject}
+          >
+            <div className="h-36 flex flex-col items-center justify-center gap-2">
+              <ProjectOutlined />
+              <span>There are no projects created</span>
+            </div>
+          </div>
+        )}
+
+        {/* Modal-Form to create project */}
+        <ProjectModal />
+
+        {/* Modal-Assign to user */}
+        <AssignToModal onClick={handleAssignClic} />
       </div>
     </>
   )

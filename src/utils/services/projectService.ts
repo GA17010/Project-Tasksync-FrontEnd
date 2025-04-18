@@ -30,6 +30,14 @@ const projectService = {
   deleteProject: async (projectId: string): Promise<void> => {
     await apiService.delete(`/api/projects/${projectId}`)
   },
+
+  sharedProject: async (projectId: string, userId: string): Promise<void> => {
+    await apiService.post(`/api/projects/${projectId}/share`,
+      {
+        user_id: userId
+      }
+    )
+  }
 }
 
 export default projectService

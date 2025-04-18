@@ -12,12 +12,14 @@ export interface User {
 
 // utils/services/apiServices.ts
 export interface Body {
+  id?: string
   name?: string
   nickname?: string
   icon?: string
   email?: string
   password?: string
   password_confirmation?: string
+  user_id?: string
 }
 
 // utils/services/authServices.ts + type (stores/AuthStore.ts)

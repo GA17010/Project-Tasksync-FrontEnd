@@ -1,11 +1,11 @@
+import Dropdown from "@/components/Dropdown"
+import DropdownMenu from "@/pages/dashboard/kanban/components/DropdownMenu"
 import { useDropdownStore } from "@/stores/dropdownStore"
 import { useUIStore } from "@/stores/uiStore"
 import { Task } from "@/types"
 import { RightCircleTwoTone } from "@ant-design/icons"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import Dropdown from "./components/Dropdown"
-import DropdownMenu from "./components/DropdownMenu"
 
 interface TaskCardProps {
   task: Task
@@ -47,15 +47,20 @@ function TaskCard({ task }: TaskCardProps) {
         activeDropdownId === task.id ? "z-20" : "z-0"
       }`}
     >
-      <div className="flex relative items-center gap-2 mb-2">
-        <RightCircleTwoTone />
-
-        <span className=" text-xs text-gray-500 dark:text-gray-400 break-words">
-          Project name #1
-        </span>
+      <div className="flex justify-between relative items-center gap-2 mb-2">
+        <div className="flex gap-2">
+          <RightCircleTwoTone />
+          <span className="text-xs text-gray-500 dark:text-gray-400 break-words">
+            Project name #1
+          </span>
+        </div>
 
         {/* More actions */}
-        <Dropdown id={task.id}>
+        <Dropdown
+          id={task.id}
+          classNameButton="text-lg hover:bg-gray-300 dark:hover:bg-gray-900"
+          classNameMenu="top-0 right-0"
+        >
           {/* Container Dropdown */}
           <DropdownMenu task={task} />
         </Dropdown>

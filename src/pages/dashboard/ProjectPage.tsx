@@ -17,18 +17,20 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable"
 
+import AssignToModal from "@/components/AssignToModal"
+import { useFriendStore } from "@/stores/friendStore"
 import { taskStore } from "@/stores/taskStore"
-import { Task, Tasks } from "@/types"
+import { Friend, Task, Tasks } from "@/types"
 import * as React from "react"
 import { useParams } from "react-router"
 import AddTaskForm from "./kanban/AddTaskForm"
-import AssignToModal from "./kanban/components/AssignToModal"
 import TaskColumn from "./kanban/TaskColumn"
 
 export default function ProjectPage() {
   const { id: idProject } = useParams()
 
-  const { tasks, setTasks, fetchTasks } = taskStore()
+  const { taskToAssign, handleAssign } = useFriendStore()
+  const { tasks, setTasks, fetchTasks, updateAssignToTask } = taskStore()
   const [activeTask, setActiveTask] = React.useState<Task | null>(null)
 
   const mouseSensor = useSensor(MouseSensor, {
@@ -165,7 +167,23 @@ export default function ProjectPage() {
 
     setTasks(newTasks)
   }
-  
+
+  const handleAssignClic = (friend: Friend) => {
+    // Notify user
+
+    if (!taskToAssign) return
+
+    const assignedData = {
+      id: friend.id,
+      name: friend.name,
+      icon: friend.icon,
+    }
+
+    updateAssignToTask(assignedData, taskToAssign)
+
+    handleAssign()
+  }
+
   return (
     <>
       <div className="h-full overflow-x-auto flex flex-col gap-4 sm:w-auto sm:flex-row px-4 py-2">
@@ -210,7 +228,7 @@ export default function ProjectPage() {
         {idProject && <AddTaskForm idProject={idProject} />}
 
         {/* Menu Assigt task to */}
-        <AssignToModal />
+        <AssignToModal onClick={handleAssignClic} />
       </div>
     </>
   )

@@ -1,41 +1,26 @@
 import FriendList from "@/components/FriendList"
 import { useFriendStore } from "@/stores/friendStore"
-import { taskStore } from "@/stores/taskStore"
 import { Friend } from "@/types"
 import { CloseOutlined } from "@ant-design/icons"
-function AssignToModal() {
-  const { taskToAssign, showAssignMenu, setShowAssignMenu, friendsList, handleAssign } =
-    useFriendStore()
-  const { updateAssignToTask } = taskStore()
 
+interface AssignToModalProps {
+  onClick: (friend: Friend) => void
+}
 
-  const handleAssignClic= (friend: Friend)=> {
-    // Notify user
-    
-    if (!taskToAssign) return
-
-    const assignedData = {
-      id: friend.id,
-      name: friend.name,
-      icon: friend.icon,
-    }
-
-    updateAssignToTask(assignedData, taskToAssign)
-
-    handleAssign()
-  }
+function AssignToModal({ onClick }: AssignToModalProps) {
+  const { showAssignMenu, setShowAssignMenu, friendsList } = useFriendStore()
 
   return (
     <>
       <div
-        className={`absolute left-0 top-0 h-screen w-full px-4 sm:px-0 flex flex-col items-center justify-center bg-gray-500/50 dark:bg-gray-900/80  origin-center transition-all duration-150 ease-in-out z-50 ${
+        className={`fixed left-0 top-0 h-screen w-full px-4 sm:px-0 flex flex-col items-center justify-center bg-gray-500/30 dark:bg-gray-900/60 backdrop-blur-xs origin-center transition-all duration-150 ease-in-out z-50 ${
           showAssignMenu ? "scale-100 opacity-100" : "scale-0 opacity-0"
         }`}
       >
         <div className="relative flex flex-col items-center max-h-1/2 w-full sm:w-2/3  md:w-1/2 lg:w-1/3 border border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-900 rounded-2xl ">
           {/* Header */}
           <div className="sticky top-0 w-full text-center border-b border-gray-300 dark:border-gray-500 bg-gray-200 dark:bg-tasksync-dark rounded-t-2xl">
-            <h3 className="py-2.5 font-semibold">Assign to:</h3>
+            <h3 className="py-3 font-semibold">Assign to:</h3>
           </div>
 
           {/* List */}
@@ -44,7 +29,7 @@ function AssignToModal() {
               <li key={friend.id}>
                 <FriendList
                   friend={friend}
-                  onClick={handleAssignClic}
+                  onClick={onClick}
                   showTooltip={false}
                   showAddIcon={true}
                   className="w-full"
@@ -56,7 +41,7 @@ function AssignToModal() {
           {/* Close Modal */}
           <button
             onClick={setShowAssignMenu}
-            className="absolute top-1 right-1 py-0.5 px-1.5 text-2xl text-tasksync-danger hover:bg-tasksync-danger/20 cursor-pointer rounded-full"
+            className="absolute top-1 right-1 py-1.5 px-2.5 text-lg text-tasksync-danger hover:bg-tasksync-danger/20 cursor-pointer rounded-lg"
           >
             <CloseOutlined />
           </button>

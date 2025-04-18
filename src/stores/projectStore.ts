@@ -4,29 +4,59 @@ import { create } from "zustand"
 
 interface ProjectStoreState {
   ListProject: ProjectResponse[] | null
-  showCreateProject: boolean
+  showProjectModal: boolean
   projectError: string | null
   createProjSuccess: string | null
+  typeModal: string | null
+  project: ProjectRequest | null
+  projectId: string | null
 
+  closeProjectModal: () => void
   setShowCreateProject: () => void
+  setShowUpdateProject: (project: ProjectRequest, projectId: string) => void
   createProject: (project: ProjectRequest) => Promise<boolean>
   fetchProject: () => Promise<boolean>
   updateProject: (
-    projectId: string,
-    project: ProjectRequest
+    project: ProjectRequest,
+    projectId: string
   ) => Promise<boolean>
   deleteProject: (ProjectId: string) => void
+  sharedProject: (projectId: string, friendId: string) => void
 }
 
 export const useProjectStore = create<ProjectStoreState>((set) => ({
   ListProject: null,
-  showCreateProject: false,
+  showProjectModal: false,
   projectError: null,
   createProjSuccess: null,
+  typeModal: null,
+  project: null,
+  projectId: null,
+
+  closeProjectModal() {
+    set({ showProjectModal: false })
+  },
 
   setShowCreateProject() {
-    set((state) => ({ showCreateProject: !state.showCreateProject }))
+    set({
+      typeModal: "Create",
+      project: null,
+      projectId: null,
+      projectError: "",
+    })
+    set((state) => ({ showProjectModal: !state.showProjectModal }))
   },
+
+  setShowUpdateProject(project: ProjectRequest, projectId: string) {
+    set({
+      typeModal: "Update",
+      projectId: projectId,
+      project: project,
+      projectError: "",
+    })
+    set((state) => ({ showProjectModal: !state.showProjectModal }))
+  },
+
   createProject: async (project: ProjectRequest) => {
     try {
       const response = await projectService.createProject(project)
@@ -48,13 +78,14 @@ export const useProjectStore = create<ProjectStoreState>((set) => ({
       if (error instanceof TypeError && error.message === "Failed to fetch") {
         set({ projectError: "Connection error" })
       } else if (error instanceof Error) {
-        set({ projectError: error.message || "Register failed" })
+        set({ projectError: "An error occurred while creating the project." })
       } else {
         set({ projectError: "An unknown error occurred." })
       }
       return false
     }
   },
+
   fetchProject: async () => {
     try {
       const response = await projectService.fetchProjects()
@@ -67,14 +98,15 @@ export const useProjectStore = create<ProjectStoreState>((set) => ({
       if (error instanceof TypeError && error.message === "Failed to fetch") {
         set({ projectError: "Connection error" })
       } else if (error instanceof Error) {
-        set({ projectError: error.message || "Error in obtaining projects" })
+        set({ projectError: "Error in obtaining projects, please try again." })
       } else {
         set({ projectError: "An unknown error occurred." })
       }
       return false
     }
   },
-  updateProject: async (projectId: string, project: ProjectRequest) => {
+
+  updateProject: async (project: ProjectRequest, projectId: string) => {
     try {
       const response = await projectService.updateProject(projectId, project)
 
@@ -93,18 +125,20 @@ export const useProjectStore = create<ProjectStoreState>((set) => ({
         projectError: "",
       })
 
+      set({ project: null, projectId: null })
       return true
     } catch (error) {
       if (error instanceof TypeError && error.message === "Failed to fetch") {
         set({ projectError: "Connection error" })
       } else if (error instanceof Error) {
-        set({ projectError: error.message || "Project update  failed" })
+        set({ projectError: "Project update failed, please try again." })
       } else {
         set({ projectError: "An unknown error occurred." })
       }
       return false
     }
   },
+
   deleteProject: async (projectId: string) => {
     try {
       await projectService.deleteProject(projectId)
@@ -129,7 +163,34 @@ export const useProjectStore = create<ProjectStoreState>((set) => ({
       if (error instanceof TypeError && error.message === "Failed to fetch") {
         set({ projectError: "Connection error" })
       } else if (error instanceof Error) {
-        set({ projectError: error.message || "Error deleting project" })
+        set({
+          projectError:
+            error.message || "Error deleting project, please try again.",
+        })
+      } else {
+        set({ projectError: "An unknown error occurred." })
+      }
+      set({ showProjectModal: false })
+      return false
+    }
+  },
+
+  sharedProject: async (projectId: string, userId: string) => {
+    try {
+      await projectService.sharedProject(projectId, userId)
+
+      set({
+        createProjSuccess: "Successfully shared project",
+        projectError: "",
+      })
+
+      set({ project: null, projectId: null })
+      return true
+    } catch (error) {
+      if (error instanceof TypeError && error.message === "Failed to fetch") {
+        set({ projectError: "Connection error" })
+      } else if (error instanceof Error) {
+        set({ projectError: "Error sharing project, please try again." })
       } else {
         set({ projectError: "An unknown error occurred." })
       }
