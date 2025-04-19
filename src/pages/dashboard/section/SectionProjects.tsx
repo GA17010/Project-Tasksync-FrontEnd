@@ -1,10 +1,10 @@
 import AssignToModal from "@/components/AssignToModal"
 import { useFriendStore } from "@/stores/friendStore"
 import { useProjectStore } from "@/stores/projectStore"
-import { Friend } from "@/types"
+import { FriendResponse } from "@/types"
 import { ProjectOutlined } from "@ant-design/icons"
 import React from "react"
-import ProjectModal from "./components/ProjectModal"
+import ProjectFormModal from "./components/ProjectFormModal"
 import ProjectFilter from "./ProjectFilter"
 import ProjectList from "./ProjectList"
 
@@ -17,7 +17,7 @@ function SectionProjets() {
     fetchProject()
   }, [fetchProject])
 
-  const handleAssignClic = (friend: Friend) => {
+  const handleAssignClic = (friend: FriendResponse) => {
     // Notify user
     if (!projectId) return
 
@@ -73,7 +73,7 @@ function SectionProjets() {
         )}
 
         {/* Modal-Form to create project */}
-        <ProjectModal />
+        <ProjectFormModal />
 
         {/* Modal-Assign to user */}
         <AssignToModal onClick={handleAssignClic} />

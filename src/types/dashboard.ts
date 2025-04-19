@@ -11,10 +11,9 @@ export interface ProjectResponse {
     id: string
     name: string
   }
-  created_at: string
-  updated_at: string
+  created_at: Date
+  updated_at: Date
 }
-
 
 export interface Assigned {
   id: string
@@ -38,10 +37,14 @@ export interface Tasks {
   done: Task[]
 }
 
-export interface Friend {
+export interface FriendResponse {
   id: string
   name: string
-  nick_name: string
+  nickname: string
   icon: string
   isMe: boolean
+}
+
+export interface FriendRequest {
+  receiver_email: string
 }

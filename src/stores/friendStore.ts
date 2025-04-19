@@ -1,102 +1,44 @@
-import { Friend, Task } from "@/types"
+import { FriendRequest, FriendResponse, Task } from "@/types"
+import friendService from "@/utils/services/friendServices"
 import { create } from "zustand"
 
-const friends: Friend[] = [
-  { id: "1", name: "You", nick_name: "Me", icon: "avatar-1", isMe: true },
-  { id: "2", name: "Alice", nick_name: "Ali", icon: "avatar-2", isMe: false },
-  { id: "3", name: "Bob", nick_name: "Bod", icon: "avatar-2", isMe: false },
-  {
-    id: "4",
-    name: "Amigo 1",
-    nick_name: "nickname1",
-    icon: "avatar-2",
-    isMe: false,
-  },
-  {
-    id: "5",
-    name: "Amigo 2",
-    nick_name: "nickname2",
-    icon: "avatar-2",
-    isMe: false,
-  },
-  {
-    id: "6",
-    name: "Amigo 3",
-    nick_name: "nickname3",
-    icon: "avatar-3",
-    isMe: false,
-  },
-  {
-    id: "7",
-    name: "Amigo 4",
-    nick_name: "nickname4",
-    icon: "avatar-4",
-    isMe: false,
-  },
-  {
-    id: "8",
-    name: "Amigo 5",
-    nick_name: "nickname5",
-    icon: "avatar-2",
-    isMe: false,
-  },
-  {
-    id: "9",
-    name: "Amigo 6",
-    nick_name: "nickname6",
-    icon: "avatar-2",
-    isMe: false,
-  },
-  {
-    id: "10",
-    name: "Amigo 7",
-    nick_name: "nickname7",
-    icon: "avatar-3",
-    isMe: false,
-  },
-  {
-    id: "11",
-    name: "Amigo 8",
-    nick_name: "nickname8",
-    icon: "avatar-4",
-    isMe: false,
-  },
-  {
-    id: "14",
-    name: "Amigo 9",
-    nick_name: "nickname9",
-    icon: "avatar-3",
-    isMe: false,
-  },
-  {
-    id: "16",
-    name: "Amigo 9",
-    nick_name: "nickname9",
-    icon: "avatar-3",
-    isMe: false,
-  },
-]
-
 type FriendState = {
-  friendsList: Friend[]
+  listFriends: FriendResponse[] | null
   showAssignMenu: boolean
+  showRequestFriendModal: boolean
+  friendError: string | null
+  sendFriendSuccess: string | null
   taskToAssign: Task | null
   projectId: string | null
 
-  setShowAssignMenu: () => void
+  closeAssignMenu: () => void
+  closeRequestFriendModal: () => void
+  setShowRequestFriendModal: () => void
   setTaskAndToggleMenu: (task: Task) => void
   setProjectAndToggleMenu: (projectId: string) => void
   handleAssign: () => void
+  fetchFriends: () => Promise<boolean>
+  sendRequest: (email: FriendRequest) => Promise<boolean>
 }
 
 export const useFriendStore = create<FriendState>((set) => ({
-  friendsList: friends,
+  listFriends: null,
   showAssignMenu: false,
+  showRequestFriendModal: false,
+  friendError: null,
+  sendFriendSuccess: null,
   taskToAssign: null,
   projectId: null,
 
-  setShowAssignMenu: () => {
-    set((state) => ({ showAssignMenu: !state.showAssignMenu }))
+  closeAssignMenu() {
+    set({ showAssignMenu: false })
+  },
+  closeRequestFriendModal() {
+    set({ showRequestFriendModal: false })
+  },
+
+  setShowRequestFriendModal: () => {
+    set((state) => ({ showRequestFriendModal: !state.showRequestFriendModal }))
   },
 
   setTaskAndToggleMenu: (task) => {
@@ -116,5 +58,51 @@ export const useFriendStore = create<FriendState>((set) => ({
       taskToAssign: null,
       projectId: null,
     }))
+  },
+
+  fetchFriends: async () => {
+    try {
+      const response = await friendService.fetchFriends()
+
+      set({
+        listFriends: response,
+      })
+      return true
+    } catch (error) {
+      if (error instanceof TypeError && error.message === "Failed to fetch") {
+        set({ friendError: "Connection error" })
+      } else if (error instanceof Error) {
+        set({
+          friendError:
+            error.message || "Error in obtaining friends, please try again.",
+        })
+      } else {
+        set({ friendError: "An unknown error occurred." })
+      }
+      return false
+    }
+  },
+
+  sendRequest: async (email: FriendRequest) => {
+    try {
+      const response = await friendService.sendRequest(email)
+
+      console.log(response.name)
+      // Notificar response.name
+
+      return true
+    } catch (error) {
+      if (error instanceof TypeError && error.message === "Failed to fetch") {
+        set({ friendError: "Connection error" })
+      } else if (error instanceof Error) {
+        set({
+          friendError:
+            error.message || "Error sending request, please try again.",
+        })
+      } else {
+        set({ friendError: "An unknown error occurred." })
+      }
+      return false
+    }
   },
 }))

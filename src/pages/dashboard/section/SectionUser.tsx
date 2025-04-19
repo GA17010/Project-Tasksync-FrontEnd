@@ -1,11 +1,15 @@
 import FriendList from "@/components/FriendList"
 import { useFriendStore } from "@/stores/friendStore"
 
+import RequestFriendModal from "@/pages/dashboard/section/components/RequestFriendModal"
 import { useAuthStore } from "@/stores/authStore"
 import { useUIStore } from "@/stores/uiStore"
+import { PlusOutlined } from "@ant-design/icons"
+import React from "react"
 
 function SectionUser() {
-  const { friendsList } = useFriendStore()
+  const { listFriends, setShowRequestFriendModal, fetchFriends } =
+    useFriendStore()
   const { user } = useAuthStore()
   const { userAvatarLarge } = useUIStore()
 
@@ -13,6 +17,12 @@ function SectionUser() {
     user?.icon && userAvatarLarge[user.icon]
       ? userAvatarLarge[user.icon]
       : userAvatarLarge["avatar-00"]
+
+  React.useEffect(() => {
+    fetchFriends()
+  }, [fetchFriends])
+
+  const filteredFriends = listFriends?.filter((friend) => !friend.isMe)
 
   return (
     <>
@@ -48,11 +58,27 @@ function SectionUser() {
           <div>
             <h2 className="text-xl font-bold mt-4">Friends</h2>
             <div className="pt-2 flex items-center flex-wrap gap-1">
-              {friendsList.map((friend) => (
-                <FriendList key={friend.id} friend={friend} />
-              ))}
+              {filteredFriends &&
+                filteredFriends.map((friend) => (
+                  <FriendList key={friend.id} friend={friend} />
+                ))}
+              <div
+                onClick={setShowRequestFriendModal}
+                className="relative group flex items-center cursor-pointer"
+              >
+                <div className="border border-gray-300 dark:border-gray-500 rounded-full object-cover w-11 h-11 text-3xl flex items-center justify-center">
+                  <PlusOutlined />
+                </div>
+
+                <div className="absolute top-full origin-top right-1/2 translate-x-1/2 mt-1 z-20 whitespace-normal rounded-lg bg-gray-700 py-1.5 px-2.5 font-sans text-xs font-medium text-white flex min-w-max opacity-0 scale-0 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100">
+                  <span>Add friends</span>
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* Modal */}
+          <RequestFriendModal />
         </div>
       )}
     </>

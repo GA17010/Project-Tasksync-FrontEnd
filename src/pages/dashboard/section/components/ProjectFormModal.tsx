@@ -7,14 +7,14 @@ import React from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import * as yup from "yup"
 
-function ProjectModal() {
+function ProjectFormModal() {
   const {
-    showProjectModal,
+    showProjectFormModal,
     projectError,
     typeModal,
     project,
     projectId,
-    closeProjectModal,
+    closeProjectFormModal,
     setShowCreateProject,
     createProject,
     updateProject,
@@ -47,7 +47,6 @@ function ProjectModal() {
 
   React.useEffect(() => {
     if (project) {
-      console.log(project.name)
       setValue("name", project.name)
       setValue("description", project.description)
     } else {
@@ -93,7 +92,7 @@ function ProjectModal() {
     <>
       <div
         className={`fixed left-0 top-0 h-screen w-full px-4 sm:px-0 flex flex-col items-center justify-center bg-gray-500/30 dark:bg-gray-900/60 backdrop-blur-lg origin-center transition-all duration-150 ease-in-out z-50 ${
-          showProjectModal ? "scale-100 opacity-100" : "scale-0 opacity-0"
+          showProjectFormModal ? "scale-100 opacity-100" : "scale-0 opacity-0"
         }`}
       >
         <div className="relative flex flex-col items-center max-h-2/3 w-full sm:w-2/3  md:w-1/2 lg:w-1/3 border border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-900 rounded-lg ">
@@ -192,7 +191,7 @@ function ProjectModal() {
 
           {/* Close Modal */}
           <button
-            onClick={closeProjectModal}
+            onClick={closeProjectFormModal}
             className="absolute top-1 right-1 py-1.5 px-2.5 text-lg text-tasksync-danger hover:bg-tasksync-danger/20 cursor-pointer rounded-lg"
           >
             <CloseOutlined />
@@ -203,4 +202,4 @@ function ProjectModal() {
   )
 }
 
-export default ProjectModal
+export default ProjectFormModal

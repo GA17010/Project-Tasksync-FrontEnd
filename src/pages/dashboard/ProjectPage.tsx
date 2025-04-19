@@ -20,7 +20,7 @@ import {
 import AssignToModal from "@/components/AssignToModal"
 import { useFriendStore } from "@/stores/friendStore"
 import { taskStore } from "@/stores/taskStore"
-import { Friend, Task, Tasks } from "@/types"
+import { FriendResponse, Task, Tasks } from "@/types"
 import * as React from "react"
 import { useParams } from "react-router"
 import AddTaskForm from "./kanban/AddTaskForm"
@@ -168,7 +168,7 @@ export default function ProjectPage() {
     setTasks(newTasks)
   }
 
-  const handleAssignClic = (friend: Friend) => {
+  const handleAssignClic = (friend: FriendResponse) => {
     // Notify user
 
     if (!taskToAssign) return
@@ -228,7 +228,7 @@ export default function ProjectPage() {
         {idProject && <AddTaskForm idProject={idProject} />}
 
         {/* Menu Assigt task to */}
-        <AssignToModal onClick={handleAssignClic} />
+        <AssignToModal showMe={true} onClick={handleAssignClic} />
       </div>
     </>
   )

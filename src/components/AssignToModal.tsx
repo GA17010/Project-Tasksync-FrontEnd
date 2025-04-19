@@ -1,14 +1,19 @@
 import FriendList from "@/components/FriendList"
 import { useFriendStore } from "@/stores/friendStore"
-import { Friend } from "@/types"
+import { FriendResponse } from "@/types"
 import { CloseOutlined } from "@ant-design/icons"
 
 interface AssignToModalProps {
-  onClick: (friend: Friend) => void
+  onClick: (friend: FriendResponse) => void
+  showMe?: boolean
 }
 
-function AssignToModal({ onClick }: AssignToModalProps) {
-  const { showAssignMenu, setShowAssignMenu, friendsList } = useFriendStore()
+function AssignToModal({ onClick, showMe }: AssignToModalProps) {
+  const { showAssignMenu, closeAssignMenu, listFriends } = useFriendStore()
+
+  const filteredFriends = showMe
+    ? listFriends
+    : listFriends?.filter((friend) => !friend.isMe)
 
   return (
     <>
@@ -25,22 +30,23 @@ function AssignToModal({ onClick }: AssignToModalProps) {
 
           {/* List */}
           <ul className="w-full flex flex-col last:rounded-b-2xl overflow-y-auto mb-4">
-            {friendsList.map((friend) => (
-              <li key={friend.id}>
-                <FriendList
-                  friend={friend}
-                  onClick={onClick}
-                  showTooltip={false}
-                  showAddIcon={true}
-                  className="w-full"
-                />
-              </li>
-            ))}
+            {filteredFriends &&
+              filteredFriends.map((friend) => (
+                <li key={friend.id}>
+                  <FriendList
+                    friend={friend}
+                    onClick={onClick}
+                    showTooltip={false}
+                    showAddIcon={true}
+                    className="w-full"
+                  />
+                </li>
+              ))}
           </ul>
 
           {/* Close Modal */}
           <button
-            onClick={setShowAssignMenu}
+            onClick={closeAssignMenu}
             className="absolute top-1 right-1 py-1.5 px-2.5 text-lg text-tasksync-danger hover:bg-tasksync-danger/20 cursor-pointer rounded-lg"
           >
             <CloseOutlined />

@@ -20,6 +20,7 @@ export interface Body {
   password?: string
   password_confirmation?: string
   user_id?: string
+  receiver_email?: string
 }
 
 // utils/services/authServices.ts + type (stores/AuthStore.ts)

@@ -4,14 +4,14 @@ import { create } from "zustand"
 
 interface ProjectStoreState {
   ListProject: ProjectResponse[] | null
-  showProjectModal: boolean
+  showProjectFormModal: boolean
   projectError: string | null
   createProjSuccess: string | null
   typeModal: string | null
   project: ProjectRequest | null
   projectId: string | null
 
-  closeProjectModal: () => void
+  closeProjectFormModal: () => void
   setShowCreateProject: () => void
   setShowUpdateProject: (project: ProjectRequest, projectId: string) => void
   createProject: (project: ProjectRequest) => Promise<boolean>
@@ -26,15 +26,15 @@ interface ProjectStoreState {
 
 export const useProjectStore = create<ProjectStoreState>((set) => ({
   ListProject: null,
-  showProjectModal: false,
+  showProjectFormModal: false,
   projectError: null,
   createProjSuccess: null,
   typeModal: null,
   project: null,
   projectId: null,
 
-  closeProjectModal() {
-    set({ showProjectModal: false })
+  closeProjectFormModal() {
+    set({ showProjectFormModal: false })
   },
 
   setShowCreateProject() {
@@ -44,7 +44,7 @@ export const useProjectStore = create<ProjectStoreState>((set) => ({
       projectId: null,
       projectError: "",
     })
-    set((state) => ({ showProjectModal: !state.showProjectModal }))
+    set((state) => ({ showProjectFormModal: !state.showProjectFormModal }))
   },
 
   setShowUpdateProject(project: ProjectRequest, projectId: string) {
@@ -54,7 +54,7 @@ export const useProjectStore = create<ProjectStoreState>((set) => ({
       project: project,
       projectError: "",
     })
-    set((state) => ({ showProjectModal: !state.showProjectModal }))
+    set((state) => ({ showProjectFormModal: !state.showProjectFormModal }))
   },
 
   createProject: async (project: ProjectRequest) => {
@@ -170,7 +170,7 @@ export const useProjectStore = create<ProjectStoreState>((set) => ({
       } else {
         set({ projectError: "An unknown error occurred." })
       }
-      set({ showProjectModal: false })
+      set({ showProjectFormModal: false })
       return false
     }
   },
