@@ -1,4 +1,4 @@
-import useravatar from "@/assets/images/users/avatar-1.avif"
+import useravatar from "@/assets/images/users/small80x80/avatar-00.avif"
 import { useAuthStore } from "@/stores/authStore"
 import * as React from "react"
 

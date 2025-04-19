@@ -1,4 +1,4 @@
-import useravatar from "@/assets/images/users/avatar-1.avif"
+import useravatar from "@/assets/images/users/small80x80/avatar-00.avif"
 import { useCustomizerStore } from "@/stores/useCustomerStore"
 import { GithubOutlined } from "@ant-design/icons"
 import { useEffect, useRef } from "react"
