@@ -13,8 +13,13 @@ function SectionProjets() {
     useProjectStore()
   const { projectId, handleAssign } = useFriendStore()
 
+  const [isLoading, setIsLoading] = React.useState<boolean>(true)
+
   React.useEffect(() => {
-    fetchProject()
+    setIsLoading(true)
+    fetchProject().finally(() => {
+      setIsLoading(false)
+    })
   }, [fetchProject])
 
   const handleAssignClic = (friend: FriendResponse) => {
@@ -25,6 +30,28 @@ function SectionProjets() {
 
     handleAssign()
   }
+
+  const ProjectListSkeleton = () => (
+    <div role="status" className="p-4">
+      <div className="animate-pulse flex flex-col gap-3">
+        <div className="bg-gray-200 dark:bg-gray-700 h-10 rounded-md w-full"></div>
+        <div className="bg-gray-200 dark:bg-gray-700 h-10 rounded-md w-full"></div>
+        <div className="bg-gray-200 dark:bg-gray-700 h-10 rounded-md w-full"></div>
+      </div>
+    </div>
+  )
+
+  const EmptyProjectList = () => (
+    <div
+      className="p-4 cursor-pointer hover:bg-gray-100 dark:bg-gray-900/90 dark:hover:bg-gray-800/70 rounded-b-2xl"
+      onClick={setShowCreateProject}
+    >
+      <div className="h-36 flex flex-col items-center justify-center gap-2">
+        <ProjectOutlined />
+        <span>There are no projects created</span>
+      </div>
+    </div>
+  )
 
   return (
     <>
@@ -54,22 +81,16 @@ function SectionProjets() {
         </div>
 
         {/* Project List */}
-        {ListProject?.length ? (
+        {isLoading ? (
+          <ProjectListSkeleton />
+        ) : ListProject?.length ? (
           <div>
             {ListProject.map((proj) => (
               <ProjectList key={proj.id} project={proj} />
             ))}
           </div>
         ) : (
-          <div
-            className="p-4 cursor-pointer hover:bg-gray-100 dark:bg-gray-900/90 dark:hover:bg-gray-800/70 rounded-b-2xl"
-            onClick={setShowCreateProject}
-          >
-            <div className="h-36 flex flex-col items-center justify-center gap-2">
-              <ProjectOutlined />
-              <span>There are no projects created</span>
-            </div>
-          </div>
+          <EmptyProjectList />
         )}
 
         {/* Modal-Form to create project */}
