@@ -1,7 +1,5 @@
-import useravatar from "@/assets/images/users/small80x80/avatar-00.avif"
-import { useAuthStore } from "@/stores/authStore"
-import * as React from "react"
-
+import { useUIStore } from "@/stores/uiStore"
+import { User } from "@/types"
 import {
   CommentOutlined,
   EditOutlined,
@@ -14,26 +12,18 @@ import {
   UserOutlined,
   WalletOutlined,
 } from "@ant-design/icons"
-import { useNavigate } from "react-router"
+import React from "react"
 
-const ProfileDD = () => {
-  const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
+interface ProfileDDProps {
+  user: User
+  isSubmitting: boolean
+  onClick: () => void
+}
+
+function ProfileDD({ user, isSubmitting, onClick }: ProfileDDProps) {
   const [tab, setTab] = React.useState<string>("profile")
-  const navigate = useNavigate()
 
-  const authStore = useAuthStore()
-
-  const Logout = async () => {
-    if (isSubmitting) return
-    setIsSubmitting(true)
-
-    const response = await authStore.logout()
-    if (response) {
-      navigate("/login")
-    } else {
-      setIsSubmitting(false)
-    }
-  }
+  const { userAvatarSmall } = useUIStore()
 
   const profileItems = [
     { icon: <EditOutlined />, text: "Edit Profile" },
@@ -50,29 +40,34 @@ const ProfileDD = () => {
     { icon: <UnorderedListOutlined />, text: "History" },
   ]
 
+  const avatarUrl =
+    user.icon && userAvatarSmall[user.icon]
+      ? userAvatarSmall[user.icon]
+      : userAvatarSmall["avatar-00"]
+
   return (
     <div>
       <div className="p-5 flex items-center">
         <img
           className="w-10 h-10 rounded-full mx-1 object-cover"
-          src={useravatar}
+          src={avatarUrl}
           alt="Julia"
           width={40}
           height={40}
         />
         <div className="pl-4 flex flex-col text-left">
           <span className="text-sm font-medium mb-0 sm:block none">
-            JWT User
+            {user.name}
           </span>
           <span className="text-xs text-gray-600 dark:text-gray-400">
-            UI/UX Designer
+            @{user.nickname}
           </span>
         </div>
         <div className="ml-auto">
           <button
-            className="rounded size-12 flex items-center justify-center hover:bg-blue-50 dark:hover:bg-gray-800"
+            className="rounded size-12 flex items-center justify-center hover:bg-blue-50 dark:hover:bg-gray-800 cursor-pointer"
             disabled={isSubmitting}
-            onClick={Logout}
+            onClick={onClick}
           >
             <LogoutOutlined className="flex size-5 text-xl text-tasksync-primary" />
           </button>
@@ -85,7 +80,7 @@ const ProfileDD = () => {
           {/* Button Profile */}
           <button
             onClick={() => setTab("profile")}
-            className={`flex-1 p-3 text-center border-b-2 transition-all duration-300 ${
+            className={`flex-1 p-3 text-center border-b-2 transition-all duration-300 cursor-pointer ${
               tab === "profile"
                 ? "border-tasksync-primary text-tasksync-primary active:bg-blue-100 dark:active:bg-gray-800"
                 : "border-transparent text-gray-800 dark:text-gray-400 active:bg-gray-100 dark:active:bg-gray-800"
@@ -99,7 +94,7 @@ const ProfileDD = () => {
           {/* Button Settings */}
           <button
             onClick={() => setTab("setting")}
-            className={`flex-1 p-3 border-b-2 transition-all duration-300 ${
+            className={`flex-1 p-3 border-b-2 transition-all duration-300 cursor-pointer ${
               tab === "setting"
                 ? "border-tasksync-primary text-tasksync-primary active:bg-blue-200 dark:active:bg-gray-800"
                 : "border-transparent text-gray-800 dark:text-gray-400 active:bg-gray-200 dark:active:bg-gray-800"
@@ -136,7 +131,7 @@ const ProfileDD = () => {
               <li
                 className="flex items-center px-4 py-3 text-sm hover:bg-red-100 dark:hover:bg-red-300/10 text-tasksync-danger cursor-pointer transition-all duration-300"
                 aria-disabled={isSubmitting}
-                onClick={Logout}
+                onClick={onClick}
               >
                 <LogoutOutlined className="mr-4" />
                 <span>Logout</span>

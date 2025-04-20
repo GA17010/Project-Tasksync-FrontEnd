@@ -1,12 +1,23 @@
-import useravatar from "@/assets/images/users/small80x80/avatar-00.avif"
+import { useAuthStore } from "@/stores/authStore"
+import { useUIStore } from "@/stores/uiStore"
 import { useCustomizerStore } from "@/stores/useCustomerStore"
 import { GithubOutlined } from "@ant-design/icons"
-import { useEffect, useRef } from "react"
+import React from "react"
+import { useNavigate } from "react-router"
 import LogoLink from "../logo/LogoLink"
 import NotificationDD from "./NotificationDD"
 import ProfileDD from "./ProfileDD"
 
 export default function NavbarHeader() {
+  const navigate = useNavigate()
+  const { userAvatarSmall } = useUIStore()
+  const { user, logout } = useAuthStore()
+
+  const avatarUrl =
+    user?.icon && userAvatarSmall[user.icon]
+      ? userAvatarSmall[user.icon]
+      : userAvatarSmall["avatar-00"]
+
   const {
     Profile_dropdown,
     SearchBar_dropdown,
@@ -14,10 +25,10 @@ export default function NavbarHeader() {
     SET_SEARCHBAR_DROPDOWN,
   } = useCustomizerStore()
 
-  const userProfileMenu = useRef<HTMLDivElement>(null)
-  const searchBar = useRef<HTMLDivElement>(null)
+  const userProfileMenu = React.useRef<HTMLDivElement>(null)
+  const searchBar = React.useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node
 
@@ -47,6 +58,22 @@ export default function NavbarHeader() {
     SET_SEARCHBAR_DROPDOWN,
   ])
 
+  const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
+
+  const handleLogout = async () => {
+    if (isSubmitting) return
+    setIsSubmitting(true)
+
+    const response = await logout()
+    if (response) {
+      navigate("/login")
+      SET_PROFILE_DROPDOWN()
+      SET_SEARCHBAR_DROPDOWN()
+    } else {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <nav
       className={`h-16 px-4 fixed top-0 z-30 flex items-center w-full border-b bg-white dark:bg-black border-gray-300 dark:border-gray-800 transition-all duration-200 ease-in-out`}
@@ -74,19 +101,36 @@ export default function NavbarHeader() {
           <div ref={userProfileMenu} className="relative inline-block">
             <button
               onClick={SET_PROFILE_DROPDOWN}
-              className="rounded-md hover:bg-gray-300 dark:hover:bg-tasksync-dark px-2"
+              className="rounded-md hover:bg-gray-300 dark:hover:bg-tasksync-dark px-2 cursor-pointer"
             >
-              <div className="flex align-center items-center">
-                <div className="mr-0 py-1 md:pr-2">
-                  <img
-                    className="w-8 h-8 rounded-full object-cover"
-                    src={useravatar}
-                    alt="Julia"
-                    width={32}
-                    height={32}
-                  />
-                </div>
-                <h6 className="text-medium mb-0 hidden md:block">JWT User</h6>
+              <div className="flex justify-center items-center">
+                {user ? (
+                  <>
+                    <div className="mr-0 py-1 md:pr-2">
+                      <img
+                        className="w-8 h-8 rounded-full object-cover"
+                        src={avatarUrl}
+                        alt="Julia"
+                        width={32}
+                        height={32}
+                      />
+                    </div>
+                    <h6 className="text-medium mb-0 hidden md:block">
+                      {user?.name}
+                    </h6>
+                  </>
+                ) : (
+                  <>
+                    <div
+                      role="status"
+                      className="flex items-center justify-center animate-pulse gap-2"
+                    >
+                      <div className="h-8 w-8 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                      <div className="h-8 w-20 bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  </>
+                )}
               </div>
             </button>
 
@@ -98,7 +142,13 @@ export default function NavbarHeader() {
                   : "scale-0 origin-top-right opacity-0"
               }`}
             >
-              <ProfileDD />
+              {user && (
+                <ProfileDD
+                  user={user}
+                  isSubmitting={isSubmitting}
+                  onClick={handleLogout}
+                />
+              )}
             </div>
           </div>
         </div>
