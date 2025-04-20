@@ -47,7 +47,7 @@ function ResetPasswordForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     mode: "onChange",
@@ -115,7 +115,7 @@ function ResetPasswordForm() {
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
+              className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
                 errors.password ? colorConfig.error : colorConfig.normal
               }`}
               placeholder="********"
@@ -153,7 +153,7 @@ function ResetPasswordForm() {
             <input
               id="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
-              className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none transition-colors ease-in-out ${
+              className={`mt-2 w-full border-2 rounded-md py-2 pr-10 pl-3 text-sm md:text-base focus:outline-none placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
                 errors.confirmPassword ? colorConfig.error : colorConfig.normal
               }`}
               placeholder="********"
@@ -187,7 +187,7 @@ function ResetPasswordForm() {
 
         <button
           className="w-full flex justify-center mt-2 p-2 bg-tasksync-primary text-white rounded-md hover:scale-105 cursor-pointer transition"
-          disabled={!isValid || isSubmitting}
+          disabled={isSubmitting}
           type="submit"
         >
           {isSubmitting ? (

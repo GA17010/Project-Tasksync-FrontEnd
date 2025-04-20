@@ -1,5 +1,5 @@
-import { Credentials, User, UserData } from "@/types"
-import authService from "@/utils/services/authServices" // Adjust the path as needed
+import { Credentials, User, RegisterDataRequest } from "@/types"
+import authService from "@/utils/services/authServices"
 import { create } from "zustand"
 
 interface AuthStore {
@@ -13,10 +13,11 @@ interface AuthStore {
   successRegister: string | null
   refreshError: string | null
   updateUnauthorized: (unauthorized: boolean) => void
-  registerUser: (userData: UserData) => Promise<boolean>
+  registerUser: (userData: RegisterDataRequest) => Promise<boolean>
   login: (credentials: Credentials) => Promise<boolean>
   checkAuth: () => Promise<boolean>
   logout: () => Promise<boolean>
+  fetchMe: () => Promise<boolean>
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -31,7 +32,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   refreshError: null,
   updateUnauthorized: (unauthorized: boolean) =>
     set(() => ({ unauthorized: unauthorized })),
-  registerUser: async (userData: UserData) => {
+  registerUser: async (userData: RegisterDataRequest) => {
     try {
       const response = await authService.register(userData)
 
@@ -143,6 +144,22 @@ export const useAuthStore = create<AuthStore>((set) => ({
         successAuth: null,
         errorAuth: null,
         unauthorized: true,
+      })
+      return true
+    } catch {
+      return false
+    }
+  },
+  fetchMe: async () => {
+    try {
+      const response = await authService.fetchMe()
+      set({
+        user: response,
+        successAuth: "Welcome " + response.name,
+        isAuthenticated: true,
+        lastAuthCheck: Date.now(),
+        errorAuth: null,
+        unauthorized: false,
       })
       return true
     } catch {

@@ -44,7 +44,7 @@ export interface Credentials {
   password: string
 }
 
-export interface UserData {
+export interface RegisterDataRequest {
   name: string
   company?: string
   email: string

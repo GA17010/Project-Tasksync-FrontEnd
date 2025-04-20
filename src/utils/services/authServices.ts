@@ -1,8 +1,14 @@
+import {
+  AuthResponse,
+  CheckResponse,
+  Credentials,
+  User,
+  RegisterDataRequest,
+} from "@/types"
 import apiService from "@/utils/services/apiServices"
-import { UserData, AuthResponse, Credentials, CheckResponse } from '@/types'
 
 const authService = {
-  register: async (userData: UserData): Promise<AuthResponse> => {
+  register: async (userData: RegisterDataRequest): Promise<AuthResponse> => {
     const response = await apiService.post<AuthResponse>(
       "/api/register",
       userData
@@ -16,13 +22,13 @@ const authService = {
       "/api/login",
       credentials
     )
-    localStorage.setItem("token", response.token);
+    localStorage.setItem("token", response.token)
     return response
   },
 
   logout: async (): Promise<void> => {
     await apiService.post("/api/logout")
-    localStorage.removeItem("token");
+    localStorage.removeItem("token")
   },
 
   checkAuth: async (): Promise<AuthResponse> => {
@@ -33,6 +39,11 @@ const authService = {
 
   refreshToken: async (): Promise<CheckResponse> => {
     const response = await apiService.post<CheckResponse>("/api/refreshToken")
+    return response
+  },
+
+  fetchMe: async (): Promise<User> => {
+    const response = await apiService.get<User>("/api/me")
     return response
   },
 }

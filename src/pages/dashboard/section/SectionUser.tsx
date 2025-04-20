@@ -6,17 +6,27 @@ import { useAuthStore } from "@/stores/authStore"
 import { useUIStore } from "@/stores/uiStore"
 import { PlusOutlined } from "@ant-design/icons"
 import React from "react"
-
+import { useNavigate } from "react-router"
 function SectionUser() {
   const { listFriends, setShowRequestFriendModal, fetchFriends } =
     useFriendStore()
-  const { user } = useAuthStore()
+  const { user, fetchMe } = useAuthStore()
   const { userAvatarLarge } = useUIStore()
-
+  const navigate = useNavigate()
   const avatarUrl =
     user?.icon && userAvatarLarge[user.icon]
       ? userAvatarLarge[user.icon]
       : userAvatarLarge["avatar-00"]
+
+  React.useEffect(() => {
+    if (user) return
+    fetchMe().then((res) => {
+      if (!res) {
+        localStorage.removeItem("token")
+        navigate("/login")
+      }
+    })
+  }, [user, fetchMe, navigate])
 
   React.useEffect(() => {
     fetchFriends()

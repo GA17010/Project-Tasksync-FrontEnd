@@ -26,7 +26,7 @@ function ForgotPasswordPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     mode: "onChange",
@@ -76,7 +76,7 @@ function ForgotPasswordPage() {
             type="email"
             placeholder="Enter email address"
             autoComplete="on"
-            className={`w-full appearance-none leading-tight focus:outline-none text-sm border rounded-md py-2 pr-10 pl-3 md:text-base transition-colors ease-in-out ${
+            className={`w-full appearance-none leading-tight focus:outline-none text-sm border rounded-md py-2 pr-10 pl-3 md:text-base placeholder-gray-400 dark:placeholder-gray-600 transition-colors ease-in-out ${
               errors.email
                 ? "ffocus:shadow-[0px_0px_0px_2px_rgba(255,0,0,0.2)] border-tasksync-danger  focus:border-red-300"
                 : "focus:shadow-[0px_0px_0px_2px_rgba(0,100,255,0.2)] border-gray-300 dark:border-gray-500 focus:border-blue-400 dark:focus:border-tasksync-primary hover:border-blue-400 dark:hover:border-tasksync-primary"
@@ -98,14 +98,14 @@ function ForgotPasswordPage() {
         </div>
 
         <div>
-          <span className="text-xs text-gray-800">
+          <span className="text-xs text-gray-800 dark:text-gray-500">
             Do not forgot to check SPAM box.
           </span>
         </div>
 
         <button
           className="w-full flex justify-center mt-2 text-white bg-tasksync-primary p-3 rounded-md hover:scale-105 cursor-pointer transition"
-          disabled={!isValid || isSubmitting}
+          disabled={isSubmitting}
           type="submit"
         >
           {isSubmitting ? (
