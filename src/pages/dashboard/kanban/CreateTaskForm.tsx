@@ -1,7 +1,7 @@
 import loadingSpinner from "@/assets/svg/spiner-loading-blue.svg"
 import { taskStore } from "@/stores/taskStore"
 import { useCustomizerStore } from "@/stores/useCustomerStore"
-import { Task } from "@/types"
+import { TaskRequest } from "@/types"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as React from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -11,24 +11,23 @@ interface FormData {
   content: string
 }
 
-interface AddTaskFormProps {
+interface createTaskFormProps {
   idProject: string
 }
 
-function AddTaskForm({idProject}: AddTaskFormProps) {
+function CreateTaskForm({ idProject }: createTaskFormProps) {
   const {
     inputVisible,
     setInputVisible,
     statusTask,
     resetColumnIndicatorVisible,
   } = useCustomizerStore()
-  const { addTask } = taskStore()
+  const { createTask } = taskStore()
 
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
 
   const schema: yup.ObjectSchema<FormData> = yup.object({
     content: yup.string().required("Task is required"),
-    // .min(6, "Task must be at least 6 characters"),
   })
 
   const {
@@ -36,7 +35,7 @@ function AddTaskForm({idProject}: AddTaskFormProps) {
     setValue,
     setFocus,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     mode: "onChange",
@@ -50,24 +49,13 @@ function AddTaskForm({idProject}: AddTaskFormProps) {
     if (isSubmitting) return
     setIsSubmitting(true)
 
-    const idTask = crypto.randomUUID()
-    const newTask: Task = {
-      id: idTask,
+    const newTask: TaskRequest = {
       content: data.content,
       status: statusTask,
       assigned_to: null,
-      is_me: false,
-      project_id: idProject,
     }
 
-    // AWAIT FOR THE API RESPONSE
-    // const response = await addTask(newTask)
-    // if (response) {
-    //   setInputVisible()
-    // } else {
-    //   setIsSubmitting(false)
-    // }
-    addTask(newTask)
+    createTask(newTask, idProject)
 
     setIsSubmitting(false)
 
@@ -130,7 +118,7 @@ function AddTaskForm({idProject}: AddTaskFormProps) {
             />
             <button
               className="py-2 flex items-center justify-center text-left text-sm px-6 w-20 h-11 font-semibold cursor-pointer rounded-r-full border-l-2 border-tasksync-primary text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700/30"
-              disabled={!isValid || isSubmitting}
+              disabled={isSubmitting}
               type="submit"
             >
               {isSubmitting ? (
@@ -151,4 +139,4 @@ function AddTaskForm({idProject}: AddTaskFormProps) {
   )
 }
 
-export default AddTaskForm
+export default CreateTaskForm

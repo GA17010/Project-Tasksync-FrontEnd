@@ -1,4 +1,4 @@
-import { FriendRequest, FriendResponse, Task } from "@/types"
+import { FriendRequest, FriendResponse, TaskResponse } from "@/types"
 import friendService from "@/utils/services/friendServices"
 import { create } from "zustand"
 
@@ -8,13 +8,13 @@ type FriendState = {
   showRequestFriendModal: boolean
   friendError: string | null
   sendFriendSuccess: string | null
-  taskToAssign: Task | null
+  taskToAssign: TaskResponse | null
   projectId: string | null
 
   closeAssignMenu: () => void
   closeRequestFriendModal: () => void
   setShowRequestFriendModal: () => void
-  setTaskAndToggleMenu: (task: Task) => void
+  setTaskAndToggleMenu: (task: TaskResponse) => void
   setProjectAndToggleMenu: (projectId: string) => void
   handleAssign: () => void
   fetchFriends: () => Promise<boolean>

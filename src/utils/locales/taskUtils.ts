@@ -1,18 +1,18 @@
-import { Task, Tasks } from "@/types"
+import { TaskResponse, Tasks } from "@/types"
 
-export const transformToKanban = (tasks: Task[]): Tasks => {
-  const todo: Task[] = []
-  const inProgress: Task[] = []
-  const inReview: Task[] = []
-  const done: Task[] = []
+export const transformToKanban = (tasks: TaskResponse[]): Tasks => {
+  const todo: TaskResponse[] = []
+  const in_progress: TaskResponse[] = []
+  const in_review: TaskResponse[] = []
+  const done: TaskResponse[] = []
 
   tasks.forEach((task) => {
     if (task.status === "todo") {
       todo.push(task)
-    } else if (task.status === "inProgress") {
-      inProgress.push(task)
-    } else if (task.status === "inReview") {
-      inReview.push(task)
+    } else if (task.status === "in_progress") {
+      in_progress.push(task)
+    } else if (task.status === "in_review") {
+      in_review.push(task)
     } else if (task.status === "done") {
       done.push(task)
     }
@@ -20,8 +20,8 @@ export const transformToKanban = (tasks: Task[]): Tasks => {
 
   return {
     todo,
-    inProgress,
-    inReview,
+    in_progress,
+    in_review,
     done,
   }
 }

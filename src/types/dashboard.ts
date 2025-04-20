@@ -21,20 +21,28 @@ export interface Assigned {
   icon: string
 }
 
-export interface Task {
+export interface TaskRequest {
+  content: string
+  status: string
+  assigned_to: string | null
+}
+
+export interface TaskResponse {
   id: string
   content: string
   status: string
   assigned_to: Assigned | null
   is_me: boolean
   project_id: string
+  updated_at: Date
+  created_at: Date
 }
 
 export interface Tasks {
-  todo: Task[]
-  inProgress: Task[]
-  inReview: Task[]
-  done: Task[]
+  todo: TaskResponse[]
+  in_progress: TaskResponse[]
+  in_review: TaskResponse[]
+  done: TaskResponse[]
 }
 
 export interface FriendResponse {

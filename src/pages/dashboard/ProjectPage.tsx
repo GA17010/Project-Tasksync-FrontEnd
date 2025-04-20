@@ -20,18 +20,19 @@ import {
 import AssignToModal from "@/components/AssignToModal"
 import { useFriendStore } from "@/stores/friendStore"
 import { taskStore } from "@/stores/taskStore"
-import { FriendResponse, Task, Tasks } from "@/types"
+import { FriendResponse, TaskResponse, Tasks } from "@/types"
 import * as React from "react"
 import { useParams } from "react-router"
-import AddTaskForm from "./kanban/AddTaskForm"
+import CreateTaskForm from "./kanban/CreateTaskForm"
 import TaskColumn from "./kanban/TaskColumn"
 
 export default function ProjectPage() {
   const { id: idProject } = useParams()
 
   const { taskToAssign, handleAssign } = useFriendStore()
-  const { tasks, setTasks, fetchTasks, updateAssignToTask } = taskStore()
-  const [activeTask, setActiveTask] = React.useState<Task | null>(null)
+  const { tasks, setProject_id, setTasks, fetchTasks, updateTask } = taskStore()
+
+  const [activeTask, setActiveTask] = React.useState<TaskResponse | null>(null)
 
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
@@ -56,8 +57,9 @@ export default function ProjectPage() {
 
   React.useEffect(() => {
     if (!idProject) return
+    setProject_id(idProject)
     fetchTasks(idProject)
-  }, [fetchTasks, idProject])
+  }, [fetchTasks, idProject, setProject_id])
 
   const handleDragStart = (event: { active: { id: UniqueIdentifier } }) => {
     const { active } = event
@@ -84,7 +86,7 @@ export default function ProjectPage() {
       const destinationColumnId = findColumn(tasks, over.id)
 
       if (!sourceColumnId || !destinationColumnId) return
-
+      
       if (sourceColumnId === destinationColumnId) {
         const columnTasks = tasks[sourceColumnId as keyof Tasks]
         const oldIndex = columnTasks.findIndex((task) => task.id === active.id)
@@ -165,21 +167,24 @@ export default function ProjectPage() {
       [destinationColumnId]: newDestinationColumnTasks,
     }
 
+    if (idProject) {
+      updateTask(
+        idProject,
+        updatedTask.id,
+        updatedTask.assigned_to?.id,
+        updatedTask.status.toString()
+      )
+    }
+
     setTasks(newTasks)
   }
 
   const handleAssignClic = (friend: FriendResponse) => {
     // Notify user
 
-    if (!taskToAssign) return
+    if (!taskToAssign || !idProject) return
 
-    const assignedData = {
-      id: friend.id,
-      name: friend.name,
-      icon: friend.icon,
-    }
-
-    updateAssignToTask(assignedData, taskToAssign)
+    updateTask(idProject, taskToAssign.id, friend.id)
 
     handleAssign()
   }
@@ -197,7 +202,7 @@ export default function ProjectPage() {
           {Object.entries(tasks).map(([columnId, columnTasks]) => (
             <SortableContext
               key={columnId}
-              items={columnTasks.map((task: Task) => task.id)}
+              items={columnTasks.map((task: TaskResponse) => task.id)}
               strategy={verticalListSortingStrategy}
             >
               <TaskColumn
@@ -225,7 +230,7 @@ export default function ProjectPage() {
         </DndContext>
 
         {/* Input to add a new task */}
-        {idProject && <AddTaskForm idProject={idProject} />}
+        {idProject && <CreateTaskForm idProject={idProject} />}
 
         {/* Menu Assigt task to */}
         <AssignToModal showMe={true} onClick={handleAssignClic} />
@@ -236,7 +241,7 @@ export default function ProjectPage() {
 
 function findColumn(tasks: Tasks, id: UniqueIdentifier) {
   return Object.keys(tasks).find((column) =>
-    tasks[column as keyof Tasks].some((task: Task) => task.id === id)
+    tasks[column as keyof Tasks].some((task: TaskResponse) => task.id === id)
   )
 }
 
@@ -244,12 +249,12 @@ function getTitle(columnId: string) {
   switch (columnId) {
     case "todo":
       return "To do"
-    case "inProgress":
+    case "in_progress":
       return "In Progress "
+    case "in_review":
+      return "In Review"
     case "done":
       return "Finished"
-    case "inReview":
-      return "In Review"
     default:
       return columnId
   }

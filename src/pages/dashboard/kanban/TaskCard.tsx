@@ -2,13 +2,13 @@ import Dropdown from "@/components/Dropdown"
 import DropdownMenu from "@/pages/dashboard/kanban/components/DropdownMenu"
 import { useDropdownStore } from "@/stores/dropdownStore"
 import { useUIStore } from "@/stores/uiStore"
-import { Task } from "@/types"
+import { TaskResponse } from "@/types"
 import { RightCircleTwoTone } from "@ant-design/icons"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 
 interface TaskCardProps {
-  task: Task
+  task: TaskResponse
 }
 
 function TaskCard({ task }: TaskCardProps) {

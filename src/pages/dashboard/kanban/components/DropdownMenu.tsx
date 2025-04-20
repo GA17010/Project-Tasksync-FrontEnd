@@ -1,6 +1,6 @@
 import { useFriendStore } from "@/stores/friendStore"
 import { taskStore } from "@/stores/taskStore"
-import { Task } from "@/types"
+import { TaskResponse } from "@/types"
 import {
   ArrowRightOutlined,
   ArrowsAltOutlined,
@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons"
 
 interface DropdownMenuProps {
-  task: Task
+  task: TaskResponse
 }
 
 function DropdownMenu({ task }: DropdownMenuProps) {

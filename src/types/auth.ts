@@ -21,6 +21,9 @@ export interface Body {
   password_confirmation?: string
   user_id?: string
   receiver_email?: string
+  content?: string
+  status?: string
+  assigned_to?: string | null
 }
 
 // utils/services/authServices.ts + type (stores/AuthStore.ts)

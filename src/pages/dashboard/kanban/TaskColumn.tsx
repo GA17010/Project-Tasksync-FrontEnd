@@ -1,5 +1,5 @@
 import { useCustomizerStore } from "@/stores/useCustomerStore"
-import { Task } from "@/types"
+import { TaskResponse } from "@/types"
 import { useDroppable } from "@dnd-kit/core"
 import * as React from "react"
 import TaskCard from "./TaskCard"
@@ -7,7 +7,7 @@ import TaskCard from "./TaskCard"
 interface TaskColumnProps {
   id: string
   title: string
-  tasks: Task[]
+  tasks: TaskResponse[]
 }
 
 export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
@@ -15,21 +15,21 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
 
   const colorConfig = {
     todo: "border-green-700 bg-green-200",
-    inProgress: "border-yellow-700 bg-yellow-200",
-    inReview: "border-purple-700 bg-purple-200",
+    in_progress: "border-yellow-700 bg-yellow-200",
+    in_review: "border-purple-700 bg-purple-200",
     done: "border-blue-700 bg-blue-200",
   }
   const bgColorConfig = {
     todo: " bg-green-600",
-    inProgress: "bg-yellow-600",
-    inReview: "border-purple-700 bg-purple-600",
+    in_progress: "bg-yellow-600",
+    in_review: "border-purple-700 bg-purple-600",
     done: "bg-blue-600",
   }
 
   const descriptionConfig = {
     todo: "This task hasn't been started",
-    inProgress: "This task is in progress",
-    inReview: "This task is in review",
+    in_progress: "This task is in progress",
+    in_review: "This task is in review",
     done: "This task is done",
   }
 
@@ -41,7 +41,7 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
     statusTask,
   } = useCustomizerStore()
 
-  const handleAddTask = () => {
+  const handleCreateTask = () => {
     if (!inputVisible) {
       inputActive(id)
       focusInput()
@@ -89,7 +89,6 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
           </div>
 
           <div className="flex-1 py-1 px-2 min-h-[180px] overflow-y-auto">
-            
             {/* Task list */}
             <div
               ref={setNodeRef}
@@ -119,7 +118,7 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
           <div className="flex">
             <button
               className="px-4 py-2 w-full text-left text-sm font-semibold cursor-pointer rounded-b-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600/20"
-              onClick={handleAddTask}
+              onClick={handleCreateTask}
             >
               + Add Task
             </button>
