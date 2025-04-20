@@ -98,26 +98,21 @@ export const taskStore = create<TaskStoreState>((set, get) => ({
   },
   updateTask: async (project_id, task_id, user_id_to_assign, status) => {
     try {
-      console.log(user_id_to_assign)
-
       const response = await taskService.updateTask(
         project_id,
         task_id,
         user_id_to_assign,
         status
       )
-      console.log(response)
 
       set((state) => {
         const newTasks = { ...state.tasks }
         newTasks[response.status as keyof Tasks].forEach((task) => {
           if (task.id === response.id) {
-            console.log(task, response)
             task.assigned_to = response.assigned_to
             task.status = response.status
           }
         })
-        console.log(newTasks)
         return { tasks: newTasks }
       })
 
