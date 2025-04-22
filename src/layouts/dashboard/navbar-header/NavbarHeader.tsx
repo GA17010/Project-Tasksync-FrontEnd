@@ -85,12 +85,12 @@ export default function NavbarHeader() {
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <a
             href="https://github.com/GA17010/project-admin"
             target="_blank"
             rel="noreferrer"
-            className="text-dark flex rounded-md"
+            className="hidden text-dark sm:flex rounded-md"
           >
             <GithubOutlined className="size-5" />
           </a>
@@ -98,7 +98,7 @@ export default function NavbarHeader() {
           <NotificationDD />
 
           {/* Profile dropdown */}
-          <div ref={userProfileMenu} className="relative inline-block">
+          <div ref={userProfileMenu} className="relative flex">
             <button
               onClick={SET_PROFILE_DROPDOWN}
               className="rounded-md hover:bg-gray-300 dark:hover:bg-tasksync-dark px-2 cursor-pointer"
@@ -123,10 +123,10 @@ export default function NavbarHeader() {
                   <>
                     <div
                       role="status"
-                      className="flex items-center justify-center animate-pulse gap-2"
+                      className="flex items-center justify-center animate-pulse py-1.5 gap-2"
                     >
                       <div className="h-8 w-8 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-                      <div className="h-8 w-20 bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+                      <div className="h-8 w-20 bg-gray-200 rounded-sm dark:bg-gray-700 hidden md:block"></div>
                       <span className="sr-only">Loading...</span>
                     </div>
                   </>

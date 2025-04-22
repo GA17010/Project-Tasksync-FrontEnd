@@ -34,7 +34,7 @@ export default function NotificationDD() {
       {/* Button Notification */}
       <button
         type="button"
-        className="cursor-pointer ml-2 rounded-lg border border-transparent p-2.5 text-sm  hover:bg-slate-100 dark:hover:bg-tasksync-dark focus:bg-slate-100 dark:focus:bg-tasksync-dark active:bg-slate-100 dark:active:bg-tasksync-dark"
+        className="cursor-pointer rounded-lg border border-transparent p-2.5 text-sm  hover:bg-slate-100 dark:hover:bg-tasksync-dark focus:bg-slate-100 dark:focus:bg-tasksync-dark active:bg-slate-100 dark:active:bg-tasksync-dark"
         onClick={SET_NOTIFICATION_DROPDOWN}
       >
         <div className="relative">

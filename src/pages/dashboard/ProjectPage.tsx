@@ -2,7 +2,10 @@ import { RightCircleTwoTone } from "@ant-design/icons"
 import {
   closestCenter,
   DndContext,
+  DragEndEvent,
+  DragOverEvent,
   DragOverlay,
+  DragStartEvent,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
@@ -28,32 +31,10 @@ import TaskColumn from "./kanban/TaskColumn"
 
 export default function ProjectPage() {
   const { id: idProject } = useParams()
-
   const { taskToAssign, handleAssign } = useFriendStore()
   const { tasks, setProject_id, setTasks, fetchTasks, updateTask } = taskStore()
 
   const [activeTask, setActiveTask] = React.useState<TaskResponse | null>(null)
-
-  const mouseSensor = useSensor(MouseSensor, {
-    activationConstraint: {
-      distance: 5,
-    },
-  })
-
-  const touchSensor = useSensor(TouchSensor, {
-    activationConstraint: {
-      delay: 250,
-      tolerance: 5,
-    },
-  })
-
-  const sensors = useSensors(
-    mouseSensor,
-    touchSensor,
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  )
 
   React.useEffect(() => {
     if (!idProject) return
@@ -61,10 +42,23 @@ export default function ProjectPage() {
     fetchTasks(idProject)
   }, [fetchTasks, idProject, setProject_id])
 
-  const handleDragStart = (event: { active: { id: UniqueIdentifier } }) => {
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 250, tolerance: 5 },
+    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  )
+
+  const [statusOrigin, setStatusOrigin] = React.useState<string>("")
+  const [statusUpdated, setStatusUpdated] = React.useState<string>("")
+
+  const handleDragStart = (event: DragStartEvent) => {
     const { active } = event
     const columnId = findColumn(tasks, active.id)
     if (!columnId) return
+
+    setStatusOrigin(columnId?.toString())
 
     const task = tasks[columnId as keyof Tasks].find(
       (task) => task.id === active.id
@@ -72,69 +66,76 @@ export default function ProjectPage() {
     setActiveTask(task || null)
   }
 
-  const handleDragEnd = (event: {
-    active: { id: UniqueIdentifier }
-    over: { id: UniqueIdentifier } | null
-  }) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     setActiveTask(null)
-    if (!event.over) return
-
     const { active, over } = event
+    if (!idProject) return
+    if (over) {
+      if (active.id !== over.id) {
+        const sourceColumnId = findColumn(tasks, active.id)
+        const destinationColumnId = findColumn(tasks, over.id)
 
-    if (active.id !== over.id) {
-      const sourceColumnId = findColumn(tasks, active.id)
-      const destinationColumnId = findColumn(tasks, over.id)
+        if (!sourceColumnId || !destinationColumnId) return
 
-      if (!sourceColumnId || !destinationColumnId) return
-      
-      if (sourceColumnId === destinationColumnId) {
-        const columnTasks = tasks[sourceColumnId as keyof Tasks]
-        const oldIndex = columnTasks.findIndex((task) => task.id === active.id)
-        const newIndex = columnTasks.findIndex((task) => task.id === over.id)
+        if (sourceColumnId === destinationColumnId) {
+          const columnTasks = tasks[sourceColumnId as keyof Tasks]
+          const oldIndex = columnTasks.findIndex(
+            (task) => task.id === active.id
+          )
+          const newIndex = columnTasks.findIndex((task) => task.id === over.id)
+          const newTasks = {
+            ...tasks,
+            [sourceColumnId]: arrayMove(columnTasks, oldIndex, newIndex),
+          }
 
-        const newTasks = {
-          ...tasks,
-          [sourceColumnId]: arrayMove(columnTasks, oldIndex, newIndex),
+          setTasks(newTasks)
+        } else {
+          const sourceColumnTasks = tasks[sourceColumnId as keyof Tasks]
+          const destinationColumnTasks =
+            tasks[destinationColumnId as keyof Tasks]
+
+          const taskToMove = sourceColumnTasks.find(
+            (task) => task.id === active.id
+          )
+          if (!taskToMove) return
+
+          const updatedTask = { ...taskToMove, status: destinationColumnId }
+
+          const newSourceColumnTasks = sourceColumnTasks.filter(
+            (task) => task.id !== active.id
+          )
+          const newDestinationColumnTasks = [
+            updatedTask,
+            ...destinationColumnTasks,
+          ]
+
+          const newTasks = {
+            ...tasks,
+            [sourceColumnId]: newSourceColumnTasks,
+            [destinationColumnId]: newDestinationColumnTasks,
+          }
+          updateTask(
+            idProject,
+            updatedTask.id,
+            updatedTask.assigned_to?.id,
+            updatedTask.status.toString()
+          )
+
+          setTasks(newTasks)
+          return
         }
-
-        setTasks(newTasks)
-      } else {
-        const sourceColumnTasks = tasks[sourceColumnId as keyof Tasks]
-        const destinationColumnTasks = tasks[destinationColumnId as keyof Tasks]
-
-        const taskToMove = sourceColumnTasks.find(
-          (task) => task.id === active.id
-        )
-        if (!taskToMove) return
-
-        const updatedTask = { ...taskToMove, status: destinationColumnId }
-
-        const newSourceColumnTasks = sourceColumnTasks.filter(
-          (task) => task.id !== active.id
-        )
-        const newDestinationColumnTasks = [
-          updatedTask,
-          ...destinationColumnTasks,
-        ]
-
-        const newTasks = {
-          ...tasks,
-          [sourceColumnId]: newSourceColumnTasks,
-          [destinationColumnId]: newDestinationColumnTasks,
-        }
-
-        setTasks(newTasks)
+      }
+      if (!statusUpdated) return
+      if (statusOrigin !== statusUpdated) {
+        updateTask(idProject, active.id.toString(), undefined, statusUpdated)
       }
     }
   }
 
-  const handleDragOver = (event: {
-    active: { id: UniqueIdentifier }
-    over: { id: UniqueIdentifier } | null
-  }) => {
-    if (!event.over) return
-
+  const handleDragOver = (event: DragOverEvent) => {
     const { active, over } = event
+
+    if (!over) return
 
     const sourceColumnId = findColumn(tasks, active.id)
     const destinationColumnId = over.id
@@ -167,14 +168,7 @@ export default function ProjectPage() {
       [destinationColumnId]: newDestinationColumnTasks,
     }
 
-    if (idProject) {
-      updateTask(
-        idProject,
-        updatedTask.id,
-        updatedTask.assigned_to?.id,
-        updatedTask.status.toString()
-      )
-    }
+    setStatusUpdated(destinationColumnId.toString())
 
     setTasks(newTasks)
   }
@@ -250,7 +244,7 @@ function getTitle(columnId: string) {
     case "todo":
       return "To do"
     case "in_progress":
-      return "In Progress "
+      return "In Progress"
     case "in_review":
       return "In Review"
     case "done":
