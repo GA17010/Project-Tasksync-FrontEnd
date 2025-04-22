@@ -1,36 +1,23 @@
 import FriendList from "@/components/FriendList"
-import { useFriendStore } from "@/stores/friendStore"
-
+import { useFetchFriends } from "@/hooks/useFetchFriends"
 import RequestFriendModal from "@/pages/dashboard/section/components/RequestFriendModal"
 import { useAuthStore } from "@/stores/authStore"
+import { useFriendStore } from "@/stores/friendStore"
 import { useUIStore } from "@/stores/uiStore"
 import { PlusOutlined } from "@ant-design/icons"
-import React from "react"
-import { useNavigate } from "react-router"
+
 function SectionUser() {
-  const { listFriends, setShowRequestFriendModal, fetchFriends } =
+  useFetchFriends()
+
+  const { listFriends, setShowRequestFriendModal } =
     useFriendStore()
-  const { user, fetchMe } = useAuthStore()
+  const { user } = useAuthStore()
   const { userAvatarLarge } = useUIStore()
-  const navigate = useNavigate()
+
   const avatarUrl =
     user?.icon && userAvatarLarge[user.icon]
       ? userAvatarLarge[user.icon]
       : userAvatarLarge["avatar-00"]
-
-  React.useEffect(() => {
-    if (user) return
-    fetchMe().then((res) => {
-      if (!res) {
-        localStorage.removeItem("token")
-        navigate("/login")
-      }
-    })
-  }, [user, fetchMe, navigate])
-
-  React.useEffect(() => {
-    fetchFriends()
-  }, [fetchFriends])
 
   const filteredFriends = listFriends?.filter((friend) => !friend.isMe)
 

@@ -1,6 +1,6 @@
-import { Credentials, User, RegisterDataRequest } from "@/types"
+import { Credentials, RegisterDataRequest, User } from "@/types"
 import authService from "@/utils/services/authServices"
-import { create } from "zustand"
+import { create } from "@/utils/locales/zustand"
 
 interface AuthStore {
   user: User | null
@@ -20,8 +20,13 @@ interface AuthStore {
   fetchMe: () => Promise<boolean>
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
-  user: null,
+const getInitialUser = (): User | null => {
+  const storedUser = sessionStorage.getItem("user")
+  return storedUser ? JSON.parse(storedUser) : null
+}
+
+export const useAuthStore = create<AuthStore>()((set) => ({
+  user: getInitialUser(),
   errorAuth: null,
   successAuth: null,
   isAuthenticated: false,

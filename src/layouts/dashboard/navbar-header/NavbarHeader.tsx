@@ -7,8 +7,12 @@ import { useNavigate } from "react-router"
 import LogoLink from "../logo/LogoLink"
 import NotificationDD from "./NotificationDD"
 import ProfileDD from "./ProfileDD"
+import { useAuthCheck } from "@/hooks/useAuthCheck"
+import { resetAllStores } from "@/utils/locales/zustand"
 
 export default function NavbarHeader() {
+  useAuthCheck()
+
   const navigate = useNavigate()
   const { userAvatarSmall } = useUIStore()
   const { user, logout } = useAuthStore()
@@ -67,8 +71,7 @@ export default function NavbarHeader() {
     const response = await logout()
     if (response) {
       navigate("/login")
-      SET_PROFILE_DROPDOWN()
-      SET_SEARCHBAR_DROPDOWN()
+      resetAllStores()
     } else {
       setIsSubmitting(false)
     }

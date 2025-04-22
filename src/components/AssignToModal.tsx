@@ -1,4 +1,5 @@
 import FriendList from "@/components/FriendList"
+import { useFetchFriends } from "@/hooks/useFetchFriends"
 import { useFriendStore } from "@/stores/friendStore"
 import { FriendResponse } from "@/types"
 import { CloseOutlined } from "@ant-design/icons"
@@ -9,6 +10,8 @@ interface AssignToModalProps {
 }
 
 function AssignToModal({ onClick, showMe }: AssignToModalProps) {
+  useFetchFriends()
+
   const { showAssignMenu, closeAssignMenu, listFriends } = useFriendStore()
 
   const filteredFriends = showMe

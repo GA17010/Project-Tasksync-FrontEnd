@@ -1,6 +1,6 @@
 import { FriendRequest, FriendResponse, TaskResponse } from "@/types"
+import { create } from "@/utils/locales/zustand"
 import friendService from "@/utils/services/friendServices"
-import { create } from "zustand"
 
 type FriendState = {
   listFriends: FriendResponse[] | null
@@ -21,8 +21,13 @@ type FriendState = {
   sendRequest: (email: FriendRequest) => Promise<boolean>
 }
 
-export const useFriendStore = create<FriendState>((set) => ({
-  listFriends: null,
+const getInitialListFriends = (): FriendResponse[] | null => {
+  const storedUser = sessionStorage.getItem("listFriends")
+  return storedUser ? JSON.parse(storedUser) : null
+}
+
+export const useFriendStore = create<FriendState>()((set) => ({
+  listFriends: getInitialListFriends(),
   showAssignMenu: false,
   showRequestFriendModal: false,
   friendError: null,

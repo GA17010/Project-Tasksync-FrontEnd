@@ -4,6 +4,7 @@ import apiService from "@/utils/services/apiServices"
 const projectService = {
   fetchFriends: async (): Promise<FriendResponse[]> => {
     const response = await apiService.get<FriendResponse[]>("/api/friends/list")
+    sessionStorage.setItem("listFriends", JSON.stringify(response))
     return response
   },
 

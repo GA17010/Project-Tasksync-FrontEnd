@@ -2,8 +2,8 @@ import {
   AuthResponse,
   CheckResponse,
   Credentials,
-  User,
   RegisterDataRequest,
+  User,
 } from "@/types"
 import apiService from "@/utils/services/apiServices"
 
@@ -13,6 +13,7 @@ const authService = {
       "/api/register",
       userData
     )
+    sessionStorage.setItem("user", JSON.stringify(response.user))
     localStorage.setItem("token", response.token)
     return response
   },
@@ -22,6 +23,7 @@ const authService = {
       "/api/login",
       credentials
     )
+    sessionStorage.setItem("user", JSON.stringify(response.user))
     localStorage.setItem("token", response.token)
     return response
   },
@@ -29,6 +31,8 @@ const authService = {
   logout: async (): Promise<void> => {
     await apiService.post("/api/logout")
     localStorage.removeItem("token")
+    sessionStorage.removeItem("user")
+    sessionStorage.removeItem("listFriends")
   },
 
   checkAuth: async (): Promise<AuthResponse> => {
@@ -44,6 +48,7 @@ const authService = {
 
   fetchMe: async (): Promise<User> => {
     const response = await apiService.get<User>("/api/me")
+    sessionStorage.setItem("user", JSON.stringify(response))
     return response
   },
 }
