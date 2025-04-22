@@ -1,4 +1,4 @@
-import { create } from "zustand"
+import { create } from "@/utils/locales/zustand"
 
 interface DropdownState {
   activeDropdownId: string | null
@@ -7,7 +7,7 @@ interface DropdownState {
   closeAllDropdowns: () => void
 }
 
-export const useDropdownStore = create<DropdownState>((set) => ({
+export const useDropdownStore = create<DropdownState>()((set) => ({
   activeDropdownId: null,
   openDropdown: (id) => set({ activeDropdownId: id }),
   closeDropdown: (id) =>

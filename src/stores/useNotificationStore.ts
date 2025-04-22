@@ -1,5 +1,5 @@
 import { Data_notification } from "@/types"
-import { create } from "zustand"
+import { create } from "@/utils/locales/zustand"
 
 interface NotificationState {
   Data_notification: Data_notification[]
@@ -67,7 +67,7 @@ const dataNotification: Data_notification[] = [
   },
 ]
 
-export const useNotificationStore = create<NotificationState>((set) => ({
+export const useNotificationStore = create<NotificationState>()((set) => ({
   Data_notification: dataNotification,
   COUNT_UNREAD_NOTIFICATIONS: dataNotification.filter(
     (element) => !element.timestamps.isRead

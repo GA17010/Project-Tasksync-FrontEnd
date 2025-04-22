@@ -1,7 +1,7 @@
 import { TaskRequest, Tasks } from "@/types"
 import { transformToKanban } from "@/utils/locales/taskUtils"
+import { create } from "@/utils/locales/zustand"
 import taskService from "@/utils/services/taskServices"
-import { create } from "zustand"
 import { useCustomizerStore } from "./useCustomerStore"
 
 interface TaskStoreState {
@@ -23,7 +23,7 @@ interface TaskStoreState {
   deleteTask: (task_id: string) => Promise<boolean>
 }
 
-export const taskStore = create<TaskStoreState>((set, get) => ({
+export const taskStore = create<TaskStoreState>()((set, get) => ({
   tasks: {
     todo: [],
     in_progress: [],
@@ -54,6 +54,7 @@ export const taskStore = create<TaskStoreState>((set, get) => ({
       } else {
         set({ taskError: "An unknown error occurred." })
       }
+      set({ tasks: transformToKanban([]) })
       return false
     }
   },

@@ -1,6 +1,6 @@
 import { ProjectRequest, ProjectResponse } from "@/types"
+import { create } from "@/utils/locales/zustand"
 import projectService from "@/utils/services/projectService"
-import { create } from "zustand"
 
 interface ProjectStoreState {
   ListProject: ProjectResponse[] | null
@@ -24,7 +24,7 @@ interface ProjectStoreState {
   sharedProject: (projectId: string, friendId: string) => void
 }
 
-export const useProjectStore = create<ProjectStoreState>((set) => ({
+export const useProjectStore = create<ProjectStoreState>()((set) => ({
   ListProject: null,
   showProjectFormModal: false,
   projectError: null,

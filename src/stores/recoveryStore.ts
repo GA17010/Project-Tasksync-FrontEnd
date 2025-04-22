@@ -1,6 +1,6 @@
 import { Email, ResetData, VerifyData } from "@/types"
+import { create } from "@/utils/locales/zustand"
 import recoveryService from "@/utils/services/recoveryServices"
-import { create } from "zustand"
 
 interface RecoveryStore {
   recoveryError: string | null
@@ -12,7 +12,7 @@ interface RecoveryStore {
   resetPassword: (resetData: ResetData) => Promise<boolean>
 }
 
-export const useRecoveryStore = create<RecoveryStore>((set) => ({
+export const useRecoveryStore = create<RecoveryStore>()((set) => ({
   recoveryError: null,
   successRecovery: null,
   recoveryEmail: null,

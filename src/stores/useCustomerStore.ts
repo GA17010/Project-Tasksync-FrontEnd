@@ -1,4 +1,4 @@
-import { create } from "zustand"
+import { create } from "@/utils/locales/zustand"
 
 type CustomizerState = {
   Profile_dropdown: boolean
@@ -19,7 +19,7 @@ type CustomizerState = {
   SET_SEARCHBAR_DROPDOWN: () => void
 }
 
-export const useCustomizerStore = create<CustomizerState>((set) => ({
+export const useCustomizerStore = create<CustomizerState>()((set) => ({
   Profile_dropdown: false,
   Notification_dropdown: false,
   SearchBar_dropdown: false,
