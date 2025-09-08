@@ -1,19 +1,26 @@
+import { lazy } from "react"
+import { createBrowserRouter } from "react-router"
 import App from "@/App"
 import HydrateFallback from "@/components/HydrateFallback"
-import AuthLayout from "@/layouts/authentication/AuthLayout"
-import DashboardLayout from "@/layouts/dashboard/DashboardLayout"
-import KanbanLayout from "@/layouts/dashboard/KanbanLayout"
-import ForgotPasswordPage from "@/pages/authentication/ForgotPasswordPage"
-import LoginPage from "@/pages/authentication/LoginPage"
-import RegisterPage from "@/pages/authentication/RegisterPage"
-import ResetPasswordForm from "@/pages/authentication/ResetPasswordPage"
-import VerifyCodeForm from "@/pages/authentication/VerifyCodePage"
-import HomePage from "@/pages/dashboard/DashboardPage"
-import ProjectPage from "@/pages/dashboard/ProjectPage"
-import WelcomePage from "@/pages/WelcomePage"
 import { authLoader } from "@/utils/loaders/authLoader"
 import { publicLoader } from "@/utils/loaders/publicLoader"
-import { createBrowserRouter } from "react-router"
+
+// Lazy load pages
+const WelcomePage = lazy(() => import("@/pages/WelcomePage"))
+const AuthLayout = lazy(() => import("@/layouts/authentication/AuthLayout"))
+const DashboardLayout = lazy(() => import("@/layouts/dashboard/DashboardLayout"))
+const KanbanLayout = lazy(() => import("@/layouts/dashboard/KanbanLayout"))
+
+// Authentication pages
+const ForgotPasswordPage = lazy(() => import("@/pages/authentication/ForgotPasswordPage"))
+const LoginPage = lazy(() => import("@/pages/authentication/LoginPage"))
+const RegisterPage = lazy(() => import("@/pages/authentication/RegisterPage"))
+const ResetPasswordForm = lazy(() => import("@/pages/authentication/ResetPasswordPage"))
+const VerifyCodeForm = lazy(() => import("@/pages/authentication/VerifyCodePage"))
+
+// Dashboard pages
+const HomePage = lazy(() => import("@/pages/dashboard/DashboardPage"))
+const ProjectPage = lazy(() => import("@/pages/dashboard/ProjectPage"))
 
 export const router = createBrowserRouter([
   {

@@ -1,6 +1,6 @@
 // Configuración base de Fetch
 import { Body } from '@/types'
-const API_BASE_URL: string = `${import.meta.env.VITE_API_BASE_URL}`
+const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL
 
 const apiService = {
   get: async <T>(endpoint: string, config?: RequestInit): Promise<T> => {

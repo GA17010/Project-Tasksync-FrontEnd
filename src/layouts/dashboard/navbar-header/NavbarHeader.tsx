@@ -90,7 +90,7 @@ export default function NavbarHeader() {
         {/* Right Section */}
         <div className="flex items-center gap-2">
           <a
-            href="https://github.com/GA17010/project-admin"
+            href="https://github.com/GA17010/Project-Tasksync-FrontEnd"
             target="_blank"
             rel="noreferrer"
             className="hidden text-dark sm:flex rounded-md"
