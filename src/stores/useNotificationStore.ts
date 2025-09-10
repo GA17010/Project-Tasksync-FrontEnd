@@ -1,14 +1,18 @@
-import { Data_notification } from "@/types"
+import { NotificationResponse } from "@/types"
 import { create } from "@/utils/locales/zustand"
+import notificationService from "@/utils/services/notificationService"
 
 interface NotificationState {
-  Data_notification: Data_notification[]
+  Data_notification: NotificationResponse[]
+  notificationError?: string
+  COUNT_UNREAD_NOTIFICATIONS: number
+
   SET_IS_READ_ONE: (id: number) => void
   SET_IS_READ_ALL: () => void
-  COUNT_UNREAD_NOTIFICATIONS: number
+  fetchNotification: () => Promise<boolean>
 }
 
-const dataNotification: Data_notification[] = [
+const dataNotification: NotificationResponse[] = [
   {
     id: 1,
     message: {
@@ -72,7 +76,7 @@ export const useNotificationStore = create<NotificationState>()((set) => ({
   COUNT_UNREAD_NOTIFICATIONS: dataNotification.filter(
     (element) => !element.timestamps.isRead
   ).length,
-  SET_IS_READ_ONE: (id: number) =>
+  SET_IS_READ_ONE: (id: number) => {
     set((state) => {
       const updatedNotifications = state.Data_notification.map((notification) =>
         notification.id === id
@@ -88,7 +92,8 @@ export const useNotificationStore = create<NotificationState>()((set) => ({
           (element) => !element.timestamps.isRead
         ).length,
       }
-    }),
+    })
+  },
   SET_IS_READ_ALL: () => {
     set((state) => {
       const updatedNotifications = state.Data_notification.map(
@@ -102,5 +107,28 @@ export const useNotificationStore = create<NotificationState>()((set) => ({
         COUNT_UNREAD_NOTIFICATIONS: 0,
       }
     })
+  },
+
+  fetchNotification: async () => {
+    try {
+      const response = await notificationService.fetchNotification()
+
+      set({
+        Data_notification: response,
+      })
+      return true
+    } catch (error) {
+      if (error instanceof TypeError && error.message === "Failed to fetch") {
+        set({ notificationError: "Connection error" })
+      } else if (error instanceof Error) {
+        set({
+          notificationError:
+            "Error in obtaining notifications, please try again.",
+        })
+      } else {
+        set({ notificationError: "An unknown error occurred." })
+      }
+      return false
+    }
   },
 }))

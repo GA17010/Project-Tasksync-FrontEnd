@@ -24,38 +24,40 @@ function DropdownProjectMenu({ project }: DropdownProjectMenuProps) {
   const projectId: string = project.id
 
   return (
-    <>
-      <ul className="py-2">
-        {/* Option - Delete project */}
-        <li
-          onClick={() => deleteProject(project.id)}
-          className="px-4 py-2 text-tasksync-danger hover:bg-red-100 dark:hover:bg-red-300/20 cursor-pointer"
-        >
-          <DeleteOutlined className="mr-2" />
-          Delete
-        </li>
+    <ul className="py-2">
+      {/* Option - Delete project */}
+      <li
+        onClick={() => void deleteProject(project.id)}
+        className="px-4 py-2 text-tasksync-danger hover:bg-red-100 dark:hover:bg-red-300/20 cursor-pointer"
+      >
+        <DeleteOutlined className="mr-2" />
+        Delete
+      </li>
 
-        {/* Option - Add friend */}
-        <li
-          className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
-          onClick={() => setProjectAndToggleMenu(projectId)}
-        >
-          <UsergroupAddOutlined className="mr-2" />
-          Add friend
-        </li>
+      {/* Option - Add friend */}
+      <li
+        className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+        onClick={() => {
+          setProjectAndToggleMenu(projectId)
+        }}
+      >
+        <UsergroupAddOutlined className="mr-2" />
+        Add friend
+      </li>
 
-        {/* Option - Edit project */}
-        <li
-          className="px-4 py-2 flex hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
-          onClick={() => setShowUpdateProject(projectRequest, projectId)}
-        >
-          <div className="flex items-center">
-            <EditOutlined className="mr-2" />
-            <span>Edit proyect</span>
-          </div>
-        </li>
-      </ul>
-    </>
+      {/* Option - Edit project */}
+      <li
+        className="px-4 py-2 flex hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+        onClick={() => {
+          setShowUpdateProject(projectRequest, projectId)
+        }}
+      >
+        <div className="flex items-center">
+          <EditOutlined className="mr-2" />
+          <span>Edit proyect</span>
+        </div>
+      </li>
+    </ul>
   )
 }
 

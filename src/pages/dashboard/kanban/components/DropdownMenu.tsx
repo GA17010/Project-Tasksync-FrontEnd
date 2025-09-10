@@ -22,7 +22,7 @@ function DropdownMenu({ task }: DropdownMenuProps) {
       <ul className="py-2">
         {/* Option - Delete Task */}
         <li
-          onClick={() => deleteTask(task.id)}
+          onClick={() => void deleteTask(task.id)}
           className="px-4 py-2 text-tasksync-danger hover:bg-red-100 dark:hover:bg-red-300/20 cursor-pointer"
         >
           <DeleteOutlined className="mr-2" />
@@ -32,7 +32,9 @@ function DropdownMenu({ task }: DropdownMenuProps) {
         {/* Option - Assign task to */}
         <li
           className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
-          onClick={() => setTaskAndToggleMenu(task)}
+          onClick={() => {
+            setTaskAndToggleMenu(task)
+          }}
         >
           <UsergroupAddOutlined className="mr-2" />
           Assign to

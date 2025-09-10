@@ -1,12 +1,12 @@
 import { ProjectRequest, ProjectResponse } from "@/types"
 import { create } from "@/utils/locales/zustand"
 import projectService from "@/utils/services/projectService"
+import toast from "react-hot-toast"
 
 interface ProjectStoreState {
   ListProject: ProjectResponse[] | null
   showProjectFormModal: boolean
   projectError: string | null
-  createProjSuccess: string | null
   typeModal: string | null
   project: ProjectRequest | null
   projectId: string | null
@@ -20,8 +20,8 @@ interface ProjectStoreState {
     project: ProjectRequest,
     projectId: string
   ) => Promise<boolean>
-  deleteProject: (ProjectId: string) => void
-  sharedProject: (projectId: string, friendId: string) => void
+  deleteProject: (ProjectId: string) => Promise<void>
+  sharedProject: (projectId: string, friendId: string) => Promise<boolean>
 }
 
 export const useProjectStore = create<ProjectStoreState>()((set) => ({
@@ -69,10 +69,10 @@ export const useProjectStore = create<ProjectStoreState>()((set) => ({
       })
 
       set({
-        createProjSuccess: "Project successfully created",
         projectError: "",
       })
 
+      toast.success("Project successfully created")
       return true
     } catch (error) {
       if (error instanceof TypeError && error.message === "Failed to fetch") {
@@ -82,6 +82,7 @@ export const useProjectStore = create<ProjectStoreState>()((set) => ({
       } else {
         set({ projectError: "An unknown error occurred." })
       }
+      toast.error("An error occurred while creating the project.")
       return false
     }
   },
@@ -121,7 +122,6 @@ export const useProjectStore = create<ProjectStoreState>()((set) => ({
       })
 
       set({
-        createProjSuccess: "Project successfully updated",
         projectError: "",
       })
 
@@ -154,11 +154,9 @@ export const useProjectStore = create<ProjectStoreState>()((set) => ({
       })
 
       set({
-        createProjSuccess: "Project successfully deleted",
         projectError: "",
       })
-
-      return true
+      toast.success("Project successfully deleted")
     } catch (error) {
       if (error instanceof TypeError && error.message === "Failed to fetch") {
         set({ projectError: "Connection error" })
@@ -171,7 +169,8 @@ export const useProjectStore = create<ProjectStoreState>()((set) => ({
         set({ projectError: "An unknown error occurred." })
       }
       set({ showProjectFormModal: false })
-      return false
+
+      toast.error("Error deleting project, please try again.")
     }
   },
 
@@ -180,7 +179,6 @@ export const useProjectStore = create<ProjectStoreState>()((set) => ({
       await projectService.sharedProject(projectId, userId)
 
       set({
-        createProjSuccess: "Successfully shared project",
         projectError: "",
       })
 

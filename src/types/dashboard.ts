@@ -56,3 +56,32 @@ export interface FriendResponse {
 export interface FriendRequest {
   receiver_email: string
 }
+
+export interface NotificationResponse {
+  id: number
+  message: {
+    prefix: string
+    main: string
+    suffix: string
+  }
+  timestamps: {
+    receivedAt: string
+    lastSeen: string
+    isRead: boolean
+  }
+  category: "reminder" | "interaction" | "system" | "invitation"
+}
+
+export interface NotificationRequest {
+  message: {
+    prefix: string
+    main: string
+    suffix: string
+  }
+  timestamps: {
+    receivedAt: string
+    lastSeen: string
+    isRead: boolean
+  }
+  category: "reminder" | "interaction" | "system" | "invitation"
+}

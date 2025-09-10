@@ -117,6 +117,7 @@ export default function TaskColumn({ id, title, tasks }: TaskColumnProps) {
           {/* Add task button */}
           <div className="flex">
             <button
+              type="button"
               className="px-4 py-2 w-full text-left text-sm font-semibold cursor-pointer rounded-b-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600/20"
               onClick={handleCreateTask}
             >

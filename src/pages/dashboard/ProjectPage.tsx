@@ -39,7 +39,7 @@ export default function ProjectPage() {
   React.useEffect(() => {
     if (!idProject) return
     setProject_id(idProject)
-    fetchTasks(idProject)
+    void fetchTasks(idProject)
   }, [fetchTasks, idProject, setProject_id])
 
   const sensors = useSensors(
@@ -58,12 +58,12 @@ export default function ProjectPage() {
     const columnId = findColumn(tasks, active.id)
     if (!columnId) return
 
-    setStatusOrigin(columnId?.toString())
+    setStatusOrigin(columnId.toString())
 
     const task = tasks[columnId as keyof Tasks].find(
       (task) => task.id === active.id
     )
-    setActiveTask(task || null)
+    setActiveTask(task ?? null)
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -114,20 +114,24 @@ export default function ProjectPage() {
             [sourceColumnId]: newSourceColumnTasks,
             [destinationColumnId]: newDestinationColumnTasks,
           }
-          updateTask(
+          void updateTask(
             idProject,
             updatedTask.id,
             updatedTask.assigned_to?.id,
             updatedTask.status.toString()
           )
-
           setTasks(newTasks)
           return
         }
       }
       if (!statusUpdated) return
       if (statusOrigin !== statusUpdated) {
-        updateTask(idProject, active.id.toString(), undefined, statusUpdated)
+        void updateTask(
+          idProject,
+          active.id.toString(),
+          undefined,
+          statusUpdated
+        )
       }
     }
   }
@@ -149,8 +153,7 @@ export default function ProjectPage() {
     if (sourceColumnId === destinationColumnId) return
 
     const sourceColumnTasks = tasks[sourceColumnId as keyof Tasks]
-    const destinationColumnTasks =
-      tasks[destinationColumnId as keyof Tasks] || []
+    const destinationColumnTasks = tasks[destinationColumnId as keyof Tasks]
 
     const taskToMove = sourceColumnTasks.find((task) => task.id === active.id)
     if (!taskToMove) return
@@ -178,8 +181,7 @@ export default function ProjectPage() {
 
     if (!taskToAssign || !idProject) return
 
-    updateTask(idProject, taskToAssign.id, friend.id)
-
+    void updateTask(idProject, taskToAssign.id, friend.id)
     handleAssign()
   }
 
@@ -193,19 +195,21 @@ export default function ProjectPage() {
           onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}
         >
-          {Object.entries(tasks).map(([columnId, columnTasks]) => (
-            <SortableContext
-              key={columnId}
-              items={columnTasks.map((task: TaskResponse) => task.id)}
-              strategy={verticalListSortingStrategy}
-            >
-              <TaskColumn
-                id={columnId}
-                title={getTitle(columnId)}
-                tasks={columnTasks}
-              />
-            </SortableContext>
-          ))}
+          {Object.entries(tasks).map(
+            ([columnId, columnTasks]: [string, TaskResponse[]]) => (
+              <SortableContext
+                key={columnId}
+                items={columnTasks.map((task: TaskResponse) => task.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <TaskColumn
+                  id={columnId}
+                  title={getTitle(columnId)}
+                  tasks={columnTasks}
+                />
+              </SortableContext>
+            )
+          )}
 
           <DragOverlay>
             {activeTask ? (

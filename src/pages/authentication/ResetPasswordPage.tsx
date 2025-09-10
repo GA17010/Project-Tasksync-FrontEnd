@@ -66,7 +66,7 @@ function ResetPasswordForm() {
     const code = recoveryCode
 
     if (!email || !code) {
-      navigate("/login")
+      void navigate("/login")
       return
     }
 
@@ -79,7 +79,7 @@ function ResetPasswordForm() {
     const response = await resetPassword(resetData)
 
     if (response) {
-      navigate("/login")
+      void navigate("/login")
     } else {
       setIsSubmitting(false)
     }
@@ -94,7 +94,12 @@ function ResetPasswordForm() {
 
   return (
     <div className="w-full flex justify-center">
-      <form className="max-w-md mt-5 w-full" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="max-w-md mt-5 w-full"
+        onSubmit={() => {
+          void handleSubmit(onSubmit)
+        }}
+      >
         <div className="w-full flex justify-between items-center mb-4">
           <h3 className="text-2xl font-semibold text-center mb-0">
             Reset your Password
@@ -124,23 +129,23 @@ function ResetPasswordForm() {
             />
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => {
+                setShowPassword(!showPassword)
+              }}
               className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer"
             >
               {!showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
             </button>
           </div>
-          {errors.password && (
-            <p
-              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                errors.password
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 -translate-y-2"
-              }`}
-            >
-              {errors.password.message}
-            </p>
-          )}
+          <p
+            className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+              errors.password
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-2"
+            }`}
+          >
+            {errors.password?.message}
+          </p>
         </div>
         <div className="mb-4">
           <label
@@ -162,7 +167,9 @@ function ResetPasswordForm() {
             />
             <button
               type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              onClick={() => {
+                setShowConfirmPassword(!showConfirmPassword)
+              }}
               className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer"
             >
               {!showConfirmPassword ? (
@@ -172,17 +179,15 @@ function ResetPasswordForm() {
               )}
             </button>
           </div>
-          {errors.confirmPassword && (
-            <p
-              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                errors.confirmPassword
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 -translate-y-2"
-              }`}
-            >
-              {errors.confirmPassword.message}
-            </p>
-          )}
+          <p
+            className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+              errors.confirmPassword
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-2"
+            }`}
+          >
+            {errors.confirmPassword?.message}
+          </p>
         </div>
 
         <button

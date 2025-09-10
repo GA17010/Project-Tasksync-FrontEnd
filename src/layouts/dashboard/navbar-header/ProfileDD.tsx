@@ -26,18 +26,26 @@ function ProfileDD({ user, isSubmitting, onClick }: ProfileDDProps) {
   const { userAvatarSmall } = useUIStore()
 
   const profileItems = [
-    { icon: <EditOutlined />, text: "Edit Profile" },
-    { icon: <UserOutlined />, text: "View Profile" },
-    { icon: <ProfileOutlined />, text: "Social Profile" },
-    { icon: <WalletOutlined />, text: "Billing" },
+    { slug: "edit-profile", icon: <EditOutlined />, text: "Edit Profile" },
+    { slug: "view-profile", icon: <UserOutlined />, text: "View Profile" },
+    {
+      slug: "social-profile",
+      icon: <ProfileOutlined />,
+      text: "Social Profile",
+    },
+    { slug: "billing", icon: <WalletOutlined />, text: "Billing" },
   ]
 
   const settingItems = [
-    { icon: <QuestionCircleOutlined />, text: "Support" },
-    { icon: <UserOutlined />, text: "Account settings" },
-    { icon: <LockOutlined />, text: "Privacy center" },
-    { icon: <CommentOutlined />, text: "Feedback" },
-    { icon: <UnorderedListOutlined />, text: "History" },
+    { slug: "support", icon: <QuestionCircleOutlined />, text: "Support" },
+    {
+      slug: "account-settings",
+      icon: <UserOutlined />,
+      text: "Account settings",
+    },
+    { slug: "privacy-center", icon: <LockOutlined />, text: "Privacy center" },
+    { slug: "feedback", icon: <CommentOutlined />, text: "Feedback" },
+    { slug: "history", icon: <UnorderedListOutlined />, text: "History" },
   ]
 
   const avatarUrl =
@@ -65,6 +73,7 @@ function ProfileDD({ user, isSubmitting, onClick }: ProfileDDProps) {
         </div>
         <div className="ml-auto">
           <button
+            type="button"
             className="rounded size-12 flex items-center justify-center hover:bg-blue-50 dark:hover:bg-gray-800 cursor-pointer"
             disabled={isSubmitting}
             onClick={onClick}
@@ -79,7 +88,10 @@ function ProfileDD({ user, isSubmitting, onClick }: ProfileDDProps) {
         <div className="flex border-b border-gray-200 dark:border-gray-600">
           {/* Button Profile */}
           <button
-            onClick={() => setTab("profile")}
+            type="button"
+            onClick={() => {
+              setTab("profile")
+            }}
             className={`flex-1 p-3 text-center border-b-2 transition-all duration-300 cursor-pointer ${
               tab === "profile"
                 ? "border-tasksync-primary text-tasksync-primary active:bg-blue-100 dark:active:bg-gray-800"
@@ -93,7 +105,10 @@ function ProfileDD({ user, isSubmitting, onClick }: ProfileDDProps) {
 
           {/* Button Settings */}
           <button
-            onClick={() => setTab("setting")}
+            type="button"
+            onClick={() => {
+              setTab("setting")
+            }}
             className={`flex-1 p-3 border-b-2 transition-all duration-300 cursor-pointer ${
               tab === "setting"
                 ? "border-tasksync-primary text-tasksync-primary active:bg-blue-200 dark:active:bg-gray-800"
@@ -117,9 +132,9 @@ function ProfileDD({ user, isSubmitting, onClick }: ProfileDDProps) {
             }`}
           >
             <ul>
-              {profileItems.map((item, index) => (
+              {profileItems.map((item) => (
                 <li
-                  key={index}
+                  key={item.slug}
                   className="flex items-center px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-all duration-300"
                 >
                   <div className="mr-4 text-gray-500 dark:text-gray-300">
@@ -148,9 +163,9 @@ function ProfileDD({ user, isSubmitting, onClick }: ProfileDDProps) {
             }`}
           >
             <ul>
-              {settingItems.map((item, index) => (
+              {settingItems.map((item) => (
                 <li
-                  key={index}
+                  key={item.slug}
                   className="flex items-center px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-all duration-300"
                 >
                   <div className="mr-4 text-gray-500 dark:text-gray-300">

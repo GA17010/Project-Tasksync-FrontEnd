@@ -26,7 +26,9 @@ function SelectAvatarModal({
                     ? "ring-2 ring-tasksync-primary"
                     : "hover:ring-1 ring-gray-300 dark:hover:ring-gray-500"
                 }`}
-                onClick={() => onClick(iconName)}
+                onClick={() => {
+                  onClick(iconName)
+                }}
               >
                 <img
                   src={imageUrl}

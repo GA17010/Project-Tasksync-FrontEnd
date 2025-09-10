@@ -122,12 +122,12 @@ function WelcomePage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
             <div
-              key={index}
-              className={`p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-tasksync-gray dark:border-gray-700 transition-all duration-400 ease-out transform hover:shadow-xl hover:-translate-y-2 delay-${
+              key={feature.title}
+              className={`p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-tasksync-gray dark:border-gray-700 transition-all duration-400 ease-out transform hover:shadow-xl hover:-translate-y-2 delay-${(
                 index * 100
-              }`}
+              ).toString()}`}
               style={{
-                transitionDelay: `${index * 100}ms`,
+                transitionDelay: `${(index * 100).toString()}ms`,
                 opacity: isVisible ? 1 : 0,
                 transform: isVisible ? "translateY(0)" : "translateY(20px)",
               }}

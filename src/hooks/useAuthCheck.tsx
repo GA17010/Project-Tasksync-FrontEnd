@@ -14,11 +14,15 @@ export const useAuthCheck = () => {
       const res = await fetchMe()
       if (!res) {
         localStorage.removeItem("token")
-        navigate("/login")
+        void navigate("/login")
       }
     }
 
-    checkAuth()
+    void checkAuth().catch((err: unknown) => {
+      console.error("Error checking auth:", err)
+      localStorage.removeItem("token")
+      void navigate("/login")
+    })
   }, [user, fetchMe, navigate])
 
   return null

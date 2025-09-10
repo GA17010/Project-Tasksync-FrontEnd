@@ -55,12 +55,10 @@ function CreateTaskForm({ idProject }: createTaskFormProps) {
       assigned_to: null,
     }
 
-    createTask(newTask, idProject)
+    await createTask(newTask, idProject)
 
     setIsSubmitting(false)
-
     setInputVisible()
-
     setValue("content", "")
   }
 
@@ -81,7 +79,9 @@ function CreateTaskForm({ idProject }: createTaskFormProps) {
     }
 
     document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
   }, [inputVisible, setInputVisible, resetColumnIndicatorVisible])
 
   React.useEffect(() => {
@@ -107,7 +107,7 @@ function CreateTaskForm({ idProject }: createTaskFormProps) {
         }`}
       >
         <div className="flex items-center border-2 rounded-full border-tasksync-primary bg-white dark:bg-gray-900 ">
-          <form onSubmit={handleSubmit(onSubmit)} className="flex w-full">
+          <form onSubmit={() => handleSubmit(onSubmit)} className="flex w-full">
             <input
               id="task"
               type="text"

@@ -2,7 +2,7 @@ import { FriendRequest, FriendResponse, TaskResponse } from "@/types"
 import { create } from "@/utils/locales/zustand"
 import friendService from "@/utils/services/friendServices"
 
-type FriendState = {
+interface FriendState {
   listFriends: FriendResponse[] | null
   showAssignMenu: boolean
   showRequestFriendModal: boolean
@@ -23,7 +23,7 @@ type FriendState = {
 
 const getInitialListFriends = (): FriendResponse[] | null => {
   const storedUser = sessionStorage.getItem("listFriends")
-  return storedUser ? JSON.parse(storedUser) : null
+  return storedUser ? (JSON.parse(storedUser) as FriendResponse[]) : null
 }
 
 export const useFriendStore = create<FriendState>()((set) => ({

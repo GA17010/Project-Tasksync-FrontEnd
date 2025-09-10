@@ -3,24 +3,24 @@ import { transformToKanban } from "@/utils/locales/taskUtils"
 import { create } from "@/utils/locales/zustand"
 import taskService from "@/utils/services/taskServices"
 import { useCustomizerStore } from "./useCustomerStore"
+import toast from "react-hot-toast"
 
 interface TaskStoreState {
   tasks: Tasks
   taskError: string | null
-  createTaskSuccess: string | null
   project_id: string | null
 
   setProject_id: (id: string) => void
   setTasks: (tasks: Tasks) => void
   createTask: (task: TaskRequest, project_id: string) => Promise<boolean>
-  fetchTasks: (project_id: string) => Promise<boolean>
+  fetchTasks: (project_id: string) => Promise<void>
   updateTask: (
     project_id: string,
     task_id: string,
     user_id_to_assign?: string,
     status?: string
   ) => Promise<boolean>
-  deleteTask: (task_id: string) => Promise<boolean>
+  deleteTask: (task_id: string) => Promise<void>
 }
 
 export const taskStore = create<TaskStoreState>()((set, get) => ({
@@ -31,7 +31,6 @@ export const taskStore = create<TaskStoreState>()((set, get) => ({
     done: [],
   },
   taskError: null,
-  createTaskSuccess: null,
   project_id: null,
 
   setProject_id: (id: string) => {
@@ -45,7 +44,6 @@ export const taskStore = create<TaskStoreState>()((set, get) => ({
       const response = await taskService.fetchTasks(project_id)
 
       set({ tasks: transformToKanban(response) })
-      return true
     } catch (error) {
       if (error instanceof TypeError && error.message === "Failed to fetch") {
         set({ taskError: "Connection error" })
@@ -55,7 +53,6 @@ export const taskStore = create<TaskStoreState>()((set, get) => ({
         set({ taskError: "An unknown error occurred." })
       }
       set({ tasks: transformToKanban([]) })
-      return false
     }
   },
   createTask: async (task: TaskRequest, project_id: string) => {
@@ -80,10 +77,10 @@ export const taskStore = create<TaskStoreState>()((set, get) => ({
       useCustomizerStore.getState().resetColumnIndicatorVisible()
 
       set({
-        createTaskSuccess: "Task successfully created",
         taskError: "",
       })
 
+      toast.success("Task successfully created")
       return true
     } catch (error) {
       if (error instanceof TypeError && error.message === "Failed to fetch") {
@@ -94,11 +91,13 @@ export const taskStore = create<TaskStoreState>()((set, get) => ({
         set({ taskError: "An unknown error occurred." })
       }
       useCustomizerStore.getState().resetColumnIndicatorVisible()
+      toast.error("An error occurred while creating the task.")
       return false
     }
   },
   updateTask: async (project_id, task_id, user_id_to_assign, status) => {
     try {
+      console.log("Updating task:", { project_id, task_id, user_id_to_assign, status })
       const response = await taskService.updateTask(
         project_id,
         task_id,
@@ -118,7 +117,6 @@ export const taskStore = create<TaskStoreState>()((set, get) => ({
       })
 
       set({
-        createTaskSuccess: "Task successfully updated",
         taskError: "",
       })
 
@@ -137,7 +135,7 @@ export const taskStore = create<TaskStoreState>()((set, get) => ({
   deleteTask: async (task_id: string) => {
     try {
       const project_id = get().project_id
-      if (!project_id) return false
+      if (!project_id) return
 
       await taskService.deleteTask(project_id, task_id)
 
@@ -153,11 +151,8 @@ export const taskStore = create<TaskStoreState>()((set, get) => ({
       })
 
       set({
-        createTaskSuccess: "Task successfully deleted",
         taskError: "",
       })
-
-      return true
     } catch (error) {
       if (error instanceof TypeError && error.message === "Failed to fetch") {
         set({ taskError: "Connection error" })
@@ -168,7 +163,6 @@ export const taskStore = create<TaskStoreState>()((set, get) => ({
       } else {
         set({ taskError: "An unknown error occurred." })
       }
-      return false
     }
   },
 }))

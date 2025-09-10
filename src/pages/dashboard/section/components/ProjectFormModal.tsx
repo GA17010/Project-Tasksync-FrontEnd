@@ -104,7 +104,7 @@ function ProjectFormModal() {
           {/* List */}
           <form
             className="max-w-md p-4 w-full overflow-y-auto"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={() => handleSubmit(onSubmit)}
           >
             <div className="mb-4">
               <label
@@ -123,17 +123,15 @@ function ProjectFormModal() {
                 {...register("name")}
                 aria-invalid={errors.name ? "true" : "false"}
               />
-              {errors.name && (
-                <p
-                  className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                    errors.name
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 -translate-y-2"
-                  }`}
-                >
-                  {errors.name.message}
-                </p>
-              )}
+              <p
+                className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+                  errors.name
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-2"
+                }`}
+              >
+                {errors.name?.message}
+              </p>
             </div>
             <div className="mb-4">
               <label
@@ -153,7 +151,6 @@ function ProjectFormModal() {
                   aria-invalid={errors.description ? "true" : "false"}
                 />
               </div>
-              {errors.description && (
                 <p
                   className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
                     errors.description
@@ -161,9 +158,8 @@ function ProjectFormModal() {
                       : "opacity-0 -translate-y-2"
                   }`}
                 >
-                  {errors.description.message}
+                  {errors.description?.message}
                 </p>
-              )}
             </div>
 
             <button
@@ -191,6 +187,7 @@ function ProjectFormModal() {
 
           {/* Close Modal */}
           <button
+            type="button"
             onClick={closeProjectFormModal}
             className="absolute top-1 right-1 py-1.5 px-2.5 text-lg text-tasksync-danger hover:bg-tasksync-danger/20 cursor-pointer rounded-lg"
           >

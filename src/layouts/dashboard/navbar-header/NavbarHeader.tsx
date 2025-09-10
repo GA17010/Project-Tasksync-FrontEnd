@@ -1,14 +1,14 @@
+import { useAuthCheck } from "@/hooks/useAuthCheck"
 import { useAuthStore } from "@/stores/authStore"
 import { useUIStore } from "@/stores/uiStore"
 import { useCustomizerStore } from "@/stores/useCustomerStore"
+import { resetAllStores } from "@/utils/locales/zustand"
 import { GithubOutlined } from "@ant-design/icons"
 import React from "react"
 import { useNavigate } from "react-router"
 import LogoLink from "../logo/LogoLink"
 import NotificationDD from "./NotificationDD"
 import ProfileDD from "./ProfileDD"
-import { useAuthCheck } from "@/hooks/useAuthCheck"
-import { resetAllStores } from "@/utils/locales/zustand"
 
 export default function NavbarHeader() {
   useAuthCheck()
@@ -54,7 +54,9 @@ export default function NavbarHeader() {
     }
 
     window.addEventListener("click", handleClickOutside)
-    return () => window.removeEventListener("click", handleClickOutside)
+    return () => {
+      window.removeEventListener("click", handleClickOutside)
+    }
   }, [
     Profile_dropdown,
     SearchBar_dropdown,
@@ -70,7 +72,7 @@ export default function NavbarHeader() {
 
     const response = await logout()
     if (response) {
-      navigate("/login")
+      void navigate("/login")
       resetAllStores()
     } else {
       setIsSubmitting(false)
@@ -103,6 +105,7 @@ export default function NavbarHeader() {
           {/* Profile dropdown */}
           <div ref={userProfileMenu} className="relative flex">
             <button
+              type="button"
               onClick={SET_PROFILE_DROPDOWN}
               className="rounded-md hover:bg-gray-300 dark:hover:bg-tasksync-dark px-2 cursor-pointer"
             >
@@ -119,7 +122,7 @@ export default function NavbarHeader() {
                       />
                     </div>
                     <h6 className="text-medium mb-0 hidden md:block">
-                      {user?.name}
+                      {user.name}
                     </h6>
                   </>
                 ) : (
@@ -149,7 +152,9 @@ export default function NavbarHeader() {
                 <ProfileDD
                   user={user}
                   isSubmitting={isSubmitting}
-                  onClick={handleLogout}
+                  onClick={() => {
+                    void handleLogout()
+                  }}
                 />
               )}
             </div>

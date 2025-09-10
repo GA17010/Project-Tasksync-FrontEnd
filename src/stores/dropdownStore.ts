@@ -9,10 +9,15 @@ interface DropdownState {
 
 export const useDropdownStore = create<DropdownState>()((set) => ({
   activeDropdownId: null,
-  openDropdown: (id) => set({ activeDropdownId: id }),
-  closeDropdown: (id) =>
+  openDropdown: (id) => {
+    set({ activeDropdownId: id })
+  },
+  closeDropdown: (id) => {
     set((state) =>
       state.activeDropdownId === id ? { activeDropdownId: null } : state
-    ),
-  closeAllDropdowns: () => set({ activeDropdownId: null }),
+    )
+  },
+  closeAllDropdowns: () => {
+    set({ activeDropdownId: null })
+  },
 }))

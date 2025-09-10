@@ -5,11 +5,16 @@ import { CloseOutlined } from "@ant-design/icons"
 import { yupResolver } from "@hookform/resolvers/yup"
 import React from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import * as yup from "yup"
 
 function RequestFriendModal() {
-  const { showRequestFriendModal, friendError, closeRequestFriendModal, sendRequest } =
-    useFriendStore()
+  const {
+    showRequestFriendModal,
+    friendError,
+    closeRequestFriendModal,
+    sendRequest,
+  } = useFriendStore()
 
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false)
 
@@ -48,6 +53,8 @@ function RequestFriendModal() {
     if (response) {
       closeRequestFriendModal()
 
+      toast.success("Request sent successfully")
+
       setValue("receiver_email", "")
       setIsSubmitting(false)
     } else {
@@ -78,7 +85,7 @@ function RequestFriendModal() {
           {/* List */}
           <form
             className="max-w-md p-4 w-full overflow-y-auto"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={() => handleSubmit(onSubmit)}
           >
             <div className="mb-4">
               <label
@@ -97,17 +104,15 @@ function RequestFriendModal() {
                 {...register("receiver_email")}
                 aria-invalid={errors.receiver_email ? "true" : "false"}
               />
-              {errors.receiver_email && (
-                <p
-                  className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                    errors.receiver_email
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 -translate-y-2"
-                  }`}
-                >
-                  {errors.receiver_email.message}
-                </p>
-              )}
+              <p
+                className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+                  errors.receiver_email
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-2"
+                }`}
+              >
+                {errors.receiver_email?.message}
+              </p>
             </div>
 
             <button
@@ -135,6 +140,7 @@ function RequestFriendModal() {
 
           {/* Close Modal */}
           <button
+            type="button"
             onClick={closeRequestFriendModal}
             className="absolute top-1 right-1 py-1.5 px-2.5 text-lg text-tasksync-danger hover:bg-tasksync-danger/20 cursor-pointer rounded-lg"
           >

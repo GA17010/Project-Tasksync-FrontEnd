@@ -1,6 +1,5 @@
-import { ProjectRequest } from "@/types"
+import { ProjectRequest, ProjectResponse } from "@/types"
 import apiService from "@/utils/services/apiServices"
-import { ProjectResponse} from "@/types"
 
 const projectService = {
   fetchProjects: async (): Promise<ProjectResponse[]> => {
@@ -32,12 +31,10 @@ const projectService = {
   },
 
   sharedProject: async (projectId: string, userId: string): Promise<void> => {
-    await apiService.post(`/api/projects/${projectId}/share`,
-      {
-        user_id: userId
-      }
-    )
-  }
+    await apiService.post(`/api/projects/${projectId}/share`, {
+      user_id: userId,
+    })
+  },
 }
 
 export default projectService

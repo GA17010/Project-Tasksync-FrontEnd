@@ -1,6 +1,6 @@
 import { create } from "@/utils/locales/zustand"
 
-type CustomizerState = {
+interface CustomizerState {
   Profile_dropdown: boolean
   Notification_dropdown: boolean
   SearchBar_dropdown: boolean
@@ -32,11 +32,14 @@ export const useCustomizerStore = create<CustomizerState>()((set) => ({
     // La lógica para enfocar el input se manejará en el componente del input
   },
 
-  resetColumnIndicatorVisible: () => set({ columnIndicatorVisible: "" }),
-  setInputVisible: () =>
+  resetColumnIndicatorVisible: () => {
+    set({ columnIndicatorVisible: "" })
+  },
+  setInputVisible: () => {
     set((state) => ({
       inputVisible: !state.inputVisible,
-    })),
+    }))
+  },
   inputActive: (status: string) => {
     set((state) => ({
       inputVisible: !state.inputVisible,
@@ -45,10 +48,13 @@ export const useCustomizerStore = create<CustomizerState>()((set) => ({
     }))
   },
 
-  SET_PROFILE_DROPDOWN: () =>
-    set((state) => ({ Profile_dropdown: !state.Profile_dropdown })),
-  SET_NOTIFICATION_DROPDOWN: () =>
-    set((state) => ({ Notification_dropdown: !state.Notification_dropdown })),
-  SET_SEARCHBAR_DROPDOWN: () =>
-    set((state) => ({ SearchBar_dropdown: !state.SearchBar_dropdown })),
+  SET_PROFILE_DROPDOWN: () => {
+    set((state) => ({ Profile_dropdown: !state.Profile_dropdown }))
+  },
+  SET_NOTIFICATION_DROPDOWN: () => {
+    set((state) => ({ Notification_dropdown: !state.Notification_dropdown }))
+  },
+  SET_SEARCHBAR_DROPDOWN: () => {
+    set((state) => ({ SearchBar_dropdown: !state.SearchBar_dropdown }))
+  },
 }))

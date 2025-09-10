@@ -40,7 +40,7 @@ function VerifyCodeForm() {
     setIsSubmitting(true)
 
     if (!recoveryEmail) {
-      navigate("/forgot-password")
+      void navigate("/forgot-password")
       return
     }
     const email = recoveryEmail
@@ -50,7 +50,7 @@ function VerifyCodeForm() {
     const response = await verifyCode(codeData)
 
     if (response) {
-      navigate("/reset-password")
+      void navigate("/reset-password")
     } else {
       setIsSubmitting(false)
     }
@@ -58,7 +58,12 @@ function VerifyCodeForm() {
 
   return (
     <div className="w-full flex justify-center">
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-6 w-full max-w-md">
+      <form
+        onSubmit={() => {
+          void handleSubmit(onSubmit)
+        }}
+        className="mt-6 w-full max-w-md"
+      >
         <div className="w-full flex justify-between mb-4">
           <h3 className="text-2xl font-semibold text-center mb-0">
             Verify Code
@@ -97,17 +102,15 @@ function VerifyCodeForm() {
             aria-invalid={errors.code ? "true" : "false"}
             {...register("code")}
           />
-          {errors.code && (
-            <p
-              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                errors.code
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 -translate-y-2"
-              }`}
-            >
-              {errors.code.message}
-            </p>
-          )}
+          <p
+            className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+              errors.code
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-2"
+            }`}
+          >
+            {errors.code?.message}
+          </p>
         </div>
 
         <div>

@@ -14,11 +14,11 @@ export const useFetchFriends = () => {
       const res = await fetchFriends()
       if (!res) {
         localStorage.removeItem("token")
-        navigate("/login")
+        void navigate("/login")
       }
     }
 
-    loadFriends()
+    void loadFriends()
   }, [listFriends, fetchFriends, navigate])
 
   return null

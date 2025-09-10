@@ -9,8 +9,7 @@ import { PlusOutlined } from "@ant-design/icons"
 function SectionUser() {
   useFetchFriends()
 
-  const { listFriends, setShowRequestFriendModal } =
-    useFriendStore()
+  const { listFriends, setShowRequestFriendModal } = useFriendStore()
   const { user } = useAuthStore()
   const { userAvatarLarge } = useUIStore()
 
@@ -46,7 +45,10 @@ function SectionUser() {
 
           {/* Edit Section */}
           <div className="flex flex-col items-center justify-center mt-4">
-            <button className="w-full h-9 rounded-full text-sm border cursor-pointer border-gray-300 dark:border-gray-500 bg-gray-100 dark:bg-tasksync-dark hover:bg-gray-200 dark:hover:bg-tasksync-dark/60">
+            <button
+              className="w-full h-9 rounded-full text-sm border cursor-pointer border-gray-300 dark:border-gray-500 bg-gray-100 dark:bg-tasksync-dark hover:bg-gray-200 dark:hover:bg-tasksync-dark/60"
+              type="button"
+            >
               Edit profile
             </button>
           </div>
@@ -55,10 +57,9 @@ function SectionUser() {
           <div>
             <h2 className="text-xl font-bold mt-4">Friends</h2>
             <div className="pt-2 flex items-center flex-wrap gap-1">
-              {filteredFriends &&
-                filteredFriends.map((friend) => (
-                  <FriendList key={friend.id} friend={friend} />
-                ))}
+              {filteredFriends?.map((friend) => (
+                <FriendList key={friend.id} friend={friend} />
+              ))}
               <div
                 onClick={setShowRequestFriendModal}
                 className="relative group flex items-center cursor-pointer"

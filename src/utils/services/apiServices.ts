@@ -1,6 +1,7 @@
 // Configuración base de Fetch
-import { Body } from '@/types'
+import { ApiError, ApiRequestBody } from "@/types"
 const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL
+const token: string | null = localStorage.getItem("token")
 
 const apiService = {
   get: async <T>(endpoint: string, config?: RequestInit): Promise<T> => {
@@ -8,8 +9,8 @@ const apiService = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`, // Agrega el token si está disponible
-      },
+        Authorization: token ? `Bearer ${token}` : undefined,
+      } as HeadersInit,
       credentials: "include",
       ...config,
     })
@@ -18,7 +19,7 @@ const apiService = {
 
   post: async <T>(
     endpoint: string,
-    body?: Body,
+    body?: ApiRequestBody,
     config?: RequestInit
   ): Promise<T> => {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -26,8 +27,8 @@ const apiService = {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`, // Agrega el token si está disponible
-      },
+        Authorization: token ? `Bearer ${token}` : undefined,
+      } as HeadersInit,
       credentials: "include",
       body: JSON.stringify(body),
       ...config,
@@ -37,7 +38,7 @@ const apiService = {
 
   put: async <T>(
     endpoint: string,
-    body: Body,
+    body: ApiRequestBody,
     config?: RequestInit
   ): Promise<T> => {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -45,8 +46,8 @@ const apiService = {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`, // Agrega el token si está disponible
-      },
+        Authorization: token ? `Bearer ${token}` : undefined,
+      } as HeadersInit,
       credentials: "include",
       body: JSON.stringify(body),
       ...config,
@@ -56,7 +57,7 @@ const apiService = {
 
   delete: async <T>(
     endpoint: string,
-    body?: Body,
+    body?: ApiRequestBody,
     config?: RequestInit
   ): Promise<T> => {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -64,8 +65,8 @@ const apiService = {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`, // Agrega el token si está disponible
-      },
+        Authorization: token ? `Bearer ${token}` : undefined,
+      } as HeadersInit,
       credentials: "include",
       body: JSON.stringify(body),
       ...config,
@@ -77,11 +78,11 @@ const apiService = {
 // Función para manejar la respuesta y los errores
 const handleResponse = async <T>(response: Response): Promise<T> => {
   if (!response.ok) {
-    const error = await response.json()
-
-    throw new Error(error.message || "Something went wrong")
+    const errorData: unknown = await response.json()
+    const error = errorData as ApiError
+    throw new Error(error.message ?? "Something went wrong")
   }
-  return response.json() as Promise<T>
+  return (await response.json()) as T
 }
 
 export default apiService

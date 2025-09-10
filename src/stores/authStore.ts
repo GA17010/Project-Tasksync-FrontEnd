@@ -1,6 +1,6 @@
-import { Credentials, RegisterDataRequest, User } from "@/types"
-import authService from "@/utils/services/authServices"
+import { LoginRequestBody, RegisterRequestBody, User } from "@/types"
 import { create } from "@/utils/locales/zustand"
+import authService from "@/utils/services/authServices"
 
 interface AuthStore {
   user: User | null
@@ -13,8 +13,8 @@ interface AuthStore {
   successRegister: string | null
   refreshError: string | null
   updateUnauthorized: (unauthorized: boolean) => void
-  registerUser: (userData: RegisterDataRequest) => Promise<boolean>
-  login: (credentials: Credentials) => Promise<boolean>
+  registerUser: (userData: RegisterRequestBody) => Promise<boolean>
+  login: (credentials: LoginRequestBody) => Promise<boolean>
   checkAuth: () => Promise<boolean>
   logout: () => Promise<boolean>
   fetchMe: () => Promise<boolean>
@@ -22,7 +22,7 @@ interface AuthStore {
 
 const getInitialUser = (): User | null => {
   const storedUser = sessionStorage.getItem("user")
-  return storedUser ? JSON.parse(storedUser) : null
+  return storedUser ? (JSON.parse(storedUser) as User) : null
 }
 
 export const useAuthStore = create<AuthStore>()((set) => ({
@@ -35,9 +35,10 @@ export const useAuthStore = create<AuthStore>()((set) => ({
   errorRegister: null,
   successRegister: null,
   refreshError: null,
-  updateUnauthorized: (unauthorized: boolean) =>
-    set(() => ({ unauthorized: unauthorized })),
-  registerUser: async (userData: RegisterDataRequest) => {
+  updateUnauthorized: (unauthorized: boolean) => {
+    set(() => ({ unauthorized: unauthorized }))
+  },
+  registerUser: async (userData: RegisterRequestBody) => {
     try {
       const response = await authService.register(userData)
 
@@ -61,7 +62,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
       return false
     }
   },
-  login: async (credentials: Credentials) => {
+  login: async (credentials: LoginRequestBody) => {
     try {
       const response = await authService.login(credentials)
 
@@ -167,7 +168,15 @@ export const useAuthStore = create<AuthStore>()((set) => ({
         unauthorized: false,
       })
       return true
-    } catch {
+    } catch (error) {
+      set({
+        errorAuth:
+          error instanceof Error ? error.message : "Failed to fetch user",
+        user: null,
+        isAuthenticated: false,
+        lastAuthCheck: null,
+        unauthorized: true,
+      })
       return false
     }
   },

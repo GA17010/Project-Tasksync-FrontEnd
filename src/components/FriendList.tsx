@@ -27,9 +27,8 @@ function FriendList({
   const clickable = typeof onClick === "function"
 
   return (
-    <>
       <div
-        onClick={clickable ? () => onClick(friend) : undefined}
+        onClick={clickable ? () => { onClick(friend) } : undefined}
         className={[
           "relative group flex items-center gap-2",
           clickable &&
@@ -65,7 +64,6 @@ function FriendList({
           </div>
         )}
       </div>
-    </>
   )
 }
 

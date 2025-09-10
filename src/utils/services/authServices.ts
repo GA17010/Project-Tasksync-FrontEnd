@@ -1,14 +1,14 @@
 import {
   AuthResponse,
   CheckResponse,
-  Credentials,
-  RegisterDataRequest,
+  LoginRequestBody,
+  RegisterRequestBody,
   User,
 } from "@/types"
 import apiService from "@/utils/services/apiServices"
 
 const authService = {
-  register: async (userData: RegisterDataRequest): Promise<AuthResponse> => {
+  register: async (userData: RegisterRequestBody): Promise<AuthResponse> => {
     const response = await apiService.post<AuthResponse>(
       "/api/register",
       userData
@@ -18,7 +18,7 @@ const authService = {
     return response
   },
 
-  login: async (credentials: Credentials): Promise<AuthResponse> => {
+  login: async (credentials: LoginRequestBody): Promise<AuthResponse> => {
     const response = await apiService.post<AuthResponse>(
       "/api/login",
       credentials

@@ -46,6 +46,7 @@ function Dropdown({
   return (
     <>
       <button
+        type="button"
         className={`${classNameButton} px-2.5 rounded-xl cursor-pointer`}
         onClick={toggleDropdown}
       >

@@ -33,22 +33,22 @@ function AssignToModal({ onClick, showMe }: AssignToModalProps) {
 
           {/* List */}
           <ul className="w-full flex flex-col last:rounded-b-2xl overflow-y-auto mb-4">
-            {filteredFriends &&
-              filteredFriends.map((friend) => (
-                <li key={friend.id}>
-                  <FriendList
-                    friend={friend}
-                    onClick={onClick}
-                    showTooltip={false}
-                    showAddIcon={true}
-                    className="w-full"
-                  />
-                </li>
-              ))}
+            {filteredFriends?.map((friend) => (
+              <li key={friend.id}>
+                <FriendList
+                  friend={friend}
+                  onClick={onClick}
+                  showTooltip={false}
+                  showAddIcon={true}
+                  className="w-full"
+                />
+              </li>
+            ))}
           </ul>
 
           {/* Close Modal */}
           <button
+            type="button"
             onClick={closeAssignMenu}
             className="absolute top-1 right-1 py-1.5 px-2.5 text-lg text-tasksync-danger hover:bg-tasksync-danger/20 cursor-pointer rounded-lg"
           >

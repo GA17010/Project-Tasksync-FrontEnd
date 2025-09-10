@@ -1,5 +1,4 @@
-// src/hooks/useDarkMode.tsx
-import { createContext, useEffect, useContext, useState } from "react"
+import { createContext, useEffect, useState, use, useMemo } from "react"
 import { ReactNode } from "react"
 
 interface DarkModeContextType {
@@ -7,23 +6,17 @@ interface DarkModeContextType {
   toggleDarkMode: () => void
 }
 
-const initialDarkModeContext: DarkModeContextType = {
-  darkMode: false,
-  toggleDarkMode: () => {},
-}
-
-const DarkModeContext = createContext(initialDarkModeContext)
-
+const DarkModeContext = createContext<DarkModeContextType | undefined>(
+  undefined
+)
 
 export const DarkModeProvider = ({ children }: { children: ReactNode }) => {
   const [darkMode, setDarkMode] = useState(() => {
-    // Comprueba el almacenamiento local al cargar la página
     const storedDarkMode = localStorage.getItem("darkMode")
     return storedDarkMode === "true" || false
   })
 
   useEffect(() => {
-    // Aplica la clase 'dark' al elemento html según el estado
     if (darkMode) {
       document.documentElement.classList.add("dark")
       localStorage.setItem("darkMode", "true")
@@ -34,15 +27,18 @@ export const DarkModeProvider = ({ children }: { children: ReactNode }) => {
   }, [darkMode])
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
+    setDarkMode((prev) => !prev)
   }
 
-  return (
-    <DarkModeContext.Provider value={{ darkMode, toggleDarkMode }}>
-      {children}
-    </DarkModeContext.Provider>
-  )
+  const value = useMemo(() => ({ darkMode, toggleDarkMode }), [darkMode])
+
+  return <DarkModeContext value={value}>{children}</DarkModeContext>
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const useDarkMode = () => useContext(DarkModeContext)
+export const useDarkMode = () => {
+  const context = use(DarkModeContext)
+  if (!context)
+    throw new Error("useDarkMode must be used within DarkModeProvider")
+  return context
+}

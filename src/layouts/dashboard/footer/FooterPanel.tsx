@@ -1,9 +1,11 @@
 function FooterPanel() {
   const footerLink = [
     {
+      href: "/about",
       title: "About us",
     },
     {
+      href: "/about",
       title: "Developed by",
     },
   ]
@@ -15,8 +17,8 @@ function FooterPanel() {
             <p>© 2025 TaskSync.</p>
           </div>
           <div className="text-center sm:text-right">
-            {footerLink.map((item, i) => (
-              <span key={i} className="mx-2">
+            {footerLink.map((item) => (
+              <span key={item.title} className="mx-2">
                 {item.title}
               </span>
             ))}

@@ -16,8 +16,11 @@ export default function ListNotificationDD() {
           }`}
         >
           <button
+            type="button"
             className="cursor-pointer w-full sm:w-96"
-            onClick={() => SET_IS_READ_ONE(item.id)}
+            onClick={() => {
+              SET_IS_READ_ONE(item.id)
+            }}
           >
             <div className="py-3 px-4 flex transition-colors duration-100 ease-in-out">
               <div className="flex items-center">

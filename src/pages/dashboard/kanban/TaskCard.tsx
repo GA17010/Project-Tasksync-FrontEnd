@@ -23,7 +23,7 @@ function TaskCard({ task }: TaskCardProps) {
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: transition || "transform 100ms ease",
+    transition: transition ?? "transform 100ms ease",
     opacity: isDragging ? 0.5 : 1,
     zIndex: isDragging ? 1000 : "auto",
   }
@@ -33,7 +33,7 @@ function TaskCard({ task }: TaskCardProps) {
   const { userAvatarSmall } = useUIStore()
 
   const avatarUrl =
-    task?.assigned_to?.icon && userAvatarSmall[task.assigned_to.icon]
+    task.assigned_to?.icon && userAvatarSmall[task.assigned_to.icon]
       ? userAvatarSmall[task.assigned_to.icon]
       : userAvatarSmall["avatar-00"]
 

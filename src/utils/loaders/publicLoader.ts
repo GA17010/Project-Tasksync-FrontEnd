@@ -1,11 +1,11 @@
 import { useAuthStore } from "@/stores/authStore"
 import { redirect } from "react-router"
 
-export async function publicLoader() {
+export function publicLoader() {
   const { unauthorized, updateUnauthorized } = //, checkAuth } =
     useAuthStore.getState()
     
-  let isAuthenticated: boolean = false
+  let isAuthenticated = false
 
   if (!unauthorized) {
     try {

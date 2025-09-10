@@ -1,14 +1,24 @@
 import { useCustomizerStore } from "@/stores/useCustomerStore"
 import { useNotificationStore } from "@/stores/useNotificationStore"
-import { BellOutlined, CheckCircleOutlined } from "@ant-design/icons"
-import { useEffect, useRef } from "react"
+import {
+  BellOutlined,
+  CheckCircleOutlined,
+  NotificationFilled,
+} from "@ant-design/icons"
+import React, { useEffect, useRef } from "react"
+import { toast } from "react-hot-toast"
 import ListNotificationDD from "./ListNotificationDD"
 
 export default function NotificationDD() {
   const { Notification_dropdown, SET_NOTIFICATION_DROPDOWN } =
     useCustomizerStore()
 
-  const { COUNT_UNREAD_NOTIFICATIONS, SET_IS_READ_ALL } = useNotificationStore()
+  const {
+    COUNT_UNREAD_NOTIFICATIONS,
+    SET_IS_READ_ALL,
+    Data_notification,
+    fetchNotification,
+  } = useNotificationStore()
 
   const notificationMenu = useRef<HTMLDivElement>(null)
 
@@ -26,8 +36,24 @@ export default function NotificationDD() {
     }
 
     window.addEventListener("click", handleClickOutside)
-    return () => window.removeEventListener("click", handleClickOutside)
+    return () => {
+      window.removeEventListener("click", handleClickOutside)
+    }
   }, [Notification_dropdown, SET_NOTIFICATION_DROPDOWN])
+
+  const [isLoading, setIsLoading] = React.useState<boolean>(true)
+  // const {  } = useNotificationStore()
+
+  React.useEffect(() => {
+    setIsLoading(true)
+    fetchNotification()
+      .catch(() => {
+        toast.error("Error fetching notifications")
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }, [fetchNotification])
 
   return (
     <div ref={notificationMenu} className="sm:relative inline-block">
@@ -61,6 +87,7 @@ export default function NotificationDD() {
               <h6 className="text-base mb-0">Notifications</h6>
               <div className="relative group">
                 <button
+                  type="button"
                   className="cursor-pointer text-base flex"
                   onClick={SET_IS_READ_ALL}
                 >
@@ -78,18 +105,40 @@ export default function NotificationDD() {
           {/* Divider */}
           <span className="flex w-full bg-gray-300 dark:bg-tasksync-dark h-[1px]"></span>
 
-          {/* List */}
-          <div className="flex-1 overflow-y-auto overflow-x-hidden hover:overflow-y-auto">
-            <ListNotificationDD />
-          </div>
+          {isLoading ? (
+            <div role="status" className="p-4">
+              <div className="animate-pulse flex flex-col gap-3">
+                <div className="bg-gray-200 dark:bg-gray-700 h-10 rounded-md w-full"></div>
+                <div className="bg-gray-200 dark:bg-gray-700 h-10 rounded-md w-full"></div>
+                <div className="bg-gray-200 dark:bg-gray-700 h-10 rounded-md w-full"></div>
+              </div>
+            </div>
+          ) : Data_notification.length === 0 ? (
+            <div className="p-4 cursor-pointer hover:bg-gray-100 dark:bg-gray-900/90 dark:hover:bg-gray-800/70 rounded-b-2xl border border-gray-300 dark:border-gray-500">
+              <div className="h-36 flex flex-col items-center justify-center gap-2">
+                <NotificationFilled />
+                <span>There are no notifications</span>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* List */}
+              <div className="flex-1 overflow-y-auto overflow-x-hidden hover:overflow-y-auto">
+                <ListNotificationDD />
+              </div>
 
-          {/* Footer */}
-          <div className="flex flex-col justify-center h-10 text-center">
-            <span className="flex w-full bg-gray-300 dark:bg-tasksync-dark h-[1px]"></span>
-            <button className="cursor-pointer text-tasksync-primary h-full text-sm">
-              View All
-            </button>
-          </div>
+              {/* Footer */}
+              <div className="flex flex-col justify-center h-10 text-center">
+                <span className="flex w-full bg-gray-300 dark:bg-tasksync-dark h-[1px]"></span>
+                <button
+                  type="button"
+                  className="cursor-pointer text-tasksync-primary h-full text-sm"
+                >
+                  View All
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

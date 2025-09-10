@@ -5,7 +5,11 @@ import { RouterProvider } from "react-router"
 import { DarkModeProvider } from "./hooks/useDarkMode"
 import "./index.css"
 
-createRoot(document.getElementById("root")!).render(
+const rootEl = document.getElementById("root")
+
+if (!rootEl) throw new Error("Failed to find the root element")
+
+createRoot(rootEl).render(
   <StrictMode>
     <DarkModeProvider>
       <RouterProvider router={router} />

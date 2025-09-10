@@ -111,7 +111,7 @@ function RegisterPage() {
     const response = await registerUser(userData)
 
     if (response) {
-      navigate("/dashboard")
+      void navigate("/dashboard")
     } else {
       setIsSubmitting(false)
     }
@@ -126,7 +126,12 @@ function RegisterPage() {
 
   return (
     <div className="w-full flex justify-center">
-      <form className="max-w-md mt-5 w-full" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="max-w-md mt-5 w-full"
+        onSubmit={() => {
+          void handleSubmit(onSubmit)
+        }}
+      >
         <div className="w-full flex justify-between items-center mb-4">
           <h3 className="text-2xl font-semibold text-center mb-0">Sign up</h3>
           <Link to="/login" className="text-tasksync-primary">
@@ -152,17 +157,15 @@ function RegisterPage() {
                 {...register("firstname")}
                 aria-invalid={errors.firstname ? "true" : "false"}
               />
-              {errors.firstname && (
-                <p
-                  className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                    errors.firstname
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 -translate-y-2"
-                  }`}
-                >
-                  {errors.firstname.message}
-                </p>
-              )}
+              <p
+                className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+                  errors.firstname
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-2"
+                }`}
+              >
+                {errors.firstname?.message}
+              </p>
             </div>
           </div>
           <div className="flex flex-col md:pl-3 w-full md:w-1/2">
@@ -182,17 +185,15 @@ function RegisterPage() {
                 {...register("lastname")}
                 aria-invalid={errors.lastname ? "true" : "false"}
               />
-              {errors.lastname && (
-                <p
-                  className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                    errors.lastname
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 -translate-y-2"
-                  }`}
-                >
-                  {errors.lastname.message}
-                </p>
-              )}
+              <p
+                className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+                  errors.lastname
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-2"
+                }`}
+              >
+                {errors.lastname?.message}
+              </p>
             </div>
           </div>
         </div>
@@ -215,17 +216,15 @@ function RegisterPage() {
                 {...register("nickname")}
                 aria-invalid={errors.nickname ? "true" : "false"}
               />
-              {errors.nickname && (
-                <p
-                  className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                    errors.nickname
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 -translate-y-2"
-                  }`}
-                >
-                  {errors.nickname.message}
-                </p>
-              )}
+              <p
+                className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+                  errors.nickname
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-2"
+                }`}
+              >
+                {errors.nickname?.message}
+              </p>
             </div>
           </div>
           <div className="flex flex-col md:pl-3 w-full md:w-1/2">
@@ -241,7 +240,9 @@ function RegisterPage() {
                 className={`mt-2 w-full border-2 rounded-md py-2 pl-3 text-left text-sm md:text-base focus:outline-none transition-colors ease-in-out text-gray-600 dark:text-gray-400 flex items-center justify-between cursor-pointer ${
                   errors.nickname ? colorConfig.error : colorConfig.normal
                 }`}
-                onClick={() => setIsAvatarListOpen(!isAvatarListOpen)}
+                onClick={() => {
+                  setIsAvatarListOpen(!isAvatarListOpen)
+                }}
               >
                 {selectedIcon ? (
                   <div className="flex items-center">
@@ -284,17 +285,15 @@ function RegisterPage() {
                 value={selectedIcon || ""}
               />
 
-              {errors.icon && (
-                <p
-                  className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                    errors.icon
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 -translate-y-2"
-                  }`}
-                >
-                  {errors.icon.message}
-                </p>
-              )}
+              <p
+                className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+                  errors.icon
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-2"
+                }`}
+              >
+                {errors.icon?.message}
+              </p>
             </div>
           </div>
         </div>
@@ -316,17 +315,15 @@ function RegisterPage() {
             {...register("email")}
             aria-invalid={errors.email ? "true" : "false"}
           />
-          {errors.email && (
-            <p
-              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                errors.email
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 -translate-y-2"
-              }`}
-            >
-              {errors.email.message}
-            </p>
-          )}
+          <p
+            className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+              errors.email
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-2"
+            }`}
+          >
+            {errors.email?.message}
+          </p>
         </div>
         <div className="mb-4">
           <label
@@ -348,23 +345,23 @@ function RegisterPage() {
             />
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => {
+                setShowPassword(!showPassword)
+              }}
               className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer"
             >
               {!showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
             </button>
           </div>
-          {errors.password && (
-            <p
-              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                errors.password
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 -translate-y-2"
-              }`}
-            >
-              {errors.password.message}
-            </p>
-          )}
+          <p
+            className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+              errors.password
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-2"
+            }`}
+          >
+            {errors.password?.message}
+          </p>
         </div>
         <div className="mb-4">
           <label
@@ -386,7 +383,9 @@ function RegisterPage() {
             />
             <button
               type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              onClick={() => {
+                setShowConfirmPassword(!showConfirmPassword)
+              }}
               className="absolute pt-[6px] inset-y-3 right-6 flex items-center text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer"
             >
               {!showConfirmPassword ? (
@@ -396,17 +395,15 @@ function RegisterPage() {
               )}
             </button>
           </div>
-          {errors.confirmPassword && (
-            <p
-              className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
-                errors.confirmPassword
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 -translate-y-2"
-              }`}
-            >
-              {errors.confirmPassword.message}
-            </p>
-          )}
+          <p
+            className={`text-tasksync-danger text-xs mt-1 transition-all duration-300 ease-in-out ${
+              errors.confirmPassword
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-2"
+            }`}
+          >
+            {errors.confirmPassword?.message}
+          </p>
         </div>
 
         <div className="w-full flex flex-row text-xs justify-center mt-2 mb-7 mb-sm-0 font-medium">

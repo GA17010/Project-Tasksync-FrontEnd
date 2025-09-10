@@ -81,5 +81,7 @@ export const useUIStore = create<UIState>((set) => ({
   isLoading: true,
   userAvatarLarge: userAvatarLarge,
   userAvatarSmall: userAvatarSmall,
-  setIsLoading: (value) => set({ isLoading: value }),
+  setIsLoading: (value) => {
+    set({ isLoading: value })
+  },
 }))
